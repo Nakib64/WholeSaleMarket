@@ -8,25 +8,26 @@ import {
 } from "react-icons/fa";
 import { IoMdAdd, IoMdCloudUpload } from "react-icons/io";
 import { IoBagHandleOutline, IoBagHandleSharp } from "react-icons/io5";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
+import './../../index.css';
 
 const Nav = () => {
 	const links = (
 		<>
 			<li>
-				<Link>Home</Link>
+				<NavLink to={'/'}>Home</NavLink>
 			</li>
 			<li>
-				<Link>Top Categories</Link>
+				<NavLink to={'/topCategories'}>Top Categories</NavLink>
 			</li>
 			<li>
-				<Link>All Products</Link>
+				<NavLink to={'/allProducts'}>All Products</NavLink>
 			</li>
 			<li>
-				<Link>Add Products</Link>
+				<NavLink to={'/addProduct'}>Add Product</NavLink>
 			</li>
 			<li>
-				<Link>My Products</Link>
+				<NavLink to={'/myProducts'}>My Products</NavLink>
 			</li>
 		</>
 	);
@@ -37,20 +38,23 @@ const Nav = () => {
 					<a className="btn btn-ghost text-xl p-0">daisyUI</a>
 				</div>
 				<div className="navbar-center hidden lg:flex">
-					<ul className="menu menu-horizontal px-1">{links}</ul>
+					<ul className="menu menu-horizontal px-1 ">{links}</ul>
 				</div>
 				<div className="navbar-end space-x-5">
 					<Link>
 						<FaOpencart size={25} />
 					</Link>
-					<div>email </div>
+					<div className="flex gap-5">
+						<NavLink to={'/login'} className='hover:text-orange-400 font-semibold'>Login</NavLink>
+						<NavLink to={'/register'} className='hover:text-orange-400 font-semibold'>Register</NavLink>
+					</div>
 				</div>
 			</div>
 
 			<footer className="fixed bottom-0 left-0 right-0 bg-white border-t shadow z-50 lg:hidden">
 				<div className="grid grid-cols-5 border-2 border-gray-300 justify-around items-center py-2 px-4 text-xs text-gray-700">
 					<Link to="/shop" className="flex flex-col items-center">
-						<IoBagHandleSharp  className="text-xl" />
+						<IoBagHandleSharp className="text-xl" />
 						<span>Categories</span>
 					</Link>
 					<Link to="/account" className="flex flex-col items-center text-center">
@@ -67,7 +71,7 @@ const Nav = () => {
 							className="w-full aspect-square"
 						/>
 					</Link>
-                    <Link to="/chat" className="flex flex-col items-center">
+					<Link to="/chat" className="flex flex-col items-center">
 						<IoMdCloudUpload className="text-xl" />
 						<span>Add Product</span>
 					</Link>
@@ -75,7 +79,6 @@ const Nav = () => {
 						<FaPhone className="text-xl" />
 						<span>Call</span>
 					</a>
-					
 				</div>
 			</footer>
 		</nav>
