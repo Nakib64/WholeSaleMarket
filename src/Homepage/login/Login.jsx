@@ -1,8 +1,11 @@
 import { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
+import { AuthContext } from "../../AuthContext/AuthContext";
+import { Bounce, toast } from "react-toastify";
 
 
 const Login = () => {
+  const {login, user, setUser, googleLogin} = useContext(AuthContext)
   const navigate = useNavigate();
   const location = useLocation()
   const [error, setError] = useState();
@@ -12,48 +15,60 @@ const Login = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    // login(email, password)
-    //   .then((res) => {
-    //      ("logged in", res.user);
-    //     setUser(res.user);
-    //     toast("Login Successful", {
-    //       position: "top-right",
-    //       autoClose: 2000,
-    //       hideProgressBar: false,
-    //       closeOnClick: false,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "light",
-    //       transition: Bounce,
-    //     });
+    login(email, password)
+      .then((res) => {
+         ("logged in", res.user);
+        setUser(res.user);
+        toast("Login Successfull", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
         
-    //      navigate(location.state? `${location.state}`:'/')
-    //   })
-    //   .catch((error) => {
-    //     setError("Invalid email or password");
+         navigate(location.state? `${location.state}`:'/')
+      })
+      .catch((error) => {
+        setError("Invalid email or password");
 
-    //     toast(`Invalid email or password`, {
-    //       position: "top-right",
-    //       autoClose: 2000,
-    //       hideProgressBar: false,
-    //       closeOnClick: false,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "light",
-    //       transition: Bounce,
-    //     });
-    //   });
+        toast(`Invalid email or password`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      });
   };
-//   const handleGoogle = () => {
-//     googleLogin()
-//       .then((res) => {
-//         setUser(res.user);
-//         navigate("/");
-//       })
-//       .catch((error) =>  (error));
-//   };
+  const handleGoogle = () => {
+    googleLogin()
+      .then((res) => {
+        setUser(res.user);
+        navigate("/");
+        toast("Login Successfull", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+        console.log(res.user);
+      })
+      .catch((error) =>  (error));
+  };
   return (
     <>
       <div className="my-20 px-4">
@@ -100,7 +115,7 @@ const Login = () => {
             </form>
             <button
               className="btn bg-white text-black border-[#e5e5e5] w-full "
-             
+              onClick={handleGoogle}
             >
               <svg
                 aria-label="Google logo"

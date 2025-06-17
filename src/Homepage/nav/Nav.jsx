@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
 	FaComments,
 	FaOpencart,
@@ -9,25 +9,28 @@ import {
 import { IoMdAdd, IoMdCloudUpload } from "react-icons/io";
 import { IoBagHandleOutline, IoBagHandleSharp } from "react-icons/io5";
 import { Link, NavLink } from "react-router";
-import './../../index.css';
+import "./../../index.css";
+import { AuthContext } from "../../AuthContext/AuthContext";
+import HoverDropdown from "./HoverDropdown";
 
 const Nav = () => {
+	const { user } = useContext(AuthContext);
 	const links = (
 		<>
 			<li>
-				<NavLink to={'/'}>Home</NavLink>
+				<NavLink to={"/"}>Home</NavLink>
 			</li>
 			<li>
-				<NavLink to={'/topCategories'}>Top Categories</NavLink>
+				<NavLink to={"/topCategories"}>Top Categories</NavLink>
 			</li>
 			<li>
-				<NavLink to={'/allProducts'}>All Products</NavLink>
+				<NavLink to={"/allProducts"}>All Products</NavLink>
 			</li>
 			<li>
-				<NavLink to={'/addProduct'}>Add Product</NavLink>
+				<NavLink to={"/addProduct"}>Add Product</NavLink>
 			</li>
 			<li>
-				<NavLink to={'/myProducts'}>My Products</NavLink>
+				<NavLink to={"/myProducts"}>My Products</NavLink>
 			</li>
 		</>
 	);
@@ -35,7 +38,7 @@ const Nav = () => {
 		<nav>
 			<div className="navbar bg-base-100 shadow-sm">
 				<div className="navbar-start">
-					<a className="btn btn-ghost text-xl p-0">daisyUI</a>
+					<Link to={'/'}><img src='https://i.ibb.co/M53Vn8wH/Screenshot-2025-06-17-230413.png' alt="" className='h-10 rounded-2xl' /></Link>
 				</div>
 				<div className="navbar-center hidden lg:flex">
 					<ul className="menu menu-horizontal px-1 ">{links}</ul>
@@ -45,8 +48,21 @@ const Nav = () => {
 						<FaOpencart size={25} />
 					</Link>
 					<div className="flex gap-5">
-						<NavLink to={'/login'} className='hover:text-orange-400 font-semibold'>Login</NavLink>
-						<NavLink to={'/register'} className='hover:text-orange-400 font-semibold'>Register</NavLink>
+						{user ? (
+							<HoverDropdown></HoverDropdown>
+						) : (
+							<>
+								<NavLink to={"/login"} className="hover:text-orange-400 font-semibold">
+									Login
+								</NavLink>
+								<NavLink
+									to={"/register"}
+									className="hover:text-orange-400 font-semibold"
+								>
+									Register
+								</NavLink>
+							</>
+						)}
 					</div>
 				</div>
 			</div>
@@ -63,12 +79,12 @@ const Nav = () => {
 					</Link>
 					<Link
 						to="/"
-						className="bg-yellow-400 border-4 border-white rounded-full  flex  items-center p-3 -mt-15 md:-mt-25 shadow-md"
+						className=" border-4 border-white rounded-full  flex  items-center  -mt-15 md:-mt-25 shadow-md"
 					>
 						<img
-							src="/logo.png" // replace with your logo path
+							src="https://i.ibb.co/M53Vn8wH/Screenshot-2025-06-17-230413.png" 
 							alt="Home"
-							className="w-full aspect-square"
+							className="w-full aspect-square rounded-full"
 						/>
 					</Link>
 					<Link to="/chat" className="flex flex-col items-center">

@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../../AuthContext/AuthContext";
+import { Bounce, toast } from "react-toastify";
 
 const Register = () => {
 	const { googleLogin, setUser, signIn } = useContext(AuthContext);
@@ -30,8 +31,31 @@ const Register = () => {
 			.then((res) => {
 				setUser(res.user);
 				navigate("/");
+                toast("Successfully created Account", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
 			})
-			.catch((error) => console.log(error));
+			.catch((error) => {
+                toast(alert, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+            });
 	};
 
 	const handleGoogle = () => {
@@ -39,8 +63,31 @@ const Register = () => {
 			.then((res) => {
 				setUser(res.user);
 				navigate("/");
+                     toast("Successfully created Account", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
 			})
-			.catch((error) => console.log(error));
+			.catch((error) => {
+                toast(alert, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+            });
 	};
 
 	return (
