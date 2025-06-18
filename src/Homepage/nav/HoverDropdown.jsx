@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../AuthContext/AuthContext';
 
 const HoverDropdown = () => {
     const {user, logout, setUser} = useContext(AuthContext)
-
+    console.log(user.photoURL);
     const handleLogout=()=>{
         logout().then(res=>{
             setUser(null)
@@ -15,8 +15,8 @@ const HoverDropdown = () => {
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
         <div className="w-9 lg:w-12 rounded-full">
           <img
-            alt="Tailwind CSS Navbar component"
-            src= {user.photoURL} />
+            
+            src= {user?.photoURL} />
         </div>
       </div>
       <ul

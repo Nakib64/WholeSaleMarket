@@ -29,8 +29,7 @@ const Register = () => {
 		}
 		signIn(email, passowrd)
 			.then((res) => {
-				setUser(res.user);
-				navigate("/");
+				navigate("/login");
                 toast("Successfully created Account", {
           position: "top-right",
           autoClose: 2000,
@@ -61,8 +60,7 @@ const Register = () => {
 	const handleGoogle = () => {
 		googleLogin()
 			.then((res) => {
-				setUser(res.user);
-				navigate("/");
+				navigate("/login");
                      toast("Successfully created Account", {
           position: "top-right",
           autoClose: 2000,

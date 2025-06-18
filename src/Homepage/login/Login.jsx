@@ -6,6 +6,7 @@ import { Bounce, toast } from "react-toastify";
 
 const Login = () => {
   const {login, user, setUser, googleLogin} = useContext(AuthContext)
+
   const navigate = useNavigate();
   const location = useLocation()
   const [error, setError] = useState();
@@ -65,7 +66,7 @@ const Login = () => {
           theme: "light",
           transition: Bounce,
         });
-        console.log(res.user);
+        navigate(location.state? `${location.state}`:'/')
       })
       .catch((error) =>  (error));
   };

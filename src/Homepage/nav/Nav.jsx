@@ -28,13 +28,13 @@ const Nav = () => {
 				<NavLink to={"/topCategories"}>Top Categories</NavLink>
 			</li>
 			<li>
-				<NavLink to={"/allProducts"}>All Products</NavLink>
+				<NavLink to={"/allProduct"}>All Products</NavLink>
 			</li>
 			<li>
 				<NavLink to={"/addProduct"}>Add Product</NavLink>
 			</li>
 			<li>
-				<NavLink to={"/myProducts"}>My Products</NavLink>
+				<NavLink to={"/myProduct"}>My Products</NavLink>
 			</li>
 		</>
 	);
@@ -52,7 +52,7 @@ const Nav = () => {
 						<FaOpencart size={25} />
 					</Link>
 					<div className="flex gap-5">
-						{user ? (
+						{user  ? (
 							<HoverDropdown></HoverDropdown>
 						) : (
 							<>
@@ -77,7 +77,7 @@ const Nav = () => {
 						<IoBagHandleSharp className="text-xl" />
 						<span>Categories</span>
 					</Link>
-					<Link to="/account" className="flex flex-col items-center text-center">
+					<Link to="/myProduct" className="flex flex-col items-center text-center">
 						<FaUser className="text-xl" />
 						<span>My Products</span>
 					</Link>
@@ -91,14 +91,15 @@ const Nav = () => {
 							className="w-full aspect-square rounded-full"
 						/>
 					</Link>
-					<Link to="/chat" className="flex flex-col items-center">
+					<Link to="/addProduct" className="flex flex-col items-center">
 						<IoMdCloudUpload className="text-xl" />
 						<span>Add Product</span>
 					</Link>
-					<a href="tel:+880123456789" className="flex flex-col items-center">
-						<FaPhone className="text-xl" />
-						<span>Call</span>
-					</a>
+					<Link to="/allProduct" className="flex flex-col items-center">
+						<IoMdCloudUpload className="text-xl" />
+						<span>All Product</span>
+					</Link>
+					
 				</div>
 			</footer>
 		</nav>
