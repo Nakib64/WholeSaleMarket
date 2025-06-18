@@ -4,6 +4,10 @@ import Homepage from '../Homepage/Homepage';
 import Register from '../Homepage/Register/Register';
 import Login from '../Homepage/login/Login';
 import NotFound from '../Error/Error';
+import Home from '../Homepage/Home/Home';
+import CategoryMenu from '../Homepage/Category';
+import CategorySec from '../Homepage/Category/CategorySec';
+
 
 const Routes = createBrowserRouter([
     {
@@ -17,6 +21,14 @@ const Routes = createBrowserRouter([
             {
                 path: '/login',
                 element: <Login></Login>
+            },
+            {
+                index: true,
+                Component: Home
+            },
+            {
+                path: '/category',
+                Component: CategorySec
             }
         ]
     },

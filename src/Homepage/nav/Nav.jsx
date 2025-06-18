@@ -14,6 +14,10 @@ import { AuthContext } from "../../AuthContext/AuthContext";
 import HoverDropdown from "./HoverDropdown";
 
 const Nav = () => {
+
+	const handleRefresh =()=>{
+		window.location.href= '/'
+	}
 	const { user } = useContext(AuthContext);
 	const links = (
 		<>
@@ -40,7 +44,7 @@ const Nav = () => {
 				<div className="navbar-start">
 					<Link to={'/'}><img src='https://i.ibb.co/M53Vn8wH/Screenshot-2025-06-17-230413.png' alt="" className='h-10 rounded-2xl' /></Link>
 				</div>
-				<div className="navbar-center hidden lg:flex">
+				<div className="navbar-center hidden md:flex">
 					<ul className="menu menu-horizontal px-1 ">{links}</ul>
 				</div>
 				<div className="navbar-end space-x-5">
@@ -67,9 +71,9 @@ const Nav = () => {
 				</div>
 			</div>
 
-			<footer className="fixed bottom-0 left-0 right-0 bg-white border-t shadow z-50 lg:hidden">
+			<footer className="fixed bottom-0 left-0 right-0 bg-white border-t shadow z-50 md:hidden">
 				<div className="grid grid-cols-5 border-2 border-gray-300 justify-around items-center py-2 px-4 text-xs text-gray-700">
-					<Link to="/shop" className="flex flex-col items-center">
+					<Link to="/category" className="flex flex-col items-center">
 						<IoBagHandleSharp className="text-xl" />
 						<span>Categories</span>
 					</Link>
@@ -78,7 +82,7 @@ const Nav = () => {
 						<span>My Products</span>
 					</Link>
 					<Link
-						to="/"
+						onClick={handleRefresh}
 						className=" border-4 border-white rounded-full  flex  items-center  -mt-15 md:-mt-25 shadow-md"
 					>
 						<img
