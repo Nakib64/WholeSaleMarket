@@ -40,7 +40,7 @@ const Nav = () => {
 	);
 	return (
 		<nav>
-			<div className="navbar bg-base-100 shadow-sm">
+			<div className="navbar  shadow-sm bg-yellow-100">
 				<div className="navbar-start">
 					<Link to={'/'}><img src='https://i.ibb.co/M53Vn8wH/Screenshot-2025-06-17-230413.png' alt="" className='h-10 rounded-2xl' /></Link>
 				</div>

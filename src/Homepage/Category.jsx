@@ -15,7 +15,6 @@ const categories = [
   { name: 'Women’s Clothing', slug: 'womens-clothing', icon: <FaFemale /> },
   { name: 'Baby Items', slug: 'baby-items', icon: <FaBaby /> },
   { name: 'Eyewear', slug: 'eyewear', icon: <FaGlasses /> },
-  { name: 'Office & School Supplies', slug: 'office-supplies', icon: <FaBookOpen /> },
   { name: 'Seasonal Products', slug: 'seasonal', icon: <FaSnowflake /> },
   { name: 'Phone accessories', slug: 'phone-accessories', icon: <FaMobileAlt /> },
 ];

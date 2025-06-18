@@ -1,42 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../../../AuthContext/AuthContext';
 
 const AddProduct = () => {
 
+    const {user} = useContext(AuthContext)
    document.title = "Add product"
-  const [product, setProduct] = useState({
-    image: '',
-    name: '',
-    mainQuantity: '',
-    minSellingQuantity: '',
-    brand: '',
-    category: '',
-    description: '',
-    price: '',
-    rating: '',
-  });
 
   const categories = [
-    'Electronics & Gadgets',
-    'Home & Kitchen Appliances',
-    'Fashion & Apparel',
-    'Industrial Machinery & Tools',
-    'Health & Beauty',
-    'Automotive Parts & Accessories',
-    'Office Supplies & Stationery',
-  ];
+    'shoes',
+    'bags',
+    'jewelry',
+    'beauty',
+    'mens-clothing',
+    'womens-clothing',
+    'baby-items',
+    'eyewear',
+    'seasonal',
+    'phone-accessories'
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === 'image') {
-      setProduct({ ...product, [name]: files[0] });
-    } else {
-      setProduct({ ...product, [name]: value });
-    }
-  };
+  ];
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Submitted Product:', product);
+    const formData = new FormData(e.target)
+    const Product = Object.fromEntries(formData.entries())
+    console.log(Product);
+
+    axios.post('http://localhost:3000/allProducts', Product).then(res=>{
+        console.log(res);
+    })
     // Here you can send 'product' to your backend (e.g., via fetch/axios)
   };
 
@@ -51,7 +44,6 @@ const AddProduct = () => {
           <input
             type='text'
             name="image"
-            onChange={handleChange}
             className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
             required
           />
@@ -63,8 +55,6 @@ const AddProduct = () => {
           <input
             type="text"
             name="name"
-            value={product.name}
-            onChange={handleChange}
             placeholder="Enter product name"
             className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
             required
@@ -77,8 +67,6 @@ const AddProduct = () => {
           <input
             type="number"
             name="mainQuantity"
-            value={product.mainQuantity}
-            onChange={handleChange}
             placeholder="Total quantity available"
             className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
             required
@@ -91,8 +79,6 @@ const AddProduct = () => {
           <input
             type="number"
             name="minSellingQuantity"
-            value={product.minSellingQuantity}
-            onChange={handleChange}
             placeholder="Minimum quantity for purchase"
             className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
             required
@@ -105,8 +91,6 @@ const AddProduct = () => {
           <input
             type="text"
             name="brand"
-            value={product.brand}
-            onChange={handleChange}
             placeholder="Enter brand name"
             className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
             required
@@ -118,14 +102,12 @@ const AddProduct = () => {
           <label className="block font-medium mb-1">Category:</label>
           <select
             name="category"
-            value={product.category}
-            onChange={handleChange}
             className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
             required
           >
             <option value="">Select a category</option>
             {categories.map((cat, index) => (
-              <option key={index} value={cat}>{cat}</option>
+              <option key={index} value={cat} >{cat.toUpperCase()}</option>
             ))}
           </select>
         </div>
@@ -135,8 +117,6 @@ const AddProduct = () => {
           <label className="block font-medium mb-1">Short Description:</label>
           <textarea
             name="description"
-            value={product.description}
-            onChange={handleChange}
             placeholder="Enter a brief description"
             className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
             required
@@ -149,8 +129,7 @@ const AddProduct = () => {
           <input
             type="number"
             name="price"
-            value={product.price}
-            onChange={handleChange}
+
             placeholder="Enter price"
             className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
             required
@@ -163,13 +142,22 @@ const AddProduct = () => {
           <input
             type="number"
             name="rating"
-            value={product.rating}
-            onChange={handleChange}
             placeholder="Enter rating"
             min="1"
             max="5"
             className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
             required
+          />
+        </div>
+        <div>
+          <label className="block font-medium mb-1">Email :</label>
+          <input
+            type="email"
+            name="email"
+            className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
+            required
+            value={user.email}
+            disabled
           />
         </div>
 
