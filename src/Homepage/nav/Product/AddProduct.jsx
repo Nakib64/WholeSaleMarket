@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const AddProduct = () => {
+
+   document.title = "Add product"
   const [product, setProduct] = useState({
     image: '',
     name: '',

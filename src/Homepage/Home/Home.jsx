@@ -5,7 +5,7 @@ import Features from './Article';
 import PricingPlans from './Pricing';
 
 const Home = () => {
-
+	document.title = "WholeSale Cart"
      const scrollToTop = () => {
     window.scrollTo({
       top: 0,

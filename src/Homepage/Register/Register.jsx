@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../../AuthContext/AuthContext";
 import { Bounce, toast } from "react-toastify";
+import { updateProfile } from "firebase/auth";
 
 const Register = () => {
 	const { googleLogin, setUser, signIn } = useContext(AuthContext);
@@ -29,6 +30,10 @@ const Register = () => {
 		}
 		signIn(email, passowrd)
 			.then((res) => {
+
+				updateProfile(res.user, {
+					photoURL: PhotoUrl
+				})
 				navigate("/login");
                 toast("Successfully created Account", {
           position: "top-right",
