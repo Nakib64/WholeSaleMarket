@@ -24,9 +24,7 @@ const Nav = () => {
 			<li>
 				<NavLink to={"/"}>Home</NavLink>
 			</li>
-			<li>
-				<NavLink to={"/topCategories"}>Top Categories</NavLink>
-			</li>
+			
 			<li>
 				<NavLink to={"/allProduct"}>All Products</NavLink>
 			</li>

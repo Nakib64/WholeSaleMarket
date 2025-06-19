@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 
 const Card = ({ product }) => {
-	const { image, name, brand, price, rating } = product;
+	const { image, name, brand, price, rating, _id } = product;
 
 	return (
 		<div class="w-full max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-sm transition-transform duration-300 ease-in-out hover:scale-105">
@@ -30,7 +30,8 @@ const Card = ({ product }) => {
 				</div>
 				<div class="flex items-center justify-between">
 					<span class="text-3xl font-bold text-gray-500 ">${price}</span>
-					<Link><button className="btn  bg-yellow-100">View Details</button></Link>
+					<Link to={`/details/${_id}`}><button className="btn  bg-yellow-100">Details</button></Link>
+					<Link to={`/update/${_id}`}><button className="btn  bg-yellow-100">Update</button></Link>
 				</div>
 			</div>
 		</div>

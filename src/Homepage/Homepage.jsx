@@ -5,7 +5,10 @@ import { Outlet } from "react-router";
 import { ToastContainer } from "react-toastify";
 import CategoryMenu from "./Category";
 
+
 const Homepage = () => {
+
+	
 
 	return (
 		<div className="flex flex-col min-h-screen" data-theme="light">

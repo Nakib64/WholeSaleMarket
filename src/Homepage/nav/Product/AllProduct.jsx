@@ -53,8 +53,8 @@ const AllProduct = () => {
 					All Products {data.length}
 				</h1>
 				<div className="flex justify-between gap-5 px-3 items-center my-10 md:px-10">
-					<div className="flex gap-3 items-center" onClick={handleFilter}>
-						<input id="available-products" type="checkbox" className="checkbox" />
+					<div className="flex gap-3 items-center" >
+						<input id="available-products" type="checkbox" className="checkbox" onClick={handleFilter} />
 						<label htmlFor="available-products" className="text-xl cursor-pointer">
 							Available Products
 						</label>
