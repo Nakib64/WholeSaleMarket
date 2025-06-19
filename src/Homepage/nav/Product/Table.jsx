@@ -6,9 +6,9 @@ const Table = ({ product }) => {
 	return (
 		<div className="px-10">
 			<div class="w-full grid grid-cols-4 mx-auto  bg-white border border-gray-200 rounded-lg shadow-sm transition-transform duration-300 ease-in-out hover:scale-101">
-				<div>
+				<div className="flex items-center">
 					<img
-						class="px-8 w-sm rounded-t-lg"
+						class=" w-full rounded-t-lg "
 						src={image}
 						onError={(e) => {
 							e.target.onerror = null; // prevent infinite loop
@@ -20,8 +20,8 @@ const Table = ({ product }) => {
 				</div>
 
 				<div className="flex flex-col justify-center">
-					<h5 class="text-xl font-semibold tracking-tight text-gray-500 ">{name}</h5>
-					<h5 class="text-md font-semibold tracking-tight text-gray-500 ">
+					<h5 class="text-sm md:text-xl font-semibold tracking-tight text-gray-500 ">{name}</h5>
+					<h5 class="text-xs md:text-lg font-semibold tracking-tight text-gray-500 ">
 						Brand: <span className="italic">{brand}</span>
 					</h5>
 				</div>
@@ -29,11 +29,11 @@ const Table = ({ product }) => {
 					<span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm w-fit">
 						{rating}
 					</span>
-					<span class="text-3xl font-bold text-gray-500 ">${price}</span>
+					<span class="text-sm md:text-3xl font-bold text-gray-500 ">${price}</span>
 				</div>
 				<div class="flex items-center justify-end pr-10">
 					<Link to={`/product/${_id}`}>
-						<button className="btn  bg-yellow-100">View Details</button>
+						<button className="btn  bg-yellow-100 btn-sm p-5 md:btn-lg">View Details</button>
 					</Link>
 				</div>
 			</div>
