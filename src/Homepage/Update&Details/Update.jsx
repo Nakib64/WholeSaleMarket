@@ -3,11 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Loading from "../../Loading/Loading";
 import { Bounce, toast } from "react-toastify";
+import { Rating } from "@smastrom/react-rating";
+import "@smastrom/react-rating/style.css";
 
 const Update = () => {
 	const { id } = useParams();
 	const [product, setProduct] = useState(null);
 	const [loading, setLoading] = useState(true);
+        const [value, setValue] = useState(0)
 
         const navigate = useNavigate()
 	useEffect(() => {
@@ -55,9 +58,21 @@ const Update = () => {
           theme: "light",
           transition: Bounce,
         });
+        console.log(res.data);
         navigate('/')
         });
 	};
+
+
+    
+        // When user clicks, update the rating value
+        const handleChange = (newValue) => {
+            if (newValue < 1) {
+          setValue(1);
+        } else {
+          setValue(newValue);
+        }
+        };
 
 	return (
 		<div className="max-w-3xl mx-auto bg-white p-8 rounded shadow mt-10">
@@ -172,18 +187,11 @@ const Update = () => {
 
 				{/* Rating */}
 				<div>
-					<label className="block font-medium mb-1">Rating (1-5):</label>
-					<input
-						type="number"
-						name="rating"
-						defaultValue={product.rating}
-						placeholder="Enter rating"
-						min="1"
-						max="5"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
-						required
-					/>
-				</div>
+                          <h1 className="font-bold">Rating (1 to 5):</h1>
+                                    <Rating style={{ maxWidth: 180 }} value={value} onChange={handleChange} />
+                                    {/* Hidden input to submit value like a normal input */}
+                                    <input type="hidden" name="rating" value={value} />
+                                </div>
 				<div>
 					<label className="block font-medium mb-1">Email :</label>
 					<input
