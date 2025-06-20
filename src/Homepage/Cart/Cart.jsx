@@ -11,7 +11,7 @@ const Cart = () => {
 	const { user } = useContext(AuthContext);
     const [loading, setLoading] = useState(true)
 	axios
-		.get("http://localhost:3000/allOrders", {
+		.get("https://b2-b-server.vercel.app/allOrders", {
 			params: { email: user.email },
 		})
 		.then((res) => {
@@ -28,8 +28,8 @@ const Cart = () => {
                
             }
             console.log(obj);
-            axios.put(`http://localhost:3000/product/${product.productId}`, obj)
-            axios.delete(`http://localhost:3000/allOrders/${product._id}`).then(res=>{
+            axios.put(`https://b2-b-server.vercel.app/product/${product.productId}`, obj)
+            axios.delete(`https://b2-b-server.vercel.app/allOrders/${product._id}`).then(res=>{
                 toast("deleted Successfully!", {
 							  position: "top-right",
 							  autoClose: 2000,

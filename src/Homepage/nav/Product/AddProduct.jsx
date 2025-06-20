@@ -30,7 +30,7 @@ const AddProduct = () => {
 		Product.mainQuantity = parseInt(Product.mainQuantity)
 		console.log(Product);
 
-		axios.post("http://localhost:3000/allProducts", Product).then((res) => {
+		axios.post("https://b2-b-server.vercel.app/allProducts", Product).then((res) => {
 			  toast("Product Added Successfully!", {
           position: "top-right",
           autoClose: 2000,

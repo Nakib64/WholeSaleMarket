@@ -14,7 +14,7 @@ const ProductDetails = () => {
 	const {user} = useContext(AuthContext)
 	const navigate = useNavigate()
 	useEffect(() => {
-		axios.get("http://localhost:3000/products").then((res) => {
+		axios.get("https://b2-b-server.vercel.app/products").then((res) => {
 			const found = res.data.find((item) => item._id == id);
 			setProduct(found);
 			setLoading(false);
@@ -32,7 +32,7 @@ const ProductDetails = () => {
 		dec: true
 	   }
 	   console.log(obj);
-		if (product.minSellingQuantity> quantity) {
+		if ((product.minSellingQuantity> quantity) || (product.mainQuantity < quantity)) {
 			toast("Does not follow buying limit!", {
 				position: "top-right",
 				autoClose: 2000,
@@ -51,10 +51,10 @@ const ProductDetails = () => {
 			data.productId = id;
 			console.log(data);
 
-			axios.post('http://localhost:3000/allOrders', data).then(res=>{
+			axios.post('https://b2-b-server.vercel.app/allOrders', data).then(res=>{
 				console.log(res.data);	
 			})
-			axios.put(`http://localhost:3000/product/${id}`, obj).then(res=>{
+			axios.put(`https://b2-b-server.vercel.app/product/${id}`, obj).then(res=>{
 					 toast("Ordered Successfully!", {
 							  position: "top-right",
 							  autoClose: 2000,
