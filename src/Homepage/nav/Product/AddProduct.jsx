@@ -4,11 +4,12 @@ import { AuthContext } from "../../../AuthContext/AuthContext";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { Bounce, toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const AddProduct = () => {
 	const { user } = useContext(AuthContext);
 	document.title = "Add product";
-
+	const navigate = useNavigate()
 	const categories = [
 		"shoes",
 		"bags",
@@ -26,6 +27,7 @@ const AddProduct = () => {
 		e.preventDefault();
 		const formData = new FormData(e.target);
 		const Product = Object.fromEntries(formData.entries());
+		Product.mainQuantity = parseInt(Product.mainQuantity)
 		console.log(Product);
 
 		axios.post("http://localhost:3000/allProducts", Product).then((res) => {
@@ -40,6 +42,7 @@ const AddProduct = () => {
           theme: "light",
           transition: Bounce,
         });
+		navigate('/')
 		});
 
 	};
@@ -173,7 +176,7 @@ const AddProduct = () => {
 						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
 						required
 						value={user.email}
-						disabled
+						readOnly
 					/>
 				</div>
 

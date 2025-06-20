@@ -1,15 +1,17 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Loading from "../../Loading/Loading";
 import { Bounce, toast } from "react-toastify";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
+import { AuthContext } from "../../AuthContext/AuthContext";
 
 const Update = () => {
 	const { id } = useParams();
 	const [product, setProduct] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const {user} = useContext(AuthContext)
         const [value, setValue] = useState(0)
 
         const navigate = useNavigate()
@@ -199,7 +201,7 @@ const Update = () => {
 						name="email"
 						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
 						required
-						defaultValue={product?.email}
+						defaultValue={user.email} readOnly
 					/>
 				</div>
 

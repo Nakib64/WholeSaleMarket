@@ -27,7 +27,7 @@ const Table = ({ product }) => {
 				</div>
 				<div class="flex flex-col justify-center ">
 					<span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm w-fit">
-						{rating}
+						Rating : {rating}
 					</span>
 					<span class="text-sm md:text-3xl font-bold text-gray-500 ">${price}</span>
 				</div>

@@ -15,6 +15,7 @@ import Details from '../Homepage/details/Details';
 import CategoryItems from '../Homepage/details/Details';
 import Update from '../Homepage/Update&Details/Update';
 import ProductDetails from '../Homepage/Update&Details/ProductDetails';
+import Cart from '../Homepage/Cart/Cart';
 
 
 const Routes = createBrowserRouter([
@@ -61,6 +62,10 @@ const Routes = createBrowserRouter([
             {
                 path: '/details/:id',
                 element: <PrivateRoute><ProductDetails></ProductDetails></PrivateRoute>
+            },
+            {
+                path: '/cart',
+                element: <PrivateRoute><Cart></Cart></PrivateRoute>
             }
         ]
     },

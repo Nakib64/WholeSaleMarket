@@ -46,7 +46,7 @@ const Nav = () => {
 					<ul className="menu menu-horizontal px-1 ">{links}</ul>
 				</div>
 				<div className="navbar-end space-x-5">
-					<Link>
+					<Link to={'/cart'}>
 						<FaOpencart size={25} />
 					</Link>
 					<div className="flex gap-5">

@@ -25,7 +25,7 @@ const Card = ({ product }) => {
 				<div className="flex items-center my-2.5">
 					
 					<span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm  ms-3">
-						{rating}
+						Rating : {rating}
 					</span>
 				</div>
 				<div className="flex items-center justify-between">
