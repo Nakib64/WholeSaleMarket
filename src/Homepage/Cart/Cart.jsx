@@ -28,8 +28,9 @@ const Cart = () => {
                
             }
             console.log(obj);
-            axios.put(`http://localhost:3000/product/${product.productId}`, obj).then(res=>{
-                toast("Ordered Successfully!", {
+            axios.put(`http://localhost:3000/product/${product.productId}`, obj)
+            axios.delete(`http://localhost:3000/allOrders/${product._id}`).then(res=>{
+                toast("deleted Successfully!", {
 							  position: "top-right",
 							  autoClose: 2000,
 							  hideProgressBar: false,
