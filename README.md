@@ -6,13 +6,13 @@ A responsive, full-stack B2B wholesale eCommerce platform where users can browse
 
 ## 🚀 Live Demo
 
-> 🌐 [Live Site](https://your-deployed-site.com)
+> 🌐 [Live Site](https://wholesale-11b32.web.app/)
 
 ---
 
 ## 📌 Features
 
-- 🔐 Secure Authentication System (JWT/Firebase)
+- 🔐 Secure Authentication System (Firebase)
 - 🛒 Cart System to store & manage purchased products
 - 🗂️ Category-wise Product Browsing
 - 📉 Minimum Order Limit enforced per product
@@ -30,16 +30,16 @@ A responsive, full-stack B2B wholesale eCommerce platform where users can browse
 - Tailwind CSS
 - React Router DOM
 - Swiper.js
-- Context API / Redux (if used)
-- Firebase / JWT Auth
+- Context API 
+- Firebase 
 
 ### Backend
 - Node.js
 - Express.js
 - MongoDB (via Mongoose)
-- JWT, CORS, Dotenv
+- CORS, Dotenv
 
 ---
 
-## 📁 Folder Structure
+
 
