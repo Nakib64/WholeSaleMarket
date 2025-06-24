@@ -41,5 +41,15 @@ A responsive, full-stack B2B wholesale eCommerce platform where users can browse
 
 ---
 
+📱 Responsiveness
+This web app is designed mobile-first. On small devices:
+
+It behaves like a native app
+
+UI components are touch-optimized
+
+Sliders enhance UX with horizontal scroll/swipe
+
+Navigation and layout adapt fluidly to screen size
 
 
