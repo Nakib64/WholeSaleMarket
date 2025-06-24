@@ -42,14 +42,37 @@ A responsive, full-stack B2B wholesale eCommerce platform where users can browse
 ---
 
 📱 Responsiveness
-This web app is designed mobile-first. On small devices:
+- This web app is designed mobile-first. On small devices:
 
-It behaves like a native app
+- It behaves like a native app
 
-UI components are touch-optimized
+- UI components are touch-optimized
 
-Sliders enhance UX with horizontal scroll/swipe
+- Sliders enhance UX with horizontal scroll/swipe
 
-Navigation and layout adapt fluidly to screen size
+- Navigation and layout adapt fluidly to screen size
+
+
+
+
+---
+
+## ⚙️ Getting Started Locally
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+
+cd ../client
+npm install
+npm run dev
+
+## The backend is uploaded in vercel. So you need just setting up frontend part. If you want to set backend code also, you can follow these steps:
+
+npm run start
+
+Then change the vercel.app/ to localhost/3000 or others.
 
 
