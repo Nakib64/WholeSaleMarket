@@ -43,7 +43,7 @@ A responsive, full-stack B2B wholesale eCommerce platform where users can browse
 
 <img src="https://i.ibb.co/Vp25t3d8/home1.png" alt="Mokkapps GitHub README header image">
 
----
+
 
 
 📱 Responsiveness
