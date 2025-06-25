@@ -41,7 +41,7 @@ A responsive, full-stack B2B wholesale eCommerce platform where users can browse
 
 ---
 
-
+<img src="https://i.ibb.co/twcH4KXk/wholesale-11b32-web-app.png"/>
 
 
 
