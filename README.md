@@ -41,7 +41,7 @@ A responsive, full-stack B2B wholesale eCommerce platform where users can browse
 
 ---
 
-<img src="https://i.ibb.co/Q7vTPF54/localhost-5173-3-1.png" alt="project's home page">
+<img src="https://i.ibb.co/gFRxTRfZ/home.png" alt="project's home page">
 
 ---
 
