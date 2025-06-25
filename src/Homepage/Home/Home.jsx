@@ -32,7 +32,7 @@ const Home = () => {
 	useEffect(() => {
 		if (data?.length > 0) {
 			setShoes(data.filter((item) => item.category === "shoes").slice(0,7));
-			setManClothing(data.filter((item) => item.category === "mens-clothing").slice(0,7));
+			setManClothing(data.filter((item) => item.category === "beauty").slice(0,7));
 			setLoading(false);
 		}
 	}, [data]);
@@ -65,7 +65,7 @@ const Home = () => {
         <div className="px-10 py-3">
           
           <div className="flex justify-between">
-            <h1 className="text-2xl  font-bold">MAN CLOTHING</h1>
+            <h1 className="text-2xl  font-bold">BEAUTY PRODUCTS</h1>
               <Link to={'category/mens-clothing'}><button className="btn btn-primary">SEE MORE</button></Link>
           </div>
 					<div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 sm:p-6 lg:p-3 xl:grid-cols-4 justify-center gap-4">
