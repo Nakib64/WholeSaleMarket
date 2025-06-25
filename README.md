@@ -41,7 +41,7 @@ A responsive, full-stack B2B wholesale eCommerce platform where users can browse
 
 ---
 
-<img src="https://i.ibb.co/rGjmk44k/Chat-GPT-Image-Jun-25-2025-02-40-41-AM.png" alt="Mokkapps GitHub README header image">
+<img src="https://i.ibb.co/Vp25t3d8/home1.png" alt="Mokkapps GitHub README header image">
 
 ---
 
