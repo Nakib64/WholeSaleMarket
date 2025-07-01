@@ -11,7 +11,7 @@ import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import AllProduct from '../Homepage/nav/Product/AllProduct';
 import AddProduct from '../Homepage/nav/Product/AddProduct';
 import MyProduct from '../Homepage/nav/Product/MyProduct';
-import Details from '../Homepage/details/Details';
+
 import CategoryItems from '../Homepage/details/Details';
 import Update from '../Homepage/Update&Details/Update';
 import ProductDetails from '../Homepage/Update&Details/ProductDetails';
@@ -41,7 +41,7 @@ const Routes = createBrowserRouter([
             },
             {
                 path: '/allProduct',
-                element: <PrivateRoute><AllProduct></AllProduct></PrivateRoute>
+                element: <AllProduct></AllProduct>
             },
             {
                 path: '/addProduct',

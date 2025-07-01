@@ -22,7 +22,7 @@ const Nav = () => {
 	const links = (
 		<>
 			<li>
-				<NavLink to={"/"}>Home</NavLink>
+				<NavLink to={"/"} className={''}>Home</NavLink>
 			</li>
 			
 			<li>
@@ -37,13 +37,13 @@ const Nav = () => {
 		</>
 	);
 	return (
-		<nav>
+		<nav className="sticky top-0 z-40">
 			<div className="navbar  shadow-sm bg-yellow-100">
 				<div className="navbar-start">
 					<Link to={'/'}><img src='https://i.ibb.co/M53Vn8wH/Screenshot-2025-06-17-230413.png' alt="" className='h-10 rounded-2xl' /></Link>
 				</div>
 				<div className="navbar-center hidden md:flex">
-					<ul className="menu menu-horizontal px-1 ">{links}</ul>
+					<ul className="menu menu-horizontal px-1 flex gap-4 ">{links}</ul>
 				</div>
 				<div className="navbar-end space-x-5">
 					<Link to={'/cart'}>

@@ -3,7 +3,7 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/f
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white pt-10 pb-6 pl-2 md:px-16">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
 
         {/* Logo & Description */}
         <div>
@@ -24,25 +24,14 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Customer Service */}
-        <div>
-          <h3 className="text-lg font-semibold mb-3">Customer Support</h3>
-          <ul className="space-y-2 text-gray-400 text-sm">
-            <li><a href="/shipping" className="hover:text-white">Shipping Policy</a></li>
-            <li><a href="/returns" className="hover:text-white">Return Policy</a></li>
-            <li><a href="/reviews" className="hover:text-white">Customer Reviews</a></li>
-            <li><a href="/support" className="hover:text-white">Support Center</a></li>
-          </ul>
-        </div>
+  
 
         {/* Social Icons */}
         <div>
           <h3 className="text-lg font-semibold mb-3">Follow Us</h3>
           <div className="flex gap-4 mt-2 text-gray-400">
-            <a href="#" className="hover:text-white"><FaFacebookF /></a>
-            <a href="#" className="hover:text-white"><FaInstagram /></a>
-            <a href="#" className="hover:text-white"><FaTwitter /></a>
-            <a href="#" className="hover:text-white"><FaLinkedinIn /></a>
+            <a href="https://www.facebook.com/nafizuddowla.nokib/" className="hover:text-white"><FaFacebookF /></a>
+            <a href="https://www.linkedin.com/in/nafiz-uddowla-nakib-42a730335/" className="hover:text-white"><FaLinkedinIn /></a>
           </div>
         </div>
 

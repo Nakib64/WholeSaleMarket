@@ -41,7 +41,9 @@ const Home = () => {
 
 	return (
 		<div className=" w-full">
-			<Slider></Slider>
+			<div className="w-full md:px-6">
+				<Slider></Slider>
+			</div>
 			<Features></Features>
 			<h1 className="font-bold text-2xl text-center md:text-4xl py-5" id="topCategories">
 				Top Categories
@@ -50,25 +52,25 @@ const Home = () => {
 				<Loading></Loading>
 			) : (
 				<>
-        <div className="px-10 py-3">
+        <div className="px-2 py-3">
           
-          <div className="flex justify-between">
+          <div className="flex justify-between p-3">
             <h1 className="text-2xl  font-bold">SHOES</h1>
               <Link to={'category/shoes'}><button className="btn btn-primary">SEE MORE</button></Link>
           </div>
-					<div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 sm:p-6 lg:p-3 xl:grid-cols-4 justify-center gap-4">
+					<div className="grid grid-cols-1 md:px-0 sm:grid-cols-2 lg:grid-cols-3 sm:py-6 lg:py-3 xl:grid-cols-4 justify-between gap-4">
 						{shoes.map((product) => {
 							return <Card product={product}></Card>;
 						})}
 					</div>
 				</div>
-        <div className="px-10 py-3">
+        <div className="px-10 md:px-2 py-3">
           
-          <div className="flex justify-between">
-            <h1 className="text-2xl  font-bold">BEAUTY PRODUCTS</h1>
+          <div className="flex justify-between p-3">
+            <h1 className="text-2xl  font-bold">BEAUTY</h1>
               <Link to={'category/mens-clothing'}><button className="btn btn-primary">SEE MORE</button></Link>
           </div>
-					<div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 sm:p-6 lg:p-3 xl:grid-cols-4 justify-center gap-4">
+					<div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 sm:py-6 lg:py-3 xl:grid-cols-4 justify-center gap-4">
 						{manClothing.map((product) => {
 							return <Card product={product}></Card>;
 						})}
@@ -77,7 +79,7 @@ const Home = () => {
         </>
 			)}
 			<PricingPlans></PricingPlans>
-			<div className="flex justify-center items-center">
+			<div className="flex justify-center items-center py-4">
 				<button className="btn btn-accent" onClick={scrollToTop}>
 					Scroll to top
 				</button>
