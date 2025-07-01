@@ -1,12 +1,42 @@
-# React + Vite
+# B2B Wholesale Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the **B2B Wholesale Website** — a full-featured platform designed to facilitate seamless bulk purchasing and order management between businesses and suppliers.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [About](#about)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-## Expanding the ESLint configuration
+## About
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+This project is a B2B wholesale e-commerce platform where businesses can browse products, view detailed product information, and place bulk orders efficiently. It supports order tracking, user authentication, and inventory management.
+
+## Features
+
+- Product browsing with detailed descriptions and images
+- Bulk order placement with minimum and maximum quantity validation
+- User authentication and role-based access control
+- Real-time stock management and order confirmation
+- Responsive design for desktop and mobile
+- Notifications and alerts for order status
+
+## Tech Stack
+
+- **Frontend:** React, Tailwind CSS, React Router, React Toastify
+- **Backend:** Node.js, Express.js, MongoDB (MERN stack)
+- **Authentication:** JWT with context API
+- **Deployment:** Vercel (Frontend), [Your Backend Hosting]
+- **Other:** Axios for HTTP requests, SweetAlert2 and React Toastify for notifications
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/b2b-wholesale-website.git
