@@ -3,7 +3,6 @@ import { AuthContext } from '../../AuthContext/AuthContext';
 
 const HoverDropdown = () => {
     const {user, logout, setUser} = useContext(AuthContext)
-    console.log(user.photoURL);
     const handleLogout=()=>{
         logout().then(res=>{
             setUser(null)

@@ -28,7 +28,6 @@ const AddProduct = () => {
 		const formData = new FormData(e.target);
 		const Product = Object.fromEntries(formData.entries());
 		Product.mainQuantity = parseInt(Product.mainQuantity)
-		console.log(Product);
 
 		axios.post("https://b2-b-server.vercel.app/allProducts", Product).then((res) => {
 			  toast("Product Added Successfully!", {

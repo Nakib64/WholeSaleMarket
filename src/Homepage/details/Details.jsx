@@ -9,7 +9,6 @@ import Loading from "../../Loading/Loading";
 
 const CategoryItems = () => {
 	const { cat } = useParams();
-	console.log(cat);
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [isGrid, setIsGrid] = useState(true);

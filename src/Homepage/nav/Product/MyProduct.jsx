@@ -23,11 +23,9 @@ const [data, setData] = useState(null);
         }
 
         const handleDelete=(product)=>{
-            console.log(product);
             const obj = {quan : product.quantity
                
             }
-            console.log(obj);
             axios.delete(`https://b2-b-server.vercel.app/product/${product._id}`).then(res=>{
                 toast("deleted Successfully!", {
 							  position: "top-right",

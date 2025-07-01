@@ -46,7 +46,6 @@ const Update = () => {
 		e.preventDefault();
 		const formData = new FormData(e.target);
 		const Updated = Object.fromEntries(formData.entries());
-		console.log(Updated);
 
 		await axios.put(`https://b2-b-server.vercel.app/products/${id}`,Updated).then(res=>{
             toast("Updated Successfully!", {
@@ -60,7 +59,6 @@ const Update = () => {
           theme: "light",
           transition: Bounce,
         });
-        console.log(res.data);
         navigate('/')
         });
 	};

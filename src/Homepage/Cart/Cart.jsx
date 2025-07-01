@@ -24,7 +24,7 @@ const Cart = () => {
 	}
 
 	const handleDelete = (product) => {
-		console.log(data);
+		 
 		const obj = { quan: product.quantity };
 		setButtonLoading(true);
 		axios.put(`https://b2-b-server.vercel.app/product/${product.productId}`, obj);

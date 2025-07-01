@@ -32,8 +32,7 @@ const ProductDetails = () => {
        const obj = {quan : quantity,
 		dec: true
 	   }
-	   console.log(obj);
-		if ((product.minSellingQuantity> quantity) || (product.mainQuantity < quantity)) {
+		if ((parseInt(product.minSellingQuantity)> quantity) || (parseInt(product.mainQuantity) < quantity)) {
 			toast("Does not follow buying limit!", {
 				position: "top-right",
 				autoClose: 2000,
@@ -46,12 +45,13 @@ const ProductDetails = () => {
 				transition: Bounce,
 			});
 			document.getElementById("my_modal_2").close();
+      setButtonLoading(false)
 		}
         else{
             const formData = new FormData(e.target)
 			const data = Object.fromEntries(formData.entries())
 			data.productId = id;
-			console.log(data);
+      data.image = product.image;
 
 			axios.post('https://b2-b-server.vercel.app/allOrders', data).then(res=>{
 					
@@ -70,7 +70,7 @@ const ProductDetails = () => {
 							});
 							navigate('/')
 							setButtonLoading(false)
-				}).catch(error=>console.log(error))
+				}).catch()
         }
 	};
 
