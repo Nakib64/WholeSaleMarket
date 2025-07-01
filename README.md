@@ -31,12 +31,12 @@ This project is a B2B wholesale e-commerce platform where businesses can browse 
 
 - **Frontend:** React, Tailwind CSS, React Router, React Toastify
 - **Backend:** Node.js, Express.js, MongoDB (MERN stack)
-- **Authentication:** JWT with context API
-- **Deployment:** Vercel (Frontend), [Your Backend Hosting]
+- **Authentication:** Firebase
+- **Deployment:** Firebase(Frontend), vercel(Backend)
 - **Other:** Axios for HTTP requests, SweetAlert2 and React Toastify for notifications
 
 ## Installation
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/b2b-wholesale-website.git
+   git clone https://github.com/Nakib64/WholeSaleMarket.git
