@@ -69,8 +69,8 @@ const Nav = () => {
 				</div>
 			</div>
 
-			<footer className="fixed bottom-0 left-0 right-0 bg-white border-t shadow z-50 md:hidden">
-				<div className="grid grid-cols-5 border-2 border-gray-300 justify-around items-center py-2 px-4 text-xs text-gray-700">
+			<footer className="fixed -bottom-1 left-0 right-0 bg-white border-t shadow z-50 md:hidden">
+				<div className="grid grid-cols-5 border-2 border-gray-300 justify-around items-center text-center py-2 px-4 text-xs text-gray-700">
 					<Link to="/category" className="flex flex-col items-center">
 						<IoBagHandleSharp className="text-xl" />
 						<span>Categories</span>
@@ -89,9 +89,9 @@ const Nav = () => {
 							className="w-full aspect-square rounded-full"
 						/>
 					</Link>
-					<Link to="/addProduct" className="flex flex-col items-center">
+					<Link to="/addProduct" className="flex flex-col items-center text-center">
 						<IoMdCloudUpload className="text-xl" />
-						<span>Add Product</span>
+						<span className="text-center">Add Product</span>
 					</Link>
 					<Link to="/allProduct" className="flex flex-col items-center">
 						<IoMdCloudUpload className="text-xl" />
