@@ -76,7 +76,7 @@ const AllProduct = () => {
 					</div>
 				</div>
 				{isGrid ? (
-					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:p-6 lg:p-3 xl:grid-cols-4 justify-center gap-4">
+					<div className="grid  grid-cols-2 lg:grid-cols-3 sm:p-6 lg:p-3 xl:grid-cols-4 justify-center gap-4">
 						{data.map((product) => {
 							return <Card product={product}></Card>;
 						})}

@@ -58,7 +58,7 @@ const Home = () => {
             <h1 className="text-2xl  font-bold">SHOES</h1>
               <Link to={'category/shoes'}><button className="btn btn-primary">SEE MORE</button></Link>
           </div>
-					<div className="grid grid-cols-1 md:px-0 sm:grid-cols-2 lg:grid-cols-3 sm:py-6 lg:py-3 xl:grid-cols-4 justify-between gap-4">
+					<div className="grid  md:px-0 grid-cols-2 lg:grid-cols-3 sm:py-6 lg:py-3 xl:grid-cols-4 justify-between gap-4">
 						{shoes.map((product) => {
 							return <Card product={product}></Card>;
 						})}
@@ -70,7 +70,7 @@ const Home = () => {
             <h1 className="text-2xl  font-bold">BEAUTY</h1>
               <Link to={'category/shoes'}><button className="btn btn-primary">SEE MORE</button></Link>
           </div>
-					<div className="grid grid-cols-1 md:px-0 sm:grid-cols-2 lg:grid-cols-3 sm:py-6 lg:py-3 xl:grid-cols-4 justify-between gap-4">
+					<div className="grid  md:px-0 grid-cols-2 lg:grid-cols-3 sm:py-6 lg:py-3 xl:grid-cols-4 justify-between gap-4">
 						{manClothing.map((product) => {
 							return <Card product={product}></Card>;
 						})}
