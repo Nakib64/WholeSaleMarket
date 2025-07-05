@@ -2,8 +2,9 @@
 
 Welcome to the **B2B Wholesale Website** — a full-featured platform designed to facilitate seamless bulk purchasing and order management between businesses and suppliers.
 
-##Live Link:
-<a href="wholesale-11b32.web.app/">Wholesale</a>
+## 🚀 Live Demo
+
+🌐 [Live Site](https://plants-b7145.web.app/)
 
 ## Table of Contents
 
