@@ -4,7 +4,7 @@ Welcome to the **B2B Wholesale Website** — a full-featured platform designed t
 
 ## 🚀 Live Demo
 
-🌐 [Live Site](https://plants-b7145.web.app/)
+🌐 [Live Site](wholesale-11b32.web.app/)
 
 ## Table of Contents
 
