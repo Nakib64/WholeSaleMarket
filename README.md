@@ -2,6 +2,9 @@
 
 Welcome to the **B2B Wholesale Website** — a full-featured platform designed to facilitate seamless bulk purchasing and order management between businesses and suppliers.
 
+##Live Link:
+<a href="wholesale-11b32.web.app/">Wholesale</a>
+
 ## Table of Contents
 
 - [About](#about)
@@ -14,27 +17,40 @@ Welcome to the **B2B Wholesale Website** — a full-featured platform designed t
 - [License](#license)
 - [Contact](#contact)
 
-## About
 
-This project is a B2B wholesale e-commerce platform where businesses can browse products, view detailed product information, and place bulk orders efficiently. It supports order tracking, user authentication, and inventory management.
+---
 
-## Features
+## 🛠️ Tech Stack
 
-- Product browsing with detailed descriptions and images
-- Bulk order placement with minimum and maximum quantity validation
-- User authentication and role-based access control
-- Real-time stock management and order confirmation
-- Responsive design for desktop and mobile
-- Notifications and alerts for order status
+### Frontend
+- React.js
+- Tailwind CSS
+- React Router DOM
+- Axios 
+- Firebase Auth 
 
-## Tech Stack
+### Backend
+- Node.js
+- Express.js
+- MongoDB Atlas (Cloud)
+- Mongoose
+- Dotenv, CORS
 
-- **Frontend:** React, Tailwind CSS, React Router, React Toastify
-- **Backend:** Node.js, Express.js, MongoDB (MERN stack)
-- **Authentication:** Firebase
-- **Deployment:** Firebase(Frontend), vercel(Backend)
-- **Other:** Axios for HTTP requests, SweetAlert2 and React Toastify for notifications
+---
 
+🔐 Authentication & Private Routes
+- Secure login/signup using Firebase or JWT
+
+- Protected routes (e.g., plant dashboard, manage plants)
+
+- Token-based authorization middleware in backend
+
+📱 Responsiveness
+- Built mobile-first with Tailwind CSS
+
+- Clean, touch-friendly UI
+
+- Works smoothly on phones, tablets, and desktops
 ## Installation
 
 1. Clone the repository:
