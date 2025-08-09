@@ -7,6 +7,8 @@ import axios from "axios";
 import Card from "../nav/Product/Card";
 import Loading from "../../Loading/Loading";
 import { Link } from "react-router";
+import { FeaturedCategories } from "./Featured";
+import { Testimonials } from "./Testimonial";
 
 const Home = () => {
 	document.title = "WholeSale Cart";
@@ -40,7 +42,7 @@ const Home = () => {
 
 
 	return (
-		<div className=" w-full">
+		<div className=" w-full px-2">
 			<div className="w-full md:px-6">
 				<Slider></Slider>
 			</div>
@@ -79,6 +81,8 @@ const Home = () => {
 
         </>
 			)}
+			<FeaturedCategories></FeaturedCategories>
+						<Testimonials></Testimonials>
 			<PricingPlans></PricingPlans>
 			<div className="flex justify-center items-center py-4">
 				<button className="btn btn-accent" onClick={scrollToTop}>

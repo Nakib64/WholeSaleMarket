@@ -10,24 +10,34 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.1",
+    "@radix-ui/react-avatar": "^1.1.10",
+    "@radix-ui/react-slot": "^1.2.3",
     "@smastrom/react-rating": "^1.5.0",
     "@tailwindcss/vite": "^4.1.10",
     "axios": "^1.10.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "dotenv": "^16.5.0",
     "firebase": "^11.9.1",
-    "framer-motion": "^12.18.1",
+    "framer-motion": "^12.23.12",
     "lucide-react": "^0.516.0",
     "motion": "^12.18.1",
     "prop-types": "^15.8.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hook-form": "^7.62.0",
     "react-icons": "^5.5.0",
     "react-rating-stars-component": "^2.2.0",
     "react-router": "^7.6.2",
     "react-toastify": "^11.0.5",
     "sweetalert2": "^11.22.0",
     "swiper": "^11.2.8",
-    "tailwindcss": "^4.1.10"
+    "tailwind-merge": "^3.3.1",
+    "tailwind-variants": "^2.1.0",
+    "tailwindcss": "^4.1.10",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^4.0.16"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
@@ -39,6 +49,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "tw-animate-css": "^1.3.6",
     "vite": "^6.3.5"
   }
 }

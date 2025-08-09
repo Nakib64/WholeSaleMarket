@@ -33,12 +33,12 @@ const Table = ({ product }) => {
 			<span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm w-fit">
 				Rating : {rating}
 			</span>
-			<span className="text-sm md:text-3xl font-bold text-gray-500">${price}</span>
+			<span className="text-sm md:text-3xl font-bold text-[#8dc63f]">${price}</span>
 		</div>
 
 		<div className="flex items-center justify-end pr-5 md:pr-10">
 			<Link to={`/details/${_id}`}>
-				<button className="btn bg-yellow-300 btn-sm md:btn-md lg:btn-lg">Details</button>
+				<button className="btn bg-[#c5aa6a] text-white btn-sm md:btn-md lg:btn-lg">Details</button>
 			</Link>
 		</div>
 		

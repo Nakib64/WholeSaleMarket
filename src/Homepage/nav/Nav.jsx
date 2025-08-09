@@ -22,23 +22,23 @@ const Nav = () => {
 	const links = (
 		<>
 			<li>
-				<NavLink to={"/"} className={''}>Home</NavLink>
+				<NavLink to={"/"} className={'rounded-none'}>Home</NavLink>
 			</li>
 			
 			<li>
-				<NavLink to={"/allProduct"}>All Products</NavLink>
+				<NavLink to={"/allProduct"} className={'rounded-none'}>All Products</NavLink>
 			</li>
 			<li>
-				<NavLink to={"/addProduct"}>Add Product</NavLink>
+				<NavLink to={"/addProduct"} className={'rounded-none'}>Add Product</NavLink>
 			</li>
 			<li>
-				<NavLink to={"/myProduct"}>My Products</NavLink>
+				<NavLink to={"/myProduct"} className={'rounded-none'}>My Products</NavLink>
 			</li>
 		</>
 	);
 	return (
-		<nav className="sticky top-0 z-40">
-			<div className="navbar  shadow-sm bg-yellow-100">
+		<nav className="sticky top-0 z-40 text-white">
+			<div className="navbar  shadow-sm bg-[#c5aa6a]">
 				<div className="navbar-start">
 					<Link to={'/'}><img src='https://i.ibb.co/M53Vn8wH/Screenshot-2025-06-17-230413.png' alt="" className='h-10 rounded-2xl' /></Link>
 				</div>
@@ -54,12 +54,12 @@ const Nav = () => {
 							<HoverDropdown></HoverDropdown>
 						) : (
 							<>
-								<NavLink to={"/login"} className="hover:text-orange-400 font-semibold">
+								<NavLink to={"/login"} className=" font-semibold">
 									Login
 								</NavLink>
 								<NavLink
 									to={"/register"}
-									className="hover:text-orange-400 font-semibold"
+									className=" font-semibold"
 								>
 									Register
 								</NavLink>

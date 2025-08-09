@@ -44,11 +44,11 @@ const Card = ({ product }) => {
 
 			{/* Price + Button */}
 			<div className="px-5 pb-5 mt-auto flex items-center justify-between">
-				<span className="text-xl md:text-2xl font-bold text-gray-600">
+				<span className="text-xl md:text-2xl font-bold text-[#8dc63f]">
 					${price}
 				</span>
 				<Link to={`/details/${_id}`}>
-					<button className="bg-yellow-300 hover:bg-yellow-400 px-4 py-1.5 rounded text-sm font-medium">
+					<button className="bg-[#c5aa6a] hover:[#c5aa6a] px-4 py-1.5 rounded text-sm font-medium text-white">
 						Details
 					</button>
 				</Link>
