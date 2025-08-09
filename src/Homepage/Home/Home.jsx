@@ -25,7 +25,7 @@ const Home = () => {
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		const fetchData = async () => {
-			const res = await axios.get("https://b2-b-server.vercel.app/products");
+			const res = await axios.get("http://localhost:3000/products");
 			setData(res.data);
 		};
 		fetchData();
@@ -62,7 +62,7 @@ const Home = () => {
           </div>
 					<div className="grid  md:px-0 grid-cols-2 lg:grid-cols-3 sm:py-6 lg:py-3 xl:grid-cols-4 justify-between gap-4">
 						{shoes.map((product) => {
-							return <Card product={product}></Card>;
+							return <Card product={product} key={product._id}></Card>;
 						})}
 					</div>
 				</div>
@@ -74,7 +74,7 @@ const Home = () => {
           </div>
 					<div className="grid  md:px-0 grid-cols-2 lg:grid-cols-3 sm:py-6 lg:py-3 xl:grid-cols-4 justify-between gap-4">
 						{manClothing.map((product) => {
-							return <Card product={product}></Card>;
+							return <Card product={product} key={product._id}></Card>;
 						})}
 					</div>
 				</div>

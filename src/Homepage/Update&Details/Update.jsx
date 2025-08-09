@@ -16,7 +16,7 @@ const Update = () => {
 
         const navigate = useNavigate()
 	useEffect(() => {
-		axios.get("https://b2-b-server.vercel.app/products").then((res) => {
+		axios.get("http://localhost:3000/products").then((res) => {
 			const found = res.data.find((item) => item._id == id);
 			setProduct(found);
 			setLoading(false);
@@ -47,7 +47,7 @@ const Update = () => {
 		const formData = new FormData(e.target);
 		const Updated = Object.fromEntries(formData.entries());
 
-		await axios.put(`https://b2-b-server.vercel.app/products/${id}`,Updated).then(res=>{
+		await axios.put(`http://localhost:3000/products/${id}`,Updated).then(res=>{
             toast("Updated Successfully!", {
           position: "top-right",
           autoClose: 2000,

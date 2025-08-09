@@ -5,6 +5,7 @@ import { Outlet } from "react-router";
 import { ToastContainer } from "react-toastify";
 import CategoryMenu from "./Category";
 import ScrollToTop from "../ScrollToTop/ScrollToTop";
+import SearchBar from "./searchbar/Search";
 
 
 const Homepage = () => {
@@ -15,6 +16,7 @@ const Homepage = () => {
 		<div className="flex flex-col min-h-screen" data-theme="light">
 			<ScrollToTop></ScrollToTop>
 			<Nav></Nav>
+			<SearchBar></SearchBar>
 			<main className="flex-1 bg-gray-100 flex ">
 				<ToastContainer></ToastContainer>
 				<aside className="w-1/6 h-screen sticky  top-0 bg-white hidden md:flex">

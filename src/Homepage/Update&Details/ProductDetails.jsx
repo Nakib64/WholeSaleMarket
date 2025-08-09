@@ -45,7 +45,7 @@ const ProductDetails = () => {
 	});
 
 	useEffect(() => {
-		axios.get("https://b2-b-server.vercel.app/products").then((res) => {
+		axios.get("http://localhost:3000/products").then((res) => {
 			const found = res.data.find((item) => item._id === id);
 			setProduct(found);
 			setLoading(false);
@@ -84,9 +84,9 @@ const ProductDetails = () => {
 		const decrementObj = { quan: quantity, dec: true };
 
 		axios
-			.post("https://b2-b-server.vercel.app/allOrders", orderData)
+			.post("http://localhost:3000/allOrders", orderData)
 			.then(() =>
-				axios.put(`https://b2-b-server.vercel.app/product/${id}`, decrementObj)
+				axios.put(`http://localhost:3000/product/${id}`, decrementObj)
 			)
 			.then(() => {
 				toast("Ordered Successfully!", {

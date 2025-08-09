@@ -38,7 +38,7 @@ const Nav = () => {
 	);
 	return (
 		<nav className="sticky top-0 z-40 text-white">
-			<div className="navbar  shadow-sm bg-[#c5aa6a]">
+			<div className="navbar  shadow-sm md:shadow-none bg-[#c5aa6a]">
 				<div className="navbar-start">
 					<Link to={'/'}><img src='https://i.ibb.co/M53Vn8wH/Screenshot-2025-06-17-230413.png' alt="" className='h-10 rounded-2xl' /></Link>
 				</div>

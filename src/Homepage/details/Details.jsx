@@ -15,7 +15,7 @@ const CategoryItems = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			await axios
-				.get("https://b2-b-server.vercel.app/products", {
+				.get("http://localhost:3000/products", {
 					params: { category: cat },
 				})
 				.then((res) => {
