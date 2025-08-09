@@ -1,202 +1,304 @@
+import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../AuthContext/AuthContext";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
-import { Bounce, toast } from "react-toastify";
+import { toast, Bounce } from "react-toastify";
 import { useNavigate } from "react-router";
+import { motion } from "framer-motion";
+
+const IMGBB_API_KEY = import.meta.env.VITE_IMGBB_KEY; // <-- Put your API key here
+
+const categories = [
+	"shoes",
+	"bags",
+	"jewelry",
+	"beauty",
+	"mens-clothing",
+	"womens-clothing",
+	"baby-items",
+	"eyewear",
+	"seasonal",
+	"phone-accessories",
+];
 
 const AddProduct = () => {
 	const { user } = useContext(AuthContext);
-	document.title = "Add product";
-	const navigate = useNavigate()
-	const categories = [
-		"shoes",
-		"bags",
-		"jewelry",
-		"beauty",
-		"mens-clothing",
-		"womens-clothing",
-		"baby-items",
-		"eyewear",
-		"seasonal",
-		"phone-accessories",
-	];
+	const navigate = useNavigate();
+	const [rating, setRating] = useState(0);
+	const [imageUrl, setImageUrl] = useState("");
+	const [uploading, setUploading] = useState(false);
 
-	const handleSubmit = (e) => {
+	useEffect(() => {
+		document.title = "Add Product";
+	}, []);
+
+	const handleChangeRating = (value) => {
+		setRating(value < 1 ? 1 : value);
+	};
+	const handleImageChange = async (e) => {
+		const file = e.target.files[0];
+		if (!file) return;
+
+		// Prepare form data for imgbb
+		const formData = new FormData();
+		formData.append("image", file);
+
+		setUploading(true);
+
+		try {
+			const res = await axios.post(
+				`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
+				formData
+			);
+			setImageUrl(res.data.data.url);
+			toast.success("Image uploaded successfully!");
+		} catch (err) {
+			toast.error("Image upload failed. Try again.");
+			setImageUrl("");
+		} finally {
+			setUploading(false);
+		}
+	};
+
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const formData = new FormData(e.target);
 		const Product = Object.fromEntries(formData.entries());
-		Product.mainQuantity = parseInt(Product.mainQuantity)
+		Product.mainQuantity = parseInt(Product.mainQuantity);
+		Product.rating = rating;
 
-		axios.post("http://localhost:3000/allProducts", Product).then((res) => {
-			  toast("Product Added Successfully!", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        });
-		navigate('/')
-		});
-
-	};
-
-	const [value, setValue] = useState(0);
-
-	// When user clicks, update the rating value
-	const handleChange = (newValue) => {
-		if (newValue < 1) {
-      setValue(1);
-    } else {
-      setValue(newValue);
-    }
+		try {
+			await axios.post("http://localhost:3000/allProducts", Product);
+			toast.success("Product Added Successfully!", {
+				position: "top-right",
+				autoClose: 2000,
+				hideProgressBar: false,
+				closeOnClick: false,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				transition: Bounce,
+			});
+			navigate("/");
+		} catch {
+			toast.error("Failed to add product. Please try again.", {
+				position: "top-right",
+				autoClose: 4000,
+			});
+		}
 	};
 
 	return (
-		<div className="max-w-3xl mx-auto bg-white p-8 rounded shadow mt-10">
-			<h2 className="text-2xl font-bold mb-6 text-center">Add New Product</h2>
-			<form onSubmit={handleSubmit} className="space-y-4">
-				{/* Product Image Upload */}
+		<motion.div
+			initial={{ opacity: 0, y: 20 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: 0.5 }}
+			className="max-w-3xl mx-auto bg-[#F3F4F6] opacity-20 p-8 my-8 rounded-3xl shadow-lg mt-12 border border-gray-200"
+		>
+			<h2 className="text-3xl font-extrabold mb-8 text-center text-gray-900">
+				Add New Product
+			</h2>
+			<form
+				onSubmit={handleSubmit}
+				className=" grid grid-cols-1 md:grid-cols-2 gap-6"
+			>
+				{/* Product Image URL */}
 				<div>
-					<label className="block font-medium mb-1">Product Image:</label>
+					<label htmlFor="image" className="block font-semibold mb-1 text-gray-700">
+						Product Image:
+					</label>
 					<input
-						type="text"
-						name="image"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
-						required
+						id="image"
+						name="imageFile"
+						type="file"
+						accept="image/*"
+						onChange={handleImageChange}
+						className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+						required={!imageUrl}
+						disabled={uploading}
 					/>
+					{uploading && (
+						<p className="text-sm text-blue-600 mt-1">Uploading image...</p>
+					)}
+					{imageUrl && (
+						<img
+							src={imageUrl}
+							alt="Uploaded preview"
+							className="mt-3 rounded-lg max-h-40 object-contain"
+						/>
+					)}
 				</div>
 
 				{/* Product Name */}
 				<div>
-					<label className="block font-medium mb-1">Product Name:</label>
+					<label htmlFor="name" className="block font-semibold mb-1 text-gray-700">
+						Product Name:
+					</label>
 					<input
-						type="text"
+						id="name"
 						name="name"
+						type="text"
 						placeholder="Enter product name"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
 						required
+						className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
 					/>
 				</div>
 
 				{/* Main Quantity */}
 				<div>
-					<label className="block font-medium mb-1">Main Quantity:</label>
+					<label
+						htmlFor="mainQuantity"
+						className="block font-semibold mb-1 text-gray-700"
+					>
+						Main Quantity:
+					</label>
 					<input
-						type="number"
+						id="mainQuantity"
 						name="mainQuantity"
+						type="number"
+						min={1}
 						placeholder="Total quantity available"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
 						required
+						className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
 					/>
 				</div>
 
 				{/* Minimum Selling Quantity */}
 				<div>
-					<label className="block font-medium mb-1">Minimum Selling Quantity:</label>
+					<label
+						htmlFor="minSellingQuantity"
+						className="block font-semibold mb-1 text-gray-700"
+					>
+						Minimum Selling Quantity:
+					</label>
 					<input
-						type="number"
+						id="minSellingQuantity"
 						name="minSellingQuantity"
+						type="number"
+						min={1}
 						placeholder="Minimum quantity for purchase"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
 						required
+						className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
 					/>
 				</div>
 
 				{/* Brand Name */}
 				<div>
-					<label className="block font-medium mb-1">Brand Name:</label>
+					<label htmlFor="brand" className="block font-semibold mb-1 text-gray-700">
+						Brand Name:
+					</label>
 					<input
-						type="text"
+						id="brand"
 						name="brand"
+						type="text"
 						placeholder="Enter brand name"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
 						required
+						className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
 					/>
 				</div>
 
-				{/* Category Dropdown */}
+				{/* Category */}
 				<div>
-					<label className="block font-medium mb-1">Category:</label>
+					<label
+						htmlFor="category"
+						className="block font-semibold mb-1 text-gray-700"
+					>
+						Category:
+					</label>
 					<select
+						id="category"
 						name="category"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
 						required
+						className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
 					>
 						<option value="">Select a category</option>
-						{categories.map((cat, index) => (
-							<option key={index} value={cat}>
-								{cat.toUpperCase()}
+						{categories.map((cat) => (
+							<option key={cat} value={cat}>
+								{cat.replace(/-/g, " ").toUpperCase()}
 							</option>
 						))}
 					</select>
 				</div>
 
-				{/* Short Description */}
-				<div>
-					<label className="block font-medium mb-1">Short Description:</label>
+				{/* Description */}
+				<div className="md:col-span-2">
+					<label
+						htmlFor="description"
+						className="block font-semibold mb-1 text-gray-700 "
+					>
+						Short Description:
+					</label>
 					<textarea
+						id="description"
 						name="description"
+						rows={4}
 						placeholder="Enter a brief description"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
 						required
+						className="w-full rounded-xl border border-gray-300 px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
 					/>
 				</div>
 
 				{/* Price */}
 				<div>
-					<label className="block font-medium mb-1">Price (per unit):</label>
+					<label htmlFor="price" className="block font-semibold mb-1 text-gray-700">
+						Price (per unit):
+					</label>
 					<input
-						type="number"
+						id="price"
 						name="price"
+						type="number"
+						min={0}
+						step="0.01"
 						placeholder="Enter price"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
 						required
+						className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
 					/>
 				</div>
 
 				{/* Rating */}
 				<div>
-          <h1 className="font-bold">Rating (1 to 5):</h1>
-					<Rating style={{ maxWidth: 180 }} value={value} onChange={handleChange} />
-					{/* Hidden input to submit value like a normal input */}
-					<input type="hidden" name="rating" value={value} />
+					<label className="block font-semibold mb-2 text-gray-700">
+						Rating (1 to 5):
+					</label>
+					<Rating
+						style={{ maxWidth: 180 }}
+						value={rating}
+						onChange={handleChangeRating}
+					/>
+					<input type="hidden" name="rating" value={rating} />
 				</div>
+
+				{/* Email */}
 				<div>
-					<label className="block font-medium mb-1">Email :</label>
+					<label htmlFor="email" className="block font-semibold mb-1 text-gray-700">
+						Email:
+					</label>
 					<input
-						type="email"
+						id="email"
 						name="email"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
-						required
+						type="email"
 						value={user.email}
 						readOnly
+						className="w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 cursor-not-allowed"
 					/>
 				</div>
 
-				{/* Submit Button */}
+				{/* Submit */}
 				<button
 					type="submit"
-					className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition w-full"
+					className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition md:col-span-2"
 				>
 					Add Product
 				</button>
 
-				{/* Product Content - Static Text */}
-				<div className="mt-6 text-gray-600 text-sm">
-					<p>
-						<strong>Note:</strong> Please make sure all product information is
-						accurate. Once submitted, the product will be reviewed before being listed
-						on our wholesale platform.
-					</p>
-				</div>
+				{/* Note */}
 			</form>
-		</div>
+			<p className="mt-6 text-center text-gray-500 text-sm">
+				<strong>Note:</strong> Please ensure all product information is accurate.
+				Submitted products will be reviewed before listing.
+			</p>
+		</motion.div>
 	);
 };
 

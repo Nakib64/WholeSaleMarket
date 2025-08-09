@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -24,8 +24,6 @@ const SearchBar = () => {
 			return res.data;
 		},
 	});
-
-	console.log(data);
 
 	// Fetch suggestions from backend
 
@@ -68,7 +66,7 @@ const SearchBar = () => {
 				<Input
 					type="text"
 					className="input input-bordered max-w-4xl mx-auto m-0"
-					placeholder="Search products..."
+					placeholder="Search products by name, category, brand etc."
 					value={searchedKey}
 					onChange={(e) => {
 						setSearchedKey(e.target.value);
@@ -76,9 +74,11 @@ const SearchBar = () => {
 					onFocus={handleFocus}
 					autoComplete="off"
 				/>
-				<Button>
-					<BsSearch />
-				</Button>
+				<Link to={`/searchedProducts/${searchedKey}`}>
+					<Button>
+						<BsSearch />
+					</Button>
+				</Link>
 			</form>
 
 			{isFocused && data?.length > 0 && (
@@ -92,7 +92,6 @@ const SearchBar = () => {
 							{product.name}
 						</div>
 					))}
-			
 				</div>
 			)}
 		</div>
