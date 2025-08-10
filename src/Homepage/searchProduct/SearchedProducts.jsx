@@ -17,7 +17,7 @@ const SearchedProducts = () => {
     console.log(param.searchedKey);
 
 	useEffect(() => {
-		axios.get("http://localhost:3000/search", {
+		axios.get("https://b2-b-server-drab.vercel.app/search", {
                 params:{
                     searchedKey: param.searchedKey
                 }
@@ -42,12 +42,12 @@ const SearchedProducts = () => {
 
   if (newChecked) {
     // Now the logic matches the checked state
-    const response = await axios.get("http://localhost:3000/search", {
+    const response = await axios.get("https://b2-b-server-drab.vercel.app/search", {
       params: { minSellingQuantity: 100 },
     });
     setData(response.data);
   } else {
-    const response = await axios.get("http://localhost:3000/search");
+    const response = await axios.get("https://b2-b-server-drab.vercel.app/search");
     setData(response.data);
   }
 };

@@ -69,7 +69,7 @@ const AddProduct = () => {
 		Product.rating = rating;
 
 		try {
-			await axios.post("http://localhost:3000/allProducts", Product);
+			await axios.post("https://b2-b-server-drab.vercel.app/allProducts", Product);
 			toast.success("Product Added Successfully!", {
 				position: "top-right",
 				autoClose: 2000,

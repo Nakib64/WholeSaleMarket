@@ -25,7 +25,7 @@ const Home = () => {
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		const fetchData = async () => {
-			const res = await axios.get("http://localhost:3000/products");
+			const res = await axios.get("https://b2-b-server-drab.vercel.app/products");
 			setData(res.data);
 		};
 		fetchData();

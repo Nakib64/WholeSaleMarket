@@ -16,7 +16,7 @@ const SearchBar = () => {
 	const { data, error, isError } = useQuery({
 		queryKey: [searchedKey],
 		queryFn: async () => {
-			const res = await axios.get("http://localhost:3000/search", {
+			const res = await axios.get("https://b2-b-server-drab.vercel.app/search", {
 				params: {
 					searchedKey,
 				},

@@ -23,7 +23,7 @@ const Cart = () => {
 		if (!user?.email) return;
 		setLoading(true);
 		axios
-			.get("http://localhost:3000/allOrders", {
+			.get("https://b2-b-server-drab.vercel.app/allOrders", {
 				params: { email: user.email },
 			})
 			.then((res) => {
@@ -39,13 +39,13 @@ const Cart = () => {
 		setDeletingId(product._id);
 		try {
 			await axios.put(
-				`http://localhost:3000/product/${product.productId}`,
+				`https://b2-b-server-drab.vercel.app/product/${product.productId}`,
 				{
 					quan: product.quantity,
 				}
 			);
 			await axios.delete(
-				`http://localhost:3000/allOrders/${product._id}`
+				`https://b2-b-server-drab.vercel.app/allOrders/${product._id}`
 			);
 			toast("Deleted Successfully!", {
 				position: "top-right",

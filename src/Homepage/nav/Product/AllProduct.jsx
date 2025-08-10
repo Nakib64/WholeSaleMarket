@@ -15,7 +15,7 @@ const AllProduct = () => {
 	const [checked, setChecked] = useState(false);
 
 	useEffect(() => {
-		axios.get("http://localhost:3000/products").then((res) => {
+		axios.get("https://b2-b-server-drab.vercel.app/products").then((res) => {
 			setData(res.data);
 			setLoading(false);
 		});
@@ -35,12 +35,12 @@ const AllProduct = () => {
 
   if (newChecked) {
     // Now the logic matches the checked state
-    const response = await axios.get("http://localhost:3000/products", {
+    const response = await axios.get("https://b2-b-server-drab.vercel.app/products", {
       params: { minSellingQuantity: 100 },
     });
     setData(response.data);
   } else {
-    const response = await axios.get("http://localhost:3000/products");
+    const response = await axios.get("https://b2-b-server-drab.vercel.app/products");
     setData(response.data);
   }
 };

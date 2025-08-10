@@ -11,7 +11,7 @@ const [data, setData] = useState(null);
 	const { user } = useContext(AuthContext);
     const [loading, setLoading] = useState(true)
 	axios
-		.get("http://localhost:3000/products", {
+		.get("https://b2-b-server-drab.vercel.app/products", {
 			params: { email: user.email },
 		})
 		.then((res) => {
@@ -26,7 +26,7 @@ const [data, setData] = useState(null);
             const obj = {quan : product.quantity
                
             }
-            axios.delete(`http://localhost:3000/product/${product._id}`).then(res=>{
+            axios.delete(`https://b2-b-server-drab.vercel.app/product/${product._id}`).then(res=>{
                 toast("deleted Successfully!", {
 							  position: "top-right",
 							  autoClose: 2000,
