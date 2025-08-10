@@ -25,11 +25,6 @@ const productSchema = z.object({
 		.min(1, "Quantity must be at least 1"),
 });
 
-const fetchAllProducts = async () => {
-	const { data } = await axios.get("https://b2-b-server-drab.vercel.app/products");
-	return data; // assuming array of products
-};
-
 const ProductDetails = () => {
 	const { id } = useParams();
 	const { user } = useContext(AuthContext);
@@ -44,12 +39,15 @@ const ProductDetails = () => {
 		error,
 	} = useQuery({
 		queryKey: ["products"],
-		queryFn: fetchAllProducts,
+		queryFn: async () => {
+			const { data } = await axios.get(
+				`https://b2-b-server-drab.vercel.app/products/${id}`
+			);
+			return data; // assuming array of products
+		},
 	});
 
-	// Find product by id from fetched products
-	const product = products?.find((p) => p._id === id);
-
+	
 	const {
 		register,
 		handleSubmit,
@@ -64,73 +62,72 @@ const ProductDetails = () => {
 	});
 
 	const mutation = useMutation({
-  mutationFn: (orderData) =>
-    axios
-      .post("https://b2-b-server-drab.vercel.app/allOrders", orderData)
-      .then(() =>
-        axios.put(`https://b2-b-server-drab.vercel.app/product/${id}`, {
-          quan: orderData.quantity,
-          dec: true,
-        })
-      ),
-		
-			onSuccess: () => {
-				toast.success("Ordered Successfully!", {
-					position: "top-right",
-					autoClose: 2000,
-					theme: "light",
-					transition: Bounce,
-				});
-				queryClient.invalidateQueries(["products"]); // refetch products list
-				navigate("/");
-			},
-			onError: () => {
-				toast.error("Something went wrong!");
-			},
-		}
-	);
+		mutationFn: (orderData) =>
+			axios
+				.post("https://b2-b-server-drab.vercel.app/allOrders", orderData)
+				.then(() =>
+					axios.put(`https://b2-b-server-drab.vercel.app/product/${id}`, {
+						quan: orderData.quantity,
+						dec: true,
+					})
+				),
+
+		onSuccess: () => {
+			toast.success("Ordered Successfully!", {
+				position: "top-right",
+				autoClose: 2000,
+				theme: "light",
+				transition: Bounce,
+			});
+			queryClient.invalidateQueries(["products"]); // refetch products list
+			navigate("/");
+		},
+		onError: () => {
+			toast.error("Something went wrong!");
+		},
+	});
 
 	if (isLoading) return <Loading />;
 	if (isError) return <div>Error: {error.message}</div>;
-	if (!product) return <div>Product not found</div>;
+	if (!products) return <div>Product not found</div>;
 
 	const onSubmit = (data) => {
 		const quantity = Number(data.quantity);
 
 		if (
-			quantity < product.minSellingQuantity ||
-			quantity > product.mainQuantity
+			quantity < products.minSellingQuantity ||
+			quantity > products.mainQuantity
 		) {
 			setError("quantity", {
 				type: "manual",
-				message: `Quantity must be between ${product.minSellingQuantity} and ${product.mainQuantity}`,
+				message: `Quantity must be between ${products.minSellingQuantity} and ${products.mainQuantity}`,
 			});
 			return;
 		}
 		clearErrors("quantity");
 
 		const orderData = {
-			productId: id,
-			image: product.image,
+			productsId: id,
+			image: products.image,
 			quantity,
 			email: user.email,
-			productName: product.name,
-			price: product.price,
+			productsName: products.name,
+			price: products.price,
 		};
 
 		mutation.mutate(orderData);
 	};
 
 	const readOnlyFields = [
-		{ label: "Product Name", value: product.name, name: "name" },
-		{ label: "Main Quantity", value: product.mainQuantity, name: "mainQuantity" },
+		{ label: "products Name", value: products.name, name: "name" },
+		{ label: "Main Quantity", value: products.mainQuantity, name: "mainQuantity" },
 		{
 			label: "Min Buy Quantity",
-			value: product.minSellingQuantity,
+			value: products.minSellingQuantity,
 			name: "minSellingQuantity",
 		},
-		{ label: "Brand", value: product.brand, name: "brand" },
-		{ label: "Price (per unit)", value: product.price, name: "price" },
+		{ label: "Brand", value: products.brand, name: "brand" },
+		{ label: "Price (per unit)", value: products.price, name: "price" },
 		{ label: "Email", value: user?.email || "", name: "email" },
 	];
 
@@ -139,31 +136,31 @@ const ProductDetails = () => {
 			<div className="mb-10">
 				<img
 					className="w-full max-w-full h-auto md:h-[400px] md:w-[400px] object-contain rounded-lg mx-auto"
-					src={product.image}
-					alt={product.name}
+					src={products.image}
+					alt={products.name}
 					onError={(e) => {
 						e.target.onerror = null;
 						e.target.src =
 							"https://i.ibb.co/tpFRRSSV/depositphotos-531920820-stock-illustration-photo-available-vector-icon-default.webp";
 					}}
 				/>
-				<h1 className="text-3xl font-bold mt-4">{product.name}</h1>
-				<p className="text-gray-600 italic my-2">{product.description}</p>
+				<h1 className="text-3xl font-bold mt-4">{products.name}</h1>
+				<p className="text-gray-600 italic my-2">{products.description}</p>
 				<p className="text-gray-700">
-					Brand: <strong>{product.brand}</strong>
+					Brand: <strong>{products.brand}</strong>
 				</p>
 				<p className="text-gray-700">
 					Rating:{" "}
-					<span className="text-yellow-500 font-semibold">{product.rating}</span>
+					<span className="text-yellow-500 font-semibold">{products.rating}</span>
 				</p>
 				<p className="text-2xl font-extrabold text-green-600 mt-2">
-					${product.price}
+					${products.price}
 				</p>
 				<p className="text-gray-600 mt-4">
-					Available Quantity: <strong>{product.mainQuantity}</strong>
+					Available Quantity: <strong>{products.mainQuantity}</strong>
 				</p>
 				<p className="text-gray-600">
-					Minimum Purchase Quantity: <strong>{product.minSellingQuantity}</strong>
+					Minimum Purchase Quantity: <strong>{products.minSellingQuantity}</strong>
 				</p>
 			</div>
 
@@ -200,9 +197,9 @@ const ProductDetails = () => {
 							<Input
 								id="quantity"
 								type="number"
-								min={product.minSellingQuantity}
-								max={product.mainQuantity}
-								placeholder={`Min: ${product.minSellingQuantity}`}
+								min={products.minSellingQuantity}
+								max={products.mainQuantity}
+								placeholder={`Min: ${products.minSellingQuantity}`}
 								{...register("quantity", { valueAsNumber: true })}
 								className={
 									errors.quantity
@@ -219,7 +216,7 @@ const ProductDetails = () => {
 					<div className="flex flex-col md:flex-row gap-4">
 						<motion.div whileTap={{ scale: 0.95 }} className="flex-1">
 							<Button
-								type="button"
+								type="submit"
 								disabled={mutation.isLoading}
 								variant="outline"
 								className="flex items-center justify-center gap-2 w-full"
@@ -236,22 +233,7 @@ const ProductDetails = () => {
 							</Button>
 						</motion.div>
 
-						<motion.div whileTap={{ scale: 0.95 }} className="flex-1">
-							<Button
-								type="submit"
-								disabled={mutation.isLoading}
-								className="flex items-center justify-center gap-2 w-full hover:bg-[#c5aa6a]"
-							>
-								{mutation.isLoading ? (
-									<span className="loading loading-spinner" />
-								) : (
-									<>
-										<CreditCard className="w-5 h-5" />
-										Buy
-									</>
-								)}
-							</Button>
-						</motion.div>
+						
 					</div>
 				</form>
 			</div>

@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import { IoMdCloudUpload } from "react-icons/io";
+import { CiUser } from "react-icons/ci";
+
 import { IoBagHandleSharp } from "react-icons/io5";
 import { Link, NavLink } from "react-router";
 import "./../../index.css";
@@ -21,7 +23,10 @@ const Nav = () => {
 				</NavLink>
 			</li>
 			<li>
-				<NavLink to={"/allProduct"} className="rounded-none font-medium hover:text-gray-200">
+				<NavLink
+					to={"/allProduct"}
+					className="rounded-none font-medium hover:text-gray-200"
+				>
 					All Products
 				</NavLink>
 			</li>
@@ -55,8 +60,9 @@ const Nav = () => {
 						<HoverDropdown />
 					) : (
 						<div className="flex items-center gap-4 font-semibold">
-							<NavLink to={"/login"}>Login</NavLink>
-							<NavLink to={"/register"}>Register</NavLink>
+							<Link to={"/login"}>
+								<CiUser size={35}/>
+							</Link>
 						</div>
 					)}
 				</div>
