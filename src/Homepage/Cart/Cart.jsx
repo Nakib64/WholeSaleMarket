@@ -11,33 +11,40 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
 import BuyModal from "./Modal"; // import the modal component
+import { useQuery } from "@tanstack/react-query";
+import OrdersTable from "./PlacedOrdrs";
 
 const Cart = () => {
-  const [data, setData] = useState([]);
   const { user } = useContext(AuthContext);
-  const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState(false);
-  const [checkout, setCheckOUt] = useState(false);
+  // const [checkout, setCheckOUt] = useState(false);
 
   // Modal-related state
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
-  useEffect(() => {
-    if (!user?.email) return;
-    setLoading(true);
-    axios
+  const {data: orders, isLoading} = useQuery({
+    queryKey:[],
+    queryFn:async()=>{
+   const res = await axios
       .get("https://b2-b-server-drab.vercel.app/allOrders", {
         params: { email: user.email },
       })
-      .then((res) => {
-        setData(res.data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, [user?.email]);
+    return res.data
+    }
+  })
+  const {data: placedOrders, isLoading: place} = useQuery({
+    queryKey:[],
+    queryFn:async()=>{
+     const result = await axios.get('https://b2-b-server-drab.vercel.app/placedOrder', {params:{email: user.email}})
+      return result.data
+    }
+  })
 
-  if (loading) return <Loading />;
+
+  
+
+  if (place) return <Loading />;
 
   const handleDelete = async (product) => {
     setDeletingId(product._id);
@@ -104,10 +111,10 @@ const Cart = () => {
   return (
     <div className="max-w-3xl mx-auto p-4">
       <h1 className="text-3xl font-semibold text-center mb-8">
-        Your Cart ({data.length} items)
+        Your Cart ({orders.length} items)
       </h1>
       {/* Checkout All */}
-      {data.length > 0 && (
+      {/* {data.length > 0 && (
         <motion.div
           whileTap={{ scale: 0.95 }}
           className="mt-10 text-center flex justify-end my-6"
@@ -128,14 +135,14 @@ const Cart = () => {
             )}
           </Button>
         </motion.div>
-      )}
+      )} */}
 
       <div className="flex flex-col gap-4">
-        {data.length === 0 && (
+        {orders?.length === 0 && (
           <p className="text-center text-gray-500">Your cart is empty.</p>
         )}
 
-        {data.map((product) => (
+        {orders?.map((product) => (
           <div
             key={product._id}
             className="flex flex-row justify-between items-center bg-white rounded-md shadow-sm p-4 border border-gray-200"
@@ -199,6 +206,12 @@ const Cart = () => {
         userEmail={user?.email}
         onSuccess={onBuySuccess}
       />
+{/* 
+        {placedOrders && <div>
+        <h1>Placed Order</h1>
+        <OrdersTable orders={placedOrders}></OrdersTable>
+      </div>} */}
+      
     </div>
   );
 };

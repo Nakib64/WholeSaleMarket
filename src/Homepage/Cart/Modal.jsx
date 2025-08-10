@@ -6,14 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
+import axios from "axios";
+import Swal from "sweetalert2";
 
-export default function BuyModal({
-	open,
-	onClose,
-	product,
-	userEmail,
-	onSuccess,
-}) {
+export default function BuyModal({ open, onClose, product, userEmail }) {
 	const [phone, setPhone] = useState("");
 	const [address, setAddress] = useState("");
 	const [gateway, setGateway] = useState("stripe");
@@ -58,31 +54,31 @@ export default function BuyModal({
 			productPrice,
 			deliveryCharge: delivery,
 			total: Number(total),
-			buyerEmail: userEmail || null,
+			email: userEmail || null,
 			phone,
 			address,
 			gateway,
+			status: "pending",
 		};
 
 		try {
-			const apiRoute =
-				gateway === "stripe" ? "/api/pay/stripe" : "/api/pay/sslcommerz";
-			const res = await fetch(apiRoute, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(payload),
-			});
-			const data = await res.json();
-			if (!res.ok) throw new Error(data.message || "Payment failed");
-
-			if (gateway === "stripe" && data.checkoutUrl) {
-				window.location.href = data.checkoutUrl;
+			if (gateway == "cash") {
+				axios
+					.post("https://b2-b-server-drab.vercel.app/placedOrder", payload)
+					.then((res) => {
+						Swal.fire({
+							title: "Order Placed!",
+							icon: "success",
+							draggable: true,
+						});
+						axios.delete(
+							`https://b2-b-server-drab.vercel.app/allOrders/${product._id}`
+						).then(()=>{
+								onClose();
+						})
+					
+					});
 			}
-			if (gateway === "sslcommerz" && data.GatewayPageURL) {
-				window.location.href = data.GatewayPageURL;
-			}
-
-			if (onSuccess) onSuccess(product._id);
 		} catch (err) {
 			setError(err.message || "Payment start failed");
 		} finally {
@@ -165,7 +161,7 @@ export default function BuyModal({
 							<Label>Payment Method</Label>
 							<div className="flex gap-3 mt-2">
 								{/* Stripe */}
-								<div className="relative group">
+								{/* <div className="relative group">
 									<button
 										type="button"
 										onClick={() => setGateway("stripe")}
@@ -186,7 +182,7 @@ export default function BuyModal({
 									</span>
 								</div>
 
-								{/* SSLCOMMERZ */}
+							
 								<div className="relative group">
 									<button
 										type="button"
@@ -206,7 +202,7 @@ export default function BuyModal({
 									<span className="absolute -top-7 left-1/2 -translate-x-1/2 text-xs px-2 py-1 bg-gray-800 text-white rounded opacity-0 group-hover:opacity-100 transition">
 										SSLCOMMERZ
 									</span>
-								</div>
+								</div> */}
 
 								{/* Cash on Delivery */}
 								<div className="relative group">
