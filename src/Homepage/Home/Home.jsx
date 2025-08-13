@@ -10,6 +10,7 @@ import { Link } from "react-router";
 import { FeaturedCategories } from "./Featured";
 import { Testimonials } from "./Testimonial";
 import { Button } from "@/components/ui/button";
+import TopComments from "../Comment/Comment";
 
 const Home = () => {
 	document.title = "WholeSale Cart";
@@ -83,10 +84,10 @@ const Home = () => {
         </>
 			)}
 			<FeaturedCategories></FeaturedCategories>
-						<Testimonials></Testimonials>
+						<TopComments></TopComments>
 			<PricingPlans></PricingPlans>
 			
-		</div>
+	</div>
 	);
 };
 
