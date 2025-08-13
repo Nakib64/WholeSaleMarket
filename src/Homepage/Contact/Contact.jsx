@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import React from "react";
 
 const Contact = () => {
@@ -67,9 +68,9 @@ const Contact = () => {
             ></textarea>
           </div>
 
-          <button type="submit" className="btn btn-primary w-full">
+          <Button type="submit" className="btn btn-primary w-full">
             Send Message
-          </button>
+          </Button>
         </form>
       </div>
     </section>

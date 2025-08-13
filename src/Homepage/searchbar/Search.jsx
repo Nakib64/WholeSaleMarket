@@ -56,7 +56,7 @@ const SearchBar = () => {
 
 	return (
 		<div
-			className="relative w-full flex justify-center items-center md:bg-[#c5aa6a] py-2"
+			className="relative w-full flex justify-center items-center py-6"
 			ref={wrapperRef}
 		>
 			<form

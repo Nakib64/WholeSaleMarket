@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function BuyModal({ open, onClose, product, userEmail }) {
 	const [phone, setPhone] = useState("");
@@ -15,6 +16,7 @@ export default function BuyModal({ open, onClose, product, userEmail }) {
 	const [gateway, setGateway] = useState("stripe");
 	const [processing, setProcessing] = useState(false);
 	const [error, setError] = useState(null);
+const queryClient = useQueryClient();
 
 	useEffect(() => {
 		if (!open) {
@@ -51,8 +53,9 @@ export default function BuyModal({ open, onClose, product, userEmail }) {
 		const payload = {
 			productId: product._id,
 			productName: product.name,
-			productPrice,
-			deliveryCharge: delivery,
+			productPrice: product.price,
+			quantity:product.quantity,
+			deliveryCharge: delivery ,
 			total: Number(total),
 			email: userEmail || null,
 			phone,
@@ -74,6 +77,7 @@ export default function BuyModal({ open, onClose, product, userEmail }) {
 						axios.delete(
 							`https://b2-b-server-drab.vercel.app/allOrders/${product._id}`
 						).then(()=>{
+							queryClient.invalidateQueries(['status']);
 								onClose();
 						})
 					
@@ -87,9 +91,9 @@ export default function BuyModal({ open, onClose, product, userEmail }) {
 	}
 
 	return (
-		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-3">
-			<Card className="w-full max-w-3xl p-6 rounded-xl shadow-lg">
-				<div className="flex justify-between items-start">
+		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-3 ">
+			<Card className="w-full max-h-[70vh] max-w-3xl p-6 rounded-xl shadow-lg overflow-auto">
+				<div className="flex justify-between items-start h-full">
 					<h3 className="text-xl font-semibold">Confirm Purchase</h3>
 					<button onClick={onClose} className="text-gray-500 hover:text-gray-800">
 						✕
@@ -173,7 +177,7 @@ export default function BuyModal({ open, onClose, product, userEmail }) {
 									>
 										<img
 											src="https://i.ibb.co.com/Q3rK85bJ/8d57eac4b78e83e49793fb8503c6b82d.png"
-											alt="Stripe"
+											alt="Stripe"max-h-[70vh]
 											className="h-6"
 										/>
 									</button>

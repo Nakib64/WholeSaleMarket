@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import OrdersTable from "./PlacedOrdrs";
 
 const Cart = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const [deletingId, setDeletingId] = useState(false);
   // const [checkout, setCheckOUt] = useState(false);
 
@@ -23,8 +23,8 @@ const Cart = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const {data: orders, isLoading} = useQuery({
-    queryKey:[],
+  const {data: orders, isLoading, refetch} = useQuery({
+    queryKey:['productId'],
     queryFn:async()=>{
    const res = await axios
       .get("https://b2-b-server-drab.vercel.app/allOrders", {
@@ -33,24 +33,18 @@ const Cart = () => {
     return res.data
     }
   })
-  const {data: placedOrders, isLoading: place} = useQuery({
-    queryKey:[],
-    queryFn:async()=>{
-     const result = await axios.get('https://b2-b-server-drab.vercel.app/placedOrder', {params:{email: user.email}})
-      return result.data
-    }
-  })
+
 
 
   
 
-  if (place) return <Loading />;
+  if (isLoading) return <Loading />;
 
   const handleDelete = async (product) => {
     setDeletingId(product._id);
     try {
       await axios.put(
-        `https://b2-b-server-drab.vercel.app/product/${product.productId}`,
+        `https://b2-b-server-drab.vercel.app/product/${product._id}`,
         {
           quan: product.quantity,
         }
@@ -64,7 +58,7 @@ const Cart = () => {
         theme: "light",
         transition: Bounce,
       });
-      setData((prev) => prev.filter((p) => p._id !== product._id));
+      refetch()
     } catch (err) {
       toast.error("Something went wrong!");
     } finally {
@@ -109,7 +103,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4">
+    <div className="max-w-7xl mx-auto p-4 space-y-10  ">
       <h1 className="text-3xl font-semibold text-center mb-8">
         Your Cart ({orders.length} items)
       </h1>
@@ -137,7 +131,7 @@ const Cart = () => {
         </motion.div>
       )} */}
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 max-w-3xl mx-auto">
         {orders?.length === 0 && (
           <p className="text-center text-gray-500">Your cart is empty.</p>
         )}
@@ -163,7 +157,7 @@ const Cart = () => {
             {/* Action buttons */}
             <div className="flex gap-3 mt-4 md:mt-0">
               <Button
-                variant="destructive"
+                variant="outline"
                 size="sm"
                 disabled={deletingId === product._id}
                 className="flex items-center gap-1 px-3"
@@ -206,11 +200,10 @@ const Cart = () => {
         userEmail={user?.email}
         onSuccess={onBuySuccess}
       />
-{/* 
-        {placedOrders && <div>
-        <h1>Placed Order</h1>
-        <OrdersTable orders={placedOrders}></OrdersTable>
-      </div>} */}
+
+        {loading == false && <OrdersTable></OrdersTable>}
+        
+      
       
     </div>
   );

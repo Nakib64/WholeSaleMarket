@@ -6,6 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
+import { Button } from "@/components/ui/button";
 
 const slides = [
   {
@@ -77,9 +78,9 @@ const Slider = () => {
               <p className="text-sm md:text-lg mb-4 opacity-90">
                 {slide.desc}
               </p>
-              <button className="px-5 py-2 bg-red-500 hover:bg-red-600 rounded-full font-semibold shadow-md transition-all">
+              <Button>
                 {slide.button}
-              </button>
+              </Button>
             </div>
           </div>
         </SwiperSlide>

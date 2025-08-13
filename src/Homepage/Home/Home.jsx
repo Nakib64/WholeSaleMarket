@@ -9,6 +9,7 @@ import Loading from "../../Loading/Loading";
 import { Link } from "react-router";
 import { FeaturedCategories } from "./Featured";
 import { Testimonials } from "./Testimonial";
+import { Button } from "@/components/ui/button";
 
 const Home = () => {
 	document.title = "WholeSale Cart";
@@ -58,7 +59,7 @@ const Home = () => {
           
           <div className="flex justify-between p-3">
             <h1 className="text-2xl  font-bold">SHOES</h1>
-              <Link to={'category/shoes'}><button className="btn btn-primary">SEE MORE</button></Link>
+              <Link to={'category/shoes'}><Button>SEE MORE</Button></Link>
           </div>
 					<div className="grid  md:px-0 grid-cols-2 lg:grid-cols-3 sm:py-6 lg:py-3 xl:grid-cols-4 justify-between gap-4">
 						{shoes.map((product) => {
@@ -70,7 +71,7 @@ const Home = () => {
           
           <div className="flex justify-between p-3">
             <h1 className="text-2xl  font-bold">BEAUTY</h1>
-              <Link to={'category/shoes'}><button className="btn btn-primary">SEE MORE</button></Link>
+              <Link to={'category/shoes'}><Button>SEE MORE</Button></Link>
           </div>
 					<div className="grid  md:px-0 grid-cols-2 lg:grid-cols-3 sm:py-6 lg:py-3 xl:grid-cols-4 justify-between gap-4">
 						{manClothing.map((product) => {
@@ -84,11 +85,7 @@ const Home = () => {
 			<FeaturedCategories></FeaturedCategories>
 						<Testimonials></Testimonials>
 			<PricingPlans></PricingPlans>
-			<div className="flex justify-center items-center py-4">
-				<button className="btn btn-accent" onClick={scrollToTop}>
-					Scroll to top
-				</button>
-			</div>
+			
 		</div>
 	);
 };

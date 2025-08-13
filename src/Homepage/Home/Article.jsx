@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import React from 'react';
 import { FaStar, FaChartBar, FaBoxOpen, FaMobileAlt } from 'react-icons/fa';
 
@@ -31,9 +32,9 @@ const Features = () => {
         <div key={index} className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center text-center hover:shadow-xl transition">
           {feature.icon}
           <h3 className="text-lg font-bold mt-4 mb-2">{feature.title}</h3>
-          <button className="mt-auto bg-yellow-300 text-black px-4 py-2 rounded hover:bg-yellow-400 transition">
+          <Button>
             {feature.button}
-          </button>
+          </Button>
         </div>
       ))}
     </div>

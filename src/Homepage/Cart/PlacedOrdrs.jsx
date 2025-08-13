@@ -1,19 +1,34 @@
-import React from "react";
+import { AuthContext } from "@/AuthContext/AuthContext";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import React, { useContext } from "react";
 
-export default function OrdersTable({ orders }) {
-  if (!orders || orders.length === 0) {
+
+export default function OrdersTable() {
+
+    const {user} = useContext(AuthContext)
+   
+
+      const {data: placedOrders, isLoading: place} = useQuery({
+    queryKey:['status'],
+    queryFn:async()=>{
+     const result = await axios.get('https://b2-b-server-drab.vercel.app/placedOrder', {params:{email : user?.email}})
+      return result.data
+    }
+  })
+  if (place || placedOrders.length === 0) {
     return (
       <p className="text-center text-gray-500 mt-8">
         No orders found.
       </p>
     );
   }
-  console.log(orders);
+  console.log(placedOrders);
 
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full border border-gray-200 rounded-lg shadow-md">
-        <thead className="bg-indigo-600 text-white">
+        <thead className="bg-[#217b7e] text-white">
           <tr>
             <th className="py-3 px-4 text-left">Product ID</th>
             <th className="py-3 px-4 text-left">Product Name</th>
@@ -28,9 +43,9 @@ export default function OrdersTable({ orders }) {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
+          {placedOrders.map((order) => (
             <tr
-              key={order.productId + order.email} // unique key
+              key={order._id} // unique key
               className="border-t border-gray-200 hover:bg-indigo-50 transition"
             >
               <td className="py-2 px-4">{order.productId}</td>
@@ -48,7 +63,7 @@ export default function OrdersTable({ orders }) {
                 <span
                   className={`inline-block px-2 py-1 rounded text-sm font-semibold ${
                     order.status === "pending"
-                      ? "bg-yellow-200 text-yellow-800"
+                      ? "bg-[#217b7e] text-white/50"
                       : order.status === "completed" || order.status === "done"
                       ? "bg-green-200 text-green-800"
                       : order.status === "canceled"

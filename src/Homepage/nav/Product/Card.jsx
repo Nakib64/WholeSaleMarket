@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import React from "react";
 import { Link } from "react-router";
 
@@ -48,9 +49,9 @@ const Card = ({ product }) => {
 					${price}
 				</span>
 				<Link to={`/details/${_id}`}>
-					<button className="bg-[#c5aa6a] hover:[#c5aa6a] px-4 py-1.5 rounded text-sm font-medium text-white">
+					<Button>
 						Details
-					</button>
+					</Button>
 				</Link>
 			</div>
 		</div>

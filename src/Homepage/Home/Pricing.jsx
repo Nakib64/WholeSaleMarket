@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import React from 'react';
 
 const plans = [
@@ -22,17 +23,17 @@ const PricingPlans = () => {
   return (
     <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
       {plans.map((plan, index) => (
-        <div key={index} className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center text-center hover:shadow-xl transition">
+        <div key={index} className="bg-white shadow-md rounded-lg p-6 grid grid-cols-1 items-center text-center hover:shadow-xl transition">
           <h3 className="text-xl font-bold mb-2">{plan.title}</h3>
-          <p className="text-2xl font-semibold text-blue-600 mb-4">{plan.price}</p>
+          <p className="text-2xl font-semibold text-[#217b7e] mb-4">{plan.price}</p>
           <ul className="text-gray-600 mb-4 space-y-2">
             {plan.features.map((feature, idx) => (
               <li key={idx}>✔️ {feature}</li>
             ))}
           </ul>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+          <Button>
             Choose Plan
-          </button>
+          </Button>
         </div>
       ))}
     </div>

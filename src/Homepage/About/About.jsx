@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import React from "react";
 import { Link } from "react-router";
 
@@ -35,12 +36,14 @@ const About = () => {
           </ul>
 
           <div className="mt-6">
-            <Link
+            <Button>
+              <Link
               to={"/contact"}
-              className="inline-block px-6 py-3 bg-yellow-500 text-black font-medium rounded hover:bg-yellow-600 transition"
             >
               Contact Us
             </Link>
+            </Button>
+            
           </div>
         </div>
       </div>

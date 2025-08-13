@@ -94,6 +94,14 @@ const ProductDetails = () => {
 	const onSubmit = (data) => {
 		const quantity = Number(data.quantity);
 
+		if(quantity > products.mainQuantity){
+			setError("quantity", {
+				type: "manual",
+				message: `Sorry! We don't have enough quantity as you requested.`,
+			});
+			return; 
+		}
+
 		if (
 			quantity < products.minSellingQuantity ||
 			quantity > products.mainQuantity
@@ -218,9 +226,8 @@ const ProductDetails = () => {
 							<Button
 								type="submit"
 								disabled={mutation.isLoading}
-								variant="outline"
+								// variant="outline"
 								className="flex items-center justify-center gap-2 w-full"
-								onClick={() => toast.info("Add to cart not implemented yet")}
 							>
 								{mutation.isLoading ? (
 									<span className="loading loading-spinner" />
