@@ -13,7 +13,7 @@ const About = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-6">About Us</h2>
 
           <p className="text-gray-600 text-base leading-relaxed mb-4">
-            Welcome to <span className="font-semibold text-black">Nakib Wholesale</span> — your trusted B2B partner for bulk purchasing. We offer competitive pricing, reliable sourcing, and a smooth buying experience for retailers and resellers.
+            Welcome to <span className="font-semibold text-black">Wholesale</span> — your trusted B2B partner for bulk purchasing. We offer competitive pricing, reliable sourcing, and a smooth buying experience for retailers and resellers.
           </p>
 
           <p className="text-gray-600 text-base leading-relaxed mb-4">

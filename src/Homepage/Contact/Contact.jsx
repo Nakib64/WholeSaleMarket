@@ -56,15 +56,15 @@ setLoading(false)
           <div className="space-y-4 text-gray-700 text-sm">
             <div>
               <span className="font-semibold block text-gray-800">Email</span>
-              support@nakibwholesale.com
+              nafiz2282@gmail.com
             </div>
             <div>
-              <span className="font-semibold block text-gray-800">Phone</span>
-              +880 1234 567890
+              <span className="font-semibold block text-gray-800">Phone/Whatsapp</span>
+              +880 1315168075
             </div>
             <div>
               <span className="font-semibold block text-gray-800">Address</span>
-              Rajapur, Dhaka, Bangladesh
+              Pabna, Dhaka, Bangladesh
             </div>
           </div>
         </div>
