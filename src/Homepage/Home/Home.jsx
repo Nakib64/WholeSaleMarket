@@ -11,6 +11,7 @@ import { FeaturedCategories } from "./Featured";
 import { Testimonials } from "./Testimonial";
 import { Button } from "@/components/ui/button";
 import TopComments from "../Comment/Comment";
+import CardSkeleton from "@/Loading/Skeleton";
 
 const Home = () => {
 	document.title = "WholeSale Cart";
@@ -22,9 +23,10 @@ const Home = () => {
 	};
 
 	const [shoes, setShoes] = useState(null);
-  const [manClothing, setManClothing] = useState(null)
+	const [manClothing, setManClothing] = useState(null);
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
+
 	useEffect(() => {
 		const fetchData = async () => {
 			const res = await axios.get("https://b2-b-server-drab.vercel.app/products");
@@ -35,13 +37,13 @@ const Home = () => {
 
 	useEffect(() => {
 		if (data?.length > 0) {
-			setShoes(data.filter((item) => item.category === "shoes").slice(0,7));
-			setManClothing(data.filter((item) => item.category === "beauty").slice(0,7));
+			setShoes(data.filter((item) => item.category === "shoes").slice(0, 7));
+			setManClothing(
+				data.filter((item) => item.category === "beauty").slice(0, 7)
+			);
 			setLoading(false);
 		}
 	}, [data]);
-
-
 
 	return (
 		<div className=" w-full px-2">
@@ -49,45 +51,52 @@ const Home = () => {
 				<Slider></Slider>
 			</div>
 			<Features></Features>
-			<h1 className="font-bold text-2xl text-center md:text-4xl py-5" id="topCategories">
+			<h1
+				className="font-bold text-2xl text-center md:text-4xl py-5"
+				id="topCategories"
+			>
 				Top Categories
 			</h1>
 			{loading ? (
-				<Loading></Loading>
+				 <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {Array.from({ length: 8 }).map((_, index) => (
+        <CardSkeleton key={index} />
+      ))}
+    </div>
 			) : (
 				<>
-        <div className="px-2 py-3">
-          
-          <div className="flex justify-between p-3">
-            <h1 className="text-2xl  font-bold">SHOES</h1>
-              <Link to={'category/shoes'}><Button>SEE MORE</Button></Link>
-          </div>
-					<div className="grid  md:px-0 grid-cols-2 lg:grid-cols-3 sm:py-6 lg:py-3 xl:grid-cols-4 justify-between gap-4">
-						{shoes.map((product) => {
-							return <Card product={product} key={product._id}></Card>;
-						})}
+					<div className="px-2 py-3">
+						<div className="flex justify-between p-3">
+							<h1 className="text-2xl  font-bold">SHOES</h1>
+							<Link to={"category/shoes"}>
+								<Button>SEE MORE</Button>
+							</Link>
+						</div>
+						<div className="grid  md:px-0 grid-cols-2 lg:grid-cols-3 sm:py-6 lg:py-3 xl:grid-cols-4 justify-between gap-4">
+							{shoes.map((product) => {
+								return <Card product={product} key={product._id}></Card>;
+							})}
+						</div>
 					</div>
-				</div>
-        <div className="px-2 py-3">
-          
-          <div className="flex justify-between p-3">
-            <h1 className="text-2xl  font-bold">BEAUTY</h1>
-              <Link to={'category/shoes'}><Button>SEE MORE</Button></Link>
-          </div>
-					<div className="grid  md:px-0 grid-cols-2 lg:grid-cols-3 sm:py-6 lg:py-3 xl:grid-cols-4 justify-between gap-4">
-						{manClothing.map((product) => {
-							return <Card product={product} key={product._id}></Card>;
-						})}
+					<div className="px-2 py-3">
+						<div className="flex justify-between p-3">
+							<h1 className="text-2xl  font-bold">BEAUTY</h1>
+							<Link to={"category/shoes"}>
+								<Button>SEE MORE</Button>
+							</Link>
+						</div>
+						<div className="grid  md:px-0 grid-cols-2 lg:grid-cols-3 sm:py-6 lg:py-3 xl:grid-cols-4 justify-between gap-4">
+							{manClothing.map((product) => {
+								return <Card product={product} key={product._id}></Card>;
+							})}
+						</div>
 					</div>
-				</div>
-
-        </>
+				</>
 			)}
 			<FeaturedCategories></FeaturedCategories>
-						<TopComments></TopComments>
+			<TopComments></TopComments>
 			<PricingPlans></PricingPlans>
-			
-	</div>
+		</div>
 	);
 };
 

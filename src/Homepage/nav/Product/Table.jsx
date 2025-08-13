@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import React from "react";
 import { Link } from "react-router";
 
@@ -38,7 +39,7 @@ const Table = ({ product }) => {
 
 		<div className="flex items-center justify-end pr-5 md:pr-10">
 			<Link to={`/details/${_id}`}>
-				<button className="btn bg-[#c5aa6a] text-white btn-sm md:btn-md lg:btn-lg">Details</button>
+				<Button>Details</Button>
 			</Link>
 		</div>
 		

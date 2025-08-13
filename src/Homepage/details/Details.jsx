@@ -6,6 +6,7 @@ import { useParams } from "react-router";
 import Card from "../nav/Product/Card";
 import Table from "../nav/Product/Table";
 import Loading from "../../Loading/Loading";
+import CardSkeleton from "@/Loading/Skeleton";
 
 const CategoryItems = () => {
 	const { cat } = useParams();
@@ -31,7 +32,11 @@ const CategoryItems = () => {
 	};
 
     if (loading) {
-		return <Loading></Loading>;
+		return  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {Array.from({ length: 8 }).map((_, index) => (
+        <CardSkeleton key={index} />
+      ))}
+    </div>;
 	}
     if(data.length == 0){
         return (

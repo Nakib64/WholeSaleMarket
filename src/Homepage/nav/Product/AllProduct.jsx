@@ -5,6 +5,7 @@ import Card from "./Card";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import { FaTableList } from "react-icons/fa6";
 import Table from "./Table";
+import CardSkeleton from "@/Loading/Skeleton";
 
 const AllProduct = () => {
 	document.title = "All products";
@@ -22,7 +23,13 @@ const AllProduct = () => {
 	}, []);
 
 	if (isLoading) {
-		return <Loading></Loading>;
+		return (
+			<div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+				{Array.from({ length: 8 }).map((_, index) => (
+					<CardSkeleton key={index} />
+				))}
+			</div>
+		);
 	}
 
 	const handlGrid = () => {
@@ -30,21 +37,25 @@ const AllProduct = () => {
 	};
 
 	const handleFilter = async () => {
-  const newChecked = !checked; // compute the new value first
-  setChecked(newChecked);      // update state
+		const newChecked = !checked; // compute the new value first
+		setChecked(newChecked); // update state
 
-  if (newChecked) {
-    // Now the logic matches the checked state
-    const response = await axios.get("https://b2-b-server-drab.vercel.app/products", {
-      params: { minSellingQuantity: 100 },
-    });
-    setData(response.data);
-  } else {
-    const response = await axios.get("https://b2-b-server-drab.vercel.app/products");
-    setData(response.data);
-  }
-};
-
+		if (newChecked) {
+			// Now the logic matches the checked state
+			const response = await axios.get(
+				"https://b2-b-server-drab.vercel.app/products",
+				{
+					params: { minSellingQuantity: 100 },
+				}
+			);
+			setData(response.data);
+		} else {
+			const response = await axios.get(
+				"https://b2-b-server-drab.vercel.app/products"
+			);
+			setData(response.data);
+		}
+	};
 
 	return (
 		<>
@@ -53,8 +64,13 @@ const AllProduct = () => {
 					All Products {data.length}
 				</h1>
 				<div className="flex justify-between gap-5 px-3 items-center my-10 md:px-10">
-					<div className="flex gap-3 items-center" >
-						<input id="available-products" type="checkbox" className="checkbox" onClick={handleFilter} />
+					<div className="flex gap-3 items-center">
+						<input
+							id="available-products"
+							type="checkbox"
+							className="checkbox"
+							onClick={handleFilter}
+						/>
 						<label htmlFor="available-products" className="text-xl cursor-pointer">
 							Available Products
 						</label>

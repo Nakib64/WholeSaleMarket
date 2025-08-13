@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import ProductDetailsSkeleton from "@/Loading/ProductDetailsSkeleton";
 
 const productSchema = z.object({
 	quantity: z
@@ -87,7 +88,7 @@ const ProductDetails = () => {
 		},
 	});
 
-	if (isLoading) return <Loading />;
+	if (isLoading) return <ProductDetailsSkeleton></ProductDetailsSkeleton>;
 	if (isError) return <div>Error: {error.message}</div>;
 	if (!products) return <div>Product not found</div>;
 
