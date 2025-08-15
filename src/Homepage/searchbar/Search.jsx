@@ -84,7 +84,7 @@ const SearchBar = () => {
 
   return (
     <div
-      className="relative bg-white w-full flex justify-center items-center py-2"
+      className="relative  w-full flex justify-center items-center py-2"
       ref={wrapperRef}
     >
       <div className="w-full max-w-7xl flex gap-2 justify-center px-4">
@@ -99,9 +99,9 @@ const SearchBar = () => {
           onKeyDown={handleKeyDown}
           autoComplete="off"
         />
-        <Button onClick={() => navigate(`/searchedProducts/${searchedKey}`)}>
+        <button className={"rounded-full bg-blue-900 px-3 hover:bg-white hover:text-blue-900 py-1"} onClick={() => navigate(`/searchedProducts/${searchedKey}`)}>
           <BsSearch />
-        </Button>
+        </button>
       </div>
 
       {isFocused && products?.length > 0 &&

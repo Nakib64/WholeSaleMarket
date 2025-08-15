@@ -26,7 +26,7 @@ const CartIcon = () => {
 
   return (
     <Link to="/cart" className="relative inline-block text-black">
-      <FaOpencart size={35} />
+      <FaOpencart size={35} className="text-white"/>
       {!isLoading && orderCount > 0 && (
         <span className="absolute -top-1 -right-2 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center pointer-events-none select-none">
           {orderCount}

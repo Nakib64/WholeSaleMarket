@@ -25,7 +25,7 @@ const Homepage = () => {
       {/* Sticky header (Nav + Search) */}
       <div ref={headerRef} className="sticky top-0 z-10">
         <Nav />	
-        <div className="md:hidden">
+        <div className="md:hidden ">
           <SearchBar />
         </div>
       </div>
