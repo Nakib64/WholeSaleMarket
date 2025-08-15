@@ -1,32 +1,40 @@
+
 import { Button } from "@/components/ui/button";
-import React from "react";
 import { Link } from "react-router";
+import { FaStar, FaRegStar } from "react-icons/fa";
 
 const Card = ({ product }) => {
 	const { image, name, brand, price, rating, _id } = product;
 
+	// Generate stars based on rating
+	const renderStars = (rating) => {
+		return Array.from({ length: 5 }, (_, i) =>
+			i < rating ? (
+				<FaStar key={i} className="text-yellow-400 text-sm" />
+			) : (
+				<FaRegStar key={i} className="text-gray-300 text-sm" />
+			)
+		);
+	};
+
 	return (
-		<div
-			className="w-full bg-white border border-gray-200 rounded-lg shadow-sm transition-transform duration-300 ease-in-out hover:scale-[1.02]
-			grid grid-rows-[auto_1fr_auto]
-			h-auto sm:h-[450px] md:h-[420px] lg:h-[400px]"
-		>
+		<div className="w-full bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden transition-transform duration-300 hover:scale-[1.02]">
 			{/* Image */}
-			<div className="p-3">
+			<div className="h-40 sm:h-46 md:h-54 flex items-center justify-center bg-gray-50">
 				<img
-					className="rounded-lg w-full h-44 sm:h-48 md:h-52 object-cover"
+					className="w-full h-full object-contain p-2"
 					src={image}
 					onError={(e) => {
 						e.target.onerror = null;
 						e.target.src =
 							"https://i.ibb.co/tpFRRSSV/depositphotos-531920820-stock-illustration-photo-available-vector-icon-default.webp";
 					}}
-					alt="product image"
+					alt={name}
 				/>
 			</div>
 
-			{/* Product Info */}
-			<div className="px-5 overflow-hidden">
+			{/* Content */}
+			<div className="p-2 flex flex-col gap-2">
 				<h5
 					className="text-lg font-semibold text-gray-800 truncate"
 					title={name}
@@ -36,23 +44,20 @@ const Card = ({ product }) => {
 				<p className="text-sm text-gray-500">
 					Brand: <span className="italic">{brand}</span>
 				</p>
-				<div className="flex items-center mt-2">
-					<span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-						Rating: {rating}
-					</span>
-				</div>
-			</div>
+				<div className="flex items-center gap-1">{renderStars(rating)}</div>
 
-			{/* Price + Button */}
-			<div className="px-5 pb-5 mt-auto flex items-center justify-between">
-				<span className="text-xl md:text-2xl font-bold text-[#8dc63f]">
-					${price}
-				</span>
-				<Link to={`/details/${_id}`}>
-					<Button>
-						Details
-					</Button>
-				</Link>
+				{/* Price + Button */}
+				<div className=" flex items-center justify-between">
+					<span className="text-xl font-bold text-[#8dc63f]">
+						${price}
+					</span>
+					
+				</div>
+				<div className="p-2">
+					<Link to={`/details/${_id}`}>
+						<Button className={'w-full'}>Details</Button>
+					</Link>
+				</div>
 			</div>
 		</div>
 	);

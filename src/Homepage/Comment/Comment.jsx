@@ -57,7 +57,7 @@ export default function TopComments() {
   if (isError) return <p className="text-center text-red-500">Failed to load comments.</p>;
 
   return (
-    <div className="w-full px-4 py-10 bg-gray-50 flex flex-col gap-10" id="review">
+    <div className="w-full px-4 py-10 bg-white flex flex-col gap-10" id="review">
       <div className="max-w-5xl mx-auto w-full">
         <h2 className="text-3xl md:text-4xl text-center font-extrabold text-gray-800">
           What Our Clients Say!

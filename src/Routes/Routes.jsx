@@ -19,6 +19,7 @@ import Cart from '../Homepage/Cart/Cart';
 import About from '../Homepage/About/About';
 import Contact from '../Homepage/Contact/Contact';
 import SearchedProducts from '@/Homepage/searchProduct/SearchedProducts';
+import PricingPlans from '@/Homepage/Home/Pricing';
 
 
 
@@ -46,6 +47,10 @@ const Routes = createBrowserRouter([
             {
                 path: '/allProduct',
                 element: <AllProduct></AllProduct>
+            },
+            {
+                path: '/pricing',
+                Component: PricingPlans
             },
             {
                 path: '/searchedProducts/:searchedKey',

@@ -12,9 +12,9 @@ const categories = [
 
 export function FeaturedCategories() {
   return (
-    <section className="py-16 max-w-6xl mx-auto">
+    <section className="w-full mx-auto bg-white px-2 py-8">
       <h2 className="text-3xl font-bold text-center mb-10">Featured Categories</h2>
-      <div className="grid md:grid-cols-3 gap-8">
+      <div className="grid md:grid-cols-3 gap-2">
         {categories.map((cat, idx) => (
           <motion.div
             key={idx}
@@ -23,7 +23,7 @@ export function FeaturedCategories() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: idx * 0.2 }}
           >
-            <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer border-none">
+            <Card className="hover:shadow-lg hover:scale-101 transition-all cursor-pointer border-none">
               <CardHeader className="flex flex-col items-center">
                 {cat.icon}
                 <CardTitle>{cat.title}</CardTitle>

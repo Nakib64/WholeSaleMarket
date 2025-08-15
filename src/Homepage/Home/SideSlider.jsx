@@ -16,31 +16,28 @@ import { Button } from "@/components/ui/button";
 
 const slides = [
 	{
-		img: "https://wholesalecart.com/static/media/process.56f6fb77.jpg",
+		img: "https://wholesalecart.com/static/media/offer_card_3.57b8457f.png",
 	},
 	{
-		img: "https://wholesalecart.com/static/media/reg_bonus_offer.577cc582.jpg",
+		img: "https://wholesalecart.com/static/media/offer_card_2.00a962d8.jpg",
 	},
-	{
-		img: "https://wholesalecart.com/static/media/why_wsc.c2e0ceb0.jpg",
-	},
-];
+]
 
-const Slider = () => {
+const SideSlider = () => {
 	return (
 		<Swiper
 			modules={[Navigation, Pagination, A11y, EffectCoverflow, Autoplay]}
 			grabCursor
 			loop
 			slidesPerView="auto"
-			navigation
-			pagination={{ clickable: true }}
-			autoplay={{ delay: 3000 }}
-			className="w-full 2xl:max-w-4xl mx-auto m-0 p-0"
+			 direction={'vertical'}
+
+			autoplay={{ delay: 1000 }}
+			className="h-90 w-xs mx-auto"
 		>
 			{slides.map((slide, idx) => (
 				<SwiperSlide key={idx} className="">
-					<div className="relative w-full rounded-2xl overflow-hidden shadow-lg">
+					<div className="relative h-full w-auto  overflow-hidden shadow-lg">
 						{/* Background Image */}
 						<img src={slide.img} className="w-full h-full object-cover" />
 					</div>
@@ -50,4 +47,4 @@ const Slider = () => {
 	);
 };
 
-export default Slider;
+export default SideSlider;

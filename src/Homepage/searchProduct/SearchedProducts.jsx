@@ -6,6 +6,7 @@ import { FaTableList } from "react-icons/fa6";
 import { useParams } from "react-router";
 import Card from "../nav/Product/Card";
 import Table from "../nav/Product/Table";
+import CardSkeleton from "@/Loading/Skeleton";
 const SearchedProducts = () => {
 	document.title = "Searched products";
 
@@ -13,23 +14,30 @@ const SearchedProducts = () => {
 	const [isLoading, setLoading] = useState(true);
 	const [isGrid, setIsGrid] = useState(true);
 	const [checked, setChecked] = useState(false);
-    const param = useParams()
-    console.log(param.searchedKey);
+	const param = useParams();
+	console.log(param.searchedKey);
 
 	useEffect(() => {
-		axios.get("https://b2-b-server-drab.vercel.app/search", {
-                params:{
-                    searchedKey: param.searchedKey
-                }
-            
-        }).then((res) => {
-			setData(res.data);
-			setLoading(false);
-		});
+		axios
+			.get("https://b2-b-server-drab.vercel.app/search", {
+				params: {
+					searchedKey: param.searchedKey,
+				},
+			})
+			.then((res) => {
+				setData(res.data);
+				setLoading(false);
+			});
 	}, [param]);
 
 	if (isLoading) {
-		return <Loading></Loading>;
+		return (
+			<div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+				{Array.from({ length: 8 }).map((_, idx) => (
+					<CardSkeleton key={idx} />
+				))}
+			</div>
+		);
 	}
 
 	const handlGrid = () => {
@@ -37,21 +45,25 @@ const SearchedProducts = () => {
 	};
 
 	const handleFilter = async () => {
-  const newChecked = !checked; // compute the new value first
-  setChecked(newChecked);      // update state
+		const newChecked = !checked; // compute the new value first
+		setChecked(newChecked); // update state
 
-  if (newChecked) {
-    // Now the logic matches the checked state
-    const response = await axios.get("https://b2-b-server-drab.vercel.app/search", {
-      params: { minSellingQuantity: 100 },
-    });
-    setData(response.data);
-  } else {
-    const response = await axios.get("https://b2-b-server-drab.vercel.app/search");
-    setData(response.data);
-  }
-};
-
+		if (newChecked) {
+			// Now the logic matches the checked state
+			const response = await axios.get(
+				"https://b2-b-server-drab.vercel.app/search",
+				{
+					params: { minSellingQuantity: 100 },
+				}
+			);
+			setData(response.data);
+		} else {
+			const response = await axios.get(
+				"https://b2-b-server-drab.vercel.app/search"
+			);
+			setData(response.data);
+		}
+	};
 
 	return (
 		<>
@@ -60,8 +72,13 @@ const SearchedProducts = () => {
 					All Products {data.length}
 				</h1>
 				<div className="flex justify-between gap-5 px-3 items-center my-10 md:px-10">
-					<div className="flex gap-3 items-center" >
-						<input id="available-products" type="checkbox" className="checkbox" onClick={handleFilter} />
+					<div className="flex gap-3 items-center">
+						<input
+							id="available-products"
+							type="checkbox"
+							className="checkbox"
+							onClick={handleFilter}
+						/>
 						<label htmlFor="available-products" className="text-xl cursor-pointer">
 							Available Products
 						</label>

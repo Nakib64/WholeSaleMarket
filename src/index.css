@@ -5,7 +5,7 @@
 @plugin "daisyui";
 
 .active{
-    border-bottom: 3px solid white;
+    border-bottom: 3px solid rgb(0, 0, 85);
 }
 .pacifico-regular {
   font-family: "Pacifico", cursive;

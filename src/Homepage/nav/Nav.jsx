@@ -13,6 +13,7 @@ import {
 	MenubarItem,
 } from "@/components/ui/menubar";
 import { motion, AnimatePresence } from "framer-motion";
+import SearchBar from "../searchbar/Search";
 
 const Nav = () => {
 	const { user } = useContext(AuthContext);
@@ -26,7 +27,7 @@ const Nav = () => {
 	];
 
 	return (
-		<nav className="sticky top-0 z-50 bg-[#aad6ec] text-white shadow">
+		<nav className=" bg-white text-blue-900 shadow">
 			{/* Desktop Navbar (unchanged) */}
 			<div className="navbar px-4 md:px-8 shadow md:flex">
 				<div className="navbar-start">
@@ -38,21 +39,26 @@ const Nav = () => {
 				</div>
 
 				{/* Desktop links */}
-				<div className="navbar-center hidden md:flex">
+				{/* <div className="navbar-center hidden md:flex">
 					<ul className="menu menu-horizontal gap-6">
 						{navLinks.map((link) => (
 							<li key={link.to}>
 								<NavLink
 									to={link.to}
-									className="rounded-none font-medium hover:text-gray-200"
+									className="rounded-none font-medium  hover:text-blue-900"
 								>
 									{link.label}
 								</NavLink>
 							</li>
 						))}
 					</ul>
-				</div>
+				</div> */}
 
+				
+				<div className="hidden md:flex w-full">
+					<SearchBar></SearchBar>
+				</div>
+						
 				{/* Right side */}
 				<div className="navbar-end flex items-center gap-5">
 					<CartIcon />
@@ -68,17 +74,17 @@ const Nav = () => {
 					)}
 
 					{/* Mobile Hamburger */}
-					<button
+					{/* <button
 						className="md:hidden p-2 rounded-md hover:bg-gray-100 ml-2"
 						onClick={() => setMobileOpen(!mobileOpen)}
 					>
 						{mobileOpen ? <X size={24} /> : <Menu size={24} />}
-					</button>
+					</button> */}
 				</div>
 			</div>
 
 			{/* Mobile Menubar */}
-			<AnimatePresence>
+			{/* <AnimatePresence>
 				{mobileOpen && (
 					<motion.div
 						initial={{ height: 0, opacity: 0 }}
@@ -106,18 +112,11 @@ const Nav = () => {
 									<MenubarContent />
 								</MenubarMenu>
 							))}
-							{/* <div className="flex items-center gap-3 px-4 py-3">
-                <CartIcon />
-                {user ? <HoverDropdown /> : (
-                  <Link to="/login" className="p-2 rounded-full hover:bg-gray-100 transition-all">
-                    <CiUser size={24} className="text-gray-700" />
-                  </Link>
-                )}
-              </div> */}
+		
 						</Menubar>
 					</motion.div>
 				)}
-			</AnimatePresence>
+			</AnimatePresence> */}
 		</nav>
 	);
 };

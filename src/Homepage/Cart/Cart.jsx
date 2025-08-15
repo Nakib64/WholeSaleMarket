@@ -36,7 +36,7 @@ const Cart = () => {
 
 
 
-  
+  console.log(orders);
 
   if (isLoading) return <Loading />;
 
@@ -144,7 +144,7 @@ const Cart = () => {
             {/* Product info */}
             <div className="flex-1 text-left  md:text-left">
               <p className="mt-1 text-gray-700">
-                <span className="font-semibold">{product.productName}</span>
+                <span className="font-semibold">{product.productsName}</span>
               </p>
               <p className="mt-1 text-gray-700">
                 Quantity: <span className="font-semibold">{product.quantity}</span>
