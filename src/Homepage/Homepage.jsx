@@ -47,6 +47,7 @@ const Homepage = () => {
           <div className="flex-1">
             <Outlet />
           </div>
+          
           <Footer />
         </div>
       </main>

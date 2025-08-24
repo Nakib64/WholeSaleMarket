@@ -6,6 +6,8 @@ import { AuthContext } from "../../AuthContext/AuthContext";
 import HoverDropdown from "./HoverDropdown";
 import CartIcon from "./CartIcon";
 import SearchBar from "../searchbar/Search";
+import CategoryMenu from "../Category";
+import CategoryDrawer from "./CategoryMenu";
 
 const Nav = () => {
 	const { user } = useContext(AuthContext);
@@ -22,11 +24,15 @@ const Nav = () => {
 			{/* Desktop Navbar (unchanged) */}
 			<div className="navbar px-4 md:px-8 shadow md:flex">
 				<div className="navbar-start">
-					<Link to="/" className="flex items-center">
+					<div className="flex gap-3">
+						<CategoryDrawer></CategoryDrawer>
+						<Link to="/" className="flex items-center">
 						<h1 className="text-lg md:text-4xl font-extrabold text-white">
 							Whole<span>sale</span>
 						</h1>
 					</Link>
+					</div>
+					
 				</div>
 
 		

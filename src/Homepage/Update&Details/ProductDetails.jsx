@@ -63,30 +63,43 @@ const ProductDetails = () => {
 	});
 
 	const mutation = useMutation({
-		mutationFn: (orderData) =>
-			axios
-				.post("https://b2-b-server-drab.vercel.app/allOrders", orderData)
-				.then(() =>
-					axios.put(`https://b2-b-server-drab.vercel.app/product/${id}`, {
-						quan: orderData.quantity,
-						dec: true,
-					})
-				),
+  mutationFn: async (orderData) => {
+    if (!(user && user.email)) {
+      navigate("/login");
+      return; // stop execution
+    }
 
-		onSuccess: () => {
-			toast.success("Ordered Successfully!", {
-				position: "top-right",
-				autoClose: 2000,
-				theme: "light",
-				transition: Bounce,
-			});
-			queryClient.invalidateQueries(["products"]); // refetch products list
-			navigate("/");
-		},
-		onError: () => {
-			toast.error("Something went wrong!");
-		},
-	});
+    // POST order and update product quantity
+    await axios.post(
+      "https://b2-b-server-drab.vercel.app/allOrders",
+      orderData
+    );
+
+    await axios.put(
+      `https://b2-b-server-drab.vercel.app/product/${id}`,
+      {
+        quan: orderData.quantity,
+        dec: true,
+      }
+    );
+  },
+
+  onSuccess: () => {
+    toast.success("Ordered Successfully!", {
+      position: "top-right",
+      autoClose: 2000,
+      theme: "light",
+      transition: Bounce,
+    });
+    queryClient.invalidateQueries(["products"]); // refetch products list
+    navigate("/");
+  },
+
+  onError: () => {
+    toast.error("Something went wrong!");
+  },
+});
+
 
 	if (isLoading) return <ProductDetailsSkeleton></ProductDetailsSkeleton>;
 	if (isError) return <div>Error: {error.message}</div>;

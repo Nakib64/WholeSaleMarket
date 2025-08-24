@@ -12,115 +12,135 @@ import { Link } from "react-router";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
+import {
+	FaShoePrints,
+	FaShoppingBag,
+	FaGem,
+	FaPumpSoap,
+	FaTshirt,
+	FaFemale,
+	FaBaby,
+	FaGlasses,
+	FaSnowflake,
+	FaMobileAlt,
+} from "react-icons/fa";
+import About from "../About/About";
+
+
+const categories = [
+	{ name: "Shoes", slug: "shoes", icon: <FaShoePrints /> },
+	{ name: "Bags", slug: "bags", icon: <FaShoppingBag /> },
+	{ name: "Jewelry", slug: "jewelry", icon: <FaGem /> },
+	{ name: "Beauty and Personal Care", slug: "beauty", icon: <FaPumpSoap /> },
+	{ name: "Men’s Clothing", slug: "mens-clothing", icon: <FaTshirt /> },
+	{ name: "Women’s Clothing", slug: "womens-clothing", icon: <FaFemale /> },
+	{ name: "Baby Items", slug: "baby-items", icon: <FaBaby /> },
+	{ name: "Eyewear", slug: "eyewear", icon: <FaGlasses /> },
+	{ name: "Seasonal Products", slug: "seasonal", icon: <FaSnowflake /> },
+
+];
 
 const Home = () => {
-  document.title = "WholeSale Cart";
+	document.title = "WholeSale Cart";
 
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+	const [data, setData] = useState([]);
+	const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get("https://b2-b-server-drab.vercel.app/products");
-        setData(res.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const res = await axios.get("https://b2-b-server-drab.vercel.app/products");
+				setData(res.data);
+			} catch (err) {
+				console.error(err);
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetchData();
+	}, []);
 
-  const getCategoryProducts = (category, limit = 7) =>
-    data.filter((item) => item.category === category).slice(0, limit);
+	const getCategoryProducts = (category, limit = 7) =>
+		data.filter((item) => item.category === category).slice(0, limit);
 
-  return (
-    <div className="w-full bg-gray-100 px-2 space-y-4">
-      {/* Main Slider + SideSlider */}
-      <div className="w-full flex gap-0 relative">
-        <div className="flex-1">
-          <Slider />
-        </div>
-        <div className="hidden 2xl:block w-80">
-          <SideSlider />
-        </div>
-      </div>
+	return (
+		<div className="w-full bg-gray-100 px-2 space-y-4">
+			{/* Main Slider + SideSlider */}
+			<div className="w-full flex gap-0 relative">
+				<div className="flex-1">
+					<Slider />
+				</div>
+				<div className="hidden 2xl:block w-80">
+					<SideSlider />
+				</div>
+			</div>
 
-      <Features />
+			<Features />
 
-     
-
-      {/* SHOES Section */}
-      <CategorySection
-        title="SHOES"
-        products={getCategoryProducts("shoes")}
-        link="category/shoes"
-        loading={loading}
-        slidesPerView={5}
-      />
-
-      {/* BEAUTY Section */}
-      <CategorySection
-        title="BEAUTY"
-        products={getCategoryProducts("beauty")}
-        link="category/beauty"
-        loading={loading}
-        slidesPerView={5}
-      />
-
-      <FeaturedCategories />
-      <TopComments />
-    </div>
-  );
+			{/* Dynamically render all categories */}
+			{categories.map((cat) => (
+				<CategorySection
+					key={cat.slug}
+					title={cat.name.toUpperCase()}
+					products={getCategoryProducts(cat.slug)}
+					link={`category/${cat.slug}`}
+					loading={loading}
+				/>
+			))}
+			<About></About>
+			<FeaturedCategories />
+			<TopComments />
+		</div>
+	);
 };
 
-// Component for a horizontal sliding category
-const CategorySection = ({ title, products, link, loading, slidesPerView }) => {
-  return (
-    <div className="py-3 bg-white px-2">
-      <div className="flex justify-between items-center mb-3">
-        <h1 className="text-2xl font-bold">{title}</h1>
-        <Link to={link}>
-          <Button>SEE MORE</Button>
-        </Link>
-      </div>
+// Horizontal slider component
+const CategorySection = ({ title, products, link, loading }) => {
+  if(!products){
+    return ;
+  }
+	return (
+		<div className="py-3 bg-white px-2">
+			<div className="flex justify-between items-center mb-3">
+				<h1 className="text-2xl font-bold">{title}</h1>
+				<Link to={link}>
+					<Button>SEE MORE</Button>
+				</Link>
+			</div>
 
-      {loading ? (
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-          {Array.from({ length: 8 }).map((_, idx) => (
-            <CardSkeleton key={idx} />
-          ))}
-        </div>
-      ) : (
-        <Swiper
-          modules={[Autoplay]}
-          slidesPerView={slidesPerView}
-          spaceBetween={10}
-          loop
-          autoplay={{
-            delay: 0,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
-          speed={3000}
-          breakpoints={{
-            320: { slidesPerView: 2 },
-            768: { slidesPerView: Math.min(3, slidesPerView) },
-            1024: { slidesPerView: Math.min(4, slidesPerView) },
-            1280: { slidesPerView: slidesPerView },
-          }}
-        >
-          {products.map((product) => (
-            <SwiperSlide key={product._id}>
-              <Card product={product} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      )}
-    </div>
-  );
+			{loading ? (
+				<div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+					{Array.from({ length: 8 }).map((_, idx) => (
+						<CardSkeleton key={idx} />
+					))}
+				</div>
+			) : (
+				<Swiper
+					modules={[Autoplay]}
+					spaceBetween={10}
+					loop
+					autoplay={{
+						delay: 0,
+						disableOnInteraction: false,
+						pauseOnMouseEnter: true,
+					}}
+					speed={3000}
+					breakpoints={{
+						320: { slidesPerView: 2 },
+						768: { slidesPerView: 3 },
+						1024: { slidesPerView: 4 },
+						1280: { slidesPerView: 5},
+					}}
+				>
+					{products.map((product) => (
+						<SwiperSlide key={product._id}>
+							<Card product={product} />
+						</SwiperSlide>
+					))}
+				</Swiper>
+			)}
+		</div>
+	);
 };
 
 export default Home;

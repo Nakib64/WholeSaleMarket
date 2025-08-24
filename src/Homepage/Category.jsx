@@ -16,7 +16,6 @@ const categories = [
   { name: 'Baby Items', slug: 'baby-items', icon: <FaBaby /> },
   { name: 'Eyewear', slug: 'eyewear', icon: <FaGlasses /> },
   { name: 'Seasonal Products', slug: 'seasonal', icon: <FaSnowflake /> },
-  { name: 'Phone accessories', slug: 'phone-accessories', icon: <FaMobileAlt /> },
 ];
 
 const CategoryMenu = () => {

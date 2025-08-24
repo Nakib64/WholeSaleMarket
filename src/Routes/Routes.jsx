@@ -20,6 +20,9 @@ import About from '../Homepage/About/About';
 import Contact from '../Homepage/Contact/Contact';
 import SearchedProducts from '@/Homepage/searchProduct/SearchedProducts';
 import PricingPlans from '@/Homepage/Home/Pricing';
+import DashboardLayout from '@/dashboard/DashboardLayout';
+import Products from '@/dashboard/Products';
+import Overview from '@/dashboard/Overview';
 
 
 
@@ -87,6 +90,24 @@ const Routes = createBrowserRouter([
             {
                 path: '/contact',
                Component: Contact
+            }
+        ]
+    },
+    {
+        path: '/dashboard',
+        element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+        children: [
+            {
+                index: true,
+                Component: Overview
+            },
+            {
+                path: '/dashboard/products',
+                Component:Products
+            },
+            {
+                path: '/dashboard/products/:id',
+                Component: '/dashboard/products/:id/edit'
             }
         ]
     },
