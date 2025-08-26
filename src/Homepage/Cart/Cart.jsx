@@ -11,10 +11,12 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
 import BuyModal from "./Modal"; // import the modal component
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import OrdersTable from "./PlacedOrdrs";
 
 const Cart = () => {
+  const queryClient = useQueryClient();
+
   const { user, loading } = useContext(AuthContext);
   const [deletingId, setDeletingId] = useState(false);
   // const [checkout, setCheckOUt] = useState(false);
@@ -36,7 +38,6 @@ const Cart = () => {
 
 
 
-  console.log(orders);
 
   if (isLoading) return <Loading />;
 
@@ -52,6 +53,8 @@ const Cart = () => {
       await axios.delete(
         `https://b2-b-server-drab.vercel.app/allOrders/${product._id}`
       );
+      queryClient.invalidateQueries(["productId"]);  // ✅ auto refresh
+
       toast("Deleted Successfully!", {
         position: "top-right",
         autoClose: 2000,
@@ -85,52 +88,14 @@ const Cart = () => {
     });
   };
 
-  const handleCheckoutAll = async () => {
-    setDeletingId(true);
-    try {
-      toast.success("Checked out all products successfully!", {
-        position: "top-right",
-        autoClose: 2000,
-        theme: "light",
-        transition: Bounce,
-      });
-      setData([]);
-    } catch {
-      toast.error("Checkout failed!");
-    } finally {
-      setDeletingId(false);
-    }
-  };
+ 
 
   return (
     <div className="max-w-7xl mx-auto p-4 space-y-10  ">
       <h1 className="text-3xl font-semibold text-center mb-8">
         Your Cart ({orders.length} items)
       </h1>
-      {/* Checkout All */}
-      {/* {data.length > 0 && (
-        <motion.div
-          whileTap={{ scale: 0.95 }}
-          className="mt-10 text-center flex justify-end my-6"
-        >
-          <Button
-            size="lg"
-            className="flex items-center justify-end gap-2 px-6"
-            onClick={() => setCheckOUt(true)}
-            disabled={checkout}
-          >
-            {checkout ? (
-              <span className="loading loading-spinner" />
-            ) : (
-              <>
-                <ShoppingCart className="w-5 h-5" />
-                Checkout All
-              </>
-            )}
-          </Button>
-        </motion.div>
-      )} */}
-
+     
       <div className="flex flex-col gap-4 max-w-3xl mx-auto">
         {orders?.length === 0 && (
           <p className="text-center text-gray-500">Your cart is empty.</p>

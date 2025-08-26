@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, useLocation } from "react-router";
 import Loading from "../../Loading/Loading";
 import { Bounce, toast } from "react-toastify";
 import { AuthContext } from "../../AuthContext/AuthContext";
@@ -31,7 +31,7 @@ const ProductDetails = () => {
 	const { user } = useContext(AuthContext);
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
-
+	const location = useLocation();
 	// Fetch all products and then find product by id
 	const {
 		data: products,
@@ -48,7 +48,6 @@ const ProductDetails = () => {
 		},
 	});
 
-	
 	const {
 		register,
 		handleSubmit,
@@ -63,43 +62,36 @@ const ProductDetails = () => {
 	});
 
 	const mutation = useMutation({
-  mutationFn: async (orderData) => {
-    if (!(user && user.email)) {
-      navigate("/login");
-      return; // stop execution
-    }
+		mutationFn: async (orderData) => {
+			if (!(user && user.email)) {
+				navigate("/login");
+				return; // stop execution
+			}
 
-    // POST order and update product quantity
-    await axios.post(
-      "https://b2-b-server-drab.vercel.app/allOrders",
-      orderData
-    );
+			// POST order and update product quantity
+			await axios.post("https://b2-b-server-drab.vercel.app/allOrders", orderData);
 
-    await axios.put(
-      `https://b2-b-server-drab.vercel.app/product/${id}`,
-      {
-        quan: orderData.quantity,
-        dec: true,
-      }
-    );
-  },
+			await axios.put(`https://b2-b-server-drab.vercel.app/product/${id}`, {
+				quan: orderData.quantity,
+				dec: true,
+			});
+		},
 
-  onSuccess: () => {
-    toast.success("Ordered Successfully!", {
-      position: "top-right",
-      autoClose: 2000,
-      theme: "light",
-      transition: Bounce,
-    });
-    queryClient.invalidateQueries(["products"]); // refetch products list
-    navigate("/");
-  },
+		onSuccess: () => {
+			toast.success("Ordered Successfully!", {
+				position: "top-right",
+				autoClose: 2000,
+				theme: "light",
+				transition: Bounce,
+			});
+			queryClient.invalidateQueries(["products"]); // refetch products list
+			navigate("/");
+		},
 
-  onError: () => {
-    toast.error("Something went wrong!");
-  },
-});
-
+		onError: () => {
+			toast.error("Something went wrong!");
+		},
+	});
 
 	if (isLoading) return <ProductDetailsSkeleton></ProductDetailsSkeleton>;
 	if (isError) return <div>Error: {error.message}</div>;
@@ -108,12 +100,12 @@ const ProductDetails = () => {
 	const onSubmit = (data) => {
 		const quantity = Number(data.quantity);
 
-		if(quantity > products.mainQuantity){
+		if (quantity > products.mainQuantity) {
 			setError("quantity", {
 				type: "manual",
 				message: `Sorry! We don't have enough quantity as you requested.`,
 			});
-			return; 
+			return;
 		}
 
 		if (
@@ -142,7 +134,11 @@ const ProductDetails = () => {
 
 	const readOnlyFields = [
 		{ label: "products Name", value: products.name, name: "name" },
-		{ label: "Main Quantity", value: products.mainQuantity, name: "mainQuantity" },
+		{
+			label: "Main Quantity",
+			value: products.mainQuantity,
+			name: "mainQuantity",
+		},
 		{
 			label: "Min Buy Quantity",
 			value: products.minSellingQuantity,
@@ -213,49 +209,52 @@ const ProductDetails = () => {
 						))}
 
 						<div className="flex flex-col">
-							<label htmlFor="quantity" className="mb-1 font-medium text-gray-700">
-								Buying Quantity
-							</label>
-							<Input
-								id="quantity"
-								type="number"
-								min={products.minSellingQuantity}
-								max={products.mainQuantity}
-								placeholder={`Min: ${products.minSellingQuantity}`}
-								{...register("quantity", { valueAsNumber: true })}
-								className={
-									errors.quantity
-										? "border-red-500 focus:border-red-500 focus:ring-red-500"
-										: ""
-								}
-							/>
-							{errors.quantity && (
-								<p className="mt-1 text-sm text-red-600">{errors.quantity.message}</p>
+							{!location.pathname.includes("dashboard") && (
+								<>
+									<label htmlFor="quantity" className="mb-1 font-medium text-gray-700">
+										Buying Quantity
+									</label>
+									<Input
+										id="quantity"
+										type="number"
+										min={products.minSellingQuantity}
+										max={products.mainQuantity}
+										placeholder={`Min: ${products.minSellingQuantity}`}
+										{...register("quantity", { valueAsNumber: true })}
+										className={
+											errors.quantity
+												? "border-red-500 focus:border-red-500 focus:ring-red-500"
+												: ""
+										}
+									/>
+									{errors.quantity && (
+										<p className="mt-1 text-sm text-red-600">{errors.quantity.message}</p>
+									)}
+								</>
 							)}
 						</div>
 					</div>
-
-					<div className="flex flex-col md:flex-row gap-4">
-						<motion.div whileTap={{ scale: 0.95 }} className="flex-1">
-							<Button
-								type="submit"
-								disabled={mutation.isLoading}
-								// variant="outline"
-								className="flex items-center justify-center gap-2 w-full"
-							>
-								{mutation.isLoading ? (
-									<span className="loading loading-spinner" />
-								) : (
-									<>
-										<ShoppingCart className="w-5 h-5" />
-										Add to Cart
-									</>
-								)}
-							</Button>
-						</motion.div>
-
-						
-					</div>
+					{!location.pathname.includes("dashboard") && (
+						<div className="flex flex-col md:flex-row gap-4">
+							<motion.div whileTap={{ scale: 0.95 }} className="flex-1">
+								<Button
+									type="submit"
+									disabled={mutation.isLoading}
+									// variant="outline"
+									className="flex items-center justify-center gap-2 w-full"
+								>
+									{mutation.isLoading ? (
+										<span className="loading loading-spinner" />
+									) : (
+										<>
+											<ShoppingCart className="w-5 h-5" />
+											Add to Cart
+										</>
+									)}
+								</Button>
+							</motion.div>
+						</div>
+					)}
 				</form>
 			</div>
 		</div>

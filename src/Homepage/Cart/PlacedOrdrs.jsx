@@ -12,7 +12,7 @@ export default function OrdersTable() {
       const {data: placedOrders, isLoading: place} = useQuery({
     queryKey:['status'],
     queryFn:async()=>{
-     const result = await axios.get('https://b2-b-server-drab.vercel.app/placedOrder', {params:{email : user?.email}})
+     const result = await axios.get('https://b2-b-server-drab.vercel.app/placedOrders', {params:{email : user?.email}})
       return result.data
     }
   })
@@ -23,7 +23,6 @@ export default function OrdersTable() {
       </p>
     );
   }
-  console.log(placedOrders);
 
   return (
     <div className="overflow-x-auto">

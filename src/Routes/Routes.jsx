@@ -23,6 +23,8 @@ import PricingPlans from '@/Homepage/Home/Pricing';
 import DashboardLayout from '@/dashboard/DashboardLayout';
 import Products from '@/dashboard/Products';
 import Overview from '@/dashboard/Overview';
+import { zhCN } from 'zod/v4/locales';
+import OrdersTable from '@/dashboard/Orders';
 
 
 
@@ -59,10 +61,7 @@ const Routes = createBrowserRouter([
                 path: '/searchedProducts/:searchedKey',
                 Component: SearchedProducts
             },
-            {
-                path: '/addProduct',
-                element: <PrivateRoute><AddProduct></AddProduct></PrivateRoute>
-            },
+            
             {
                 path: '/myProduct',
                 element: <PrivateRoute><MyProduct></MyProduct></PrivateRoute>
@@ -71,10 +70,7 @@ const Routes = createBrowserRouter([
                 path: '/category/:cat',
                 element: <CategoryItems></CategoryItems>
             },
-            {
-                path: '/update/:id',
-                element: <PrivateRoute><Update></Update></PrivateRoute>
-            },
+         
             {
                 path: '/details/:id',
                 element: <ProductDetails></ProductDetails>
@@ -102,12 +98,28 @@ const Routes = createBrowserRouter([
                 Component: Overview
             },
             {
+                path: '/dashboard/addProduct',
+                element: <PrivateRoute><AddProduct></AddProduct></PrivateRoute>
+            },
+            {
+                path: '/dashboard/orders',
+                Component: OrdersTable
+            },
+            {
                 path: '/dashboard/products',
                 Component:Products
             },
             {
                 path: '/dashboard/products/:id',
-                Component: '/dashboard/products/:id/edit'
+                Component: ProductDetails
+            },
+            {
+                path: '/dashboard/details/:id',
+                element: <ProductDetails></ProductDetails>
+            },
+               {
+                path: '/dashboard/update/:id',
+                element: <PrivateRoute><Update></Update></PrivateRoute>
             }
         ]
     },
