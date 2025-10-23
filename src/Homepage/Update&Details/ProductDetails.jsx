@@ -59,7 +59,7 @@ const ProductDetails = () => {
 	const mutation = useMutation({
 		mutationFn: async (orderData) => {
 			if (!user?.email) {
-				navigate("/login");
+				navigate("/auth/login");
 				return;
 			}
 			await axios.post("https://b2-b-server-drab.vercel.app/allOrders", orderData);

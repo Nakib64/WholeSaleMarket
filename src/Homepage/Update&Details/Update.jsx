@@ -1,227 +1,178 @@
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { AuthContext } from "../../AuthContext/AuthContext";
 import Loading from "../../Loading/Loading";
-import { Bounce, toast } from "react-toastify";
+import { toast, Bounce } from "react-toastify";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
-import { AuthContext } from "../../AuthContext/AuthContext";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+
+const IMGBB_API_KEY = import.meta.env.VITE_IMGBB_KEY;
 
 const Update = () => {
-	const { id } = useParams();
-	const [product, setProduct] = useState(null);
-	const [loading, setLoading] = useState(true);
-	const {user} = useContext(AuthContext)
-        const [value, setValue] = useState(0)
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
-        const navigate = useNavigate()
-	useEffect(() => {
-		axios.get("https://b2-b-server-drab.vercel.app/products").then((res) => {
-			const found = res.data.find((item) => item._id == id);
-			setProduct(found);
-			setLoading(false);
-		});
-	}, [id]);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [value, setValue] = useState(0); // rating
+  const [imageUrl, setImageUrl] = useState("");
+  const [uploading, setUploading] = useState(false);
 
-	const categories = [
-		"shoes",
-		"bags",
-		"jewelry",
-		"beauty",
-		"mens-clothing",
-		"womens-clothing",
-		"baby-items",
-		"eyewear",
-		"seasonal",
-		"phone-accessories",
-	];
+  const categories = [
+    "shoes",
+    "bags",
+    "jewelry",
+    "beauty",
+    "mens-clothing",
+    "womens-clothing",
+    "baby-items",
+    "eyewear",
+    "seasonal",
+  ];
 
-	//  const {image , name, mainQuantity, minSellingQuantity, brand, category,email, rating, price, description} = product
-	if (loading) {
-		return <Loading></Loading>;
-	}
+  // Fetch product
+  useEffect(() => {
+    axios.get(`https://b2-b-server-drab.vercel.app/products/${id}`).then((res) => {
+      setProduct(res.data);
+      setImageUrl(res.data.image || "");
+      setValue(res.data.rating || 0);
+      setLoading(false);
+    });
+  }, [id]);
 
+  if (loading) return <Loading />;
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		const formData = new FormData(e.target);
-		const Updated = Object.fromEntries(formData.entries());
+  // Handle image upload
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true);
 
-		await axios.put(`https://b2-b-server-drab.vercel.app/products/${id}`,Updated).then(res=>{
-            toast("Updated Successfully!", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        });
-        navigate('/')
-        });
-	};
+    const formData = new FormData();
+    formData.append("image", file);
 
+    try {
+      const res = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
+        formData
+      );
+      setImageUrl(res.data.data.url);
+      toast("Image uploaded successfully!", { position: "top-right", autoClose: 1500, transition: Bounce });
+    } catch (err) {
+      toast("Image upload failed!", { position: "top-right", autoClose: 2000, transition: Bounce });
+    } finally {
+      setUploading(false);
+    }
+  };
 
-    
-        // When user clicks, update the rating value
-        const handleChange = (newValue) => {
-            if (newValue < 1) {
-          setValue(1);
-        } else {
-          setValue(newValue);
-        }
-        };
+  // Handle update
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const updated = Object.fromEntries(formData.entries());
+    updated.image = imageUrl;
+    updated.rating = value;
 
-	return (
-		<div className="max-w-3xl mx-auto bg-white p-8 rounded shadow mt-10">
-			<h2 className="text-2xl font-bold mb-6 text-center">Update Product</h2>
-			<form onSubmit={handleSubmit} className="space-y-4">
-				{/* Product Image Upload */}
-				<div>
-					<label className="block font-medium mb-1">Product Image:</label>
-					<input
-						type="text"
-						name="image"
-						defaultValue={product.image}
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
-						required
-					/>
-				</div>
+    try {
+      await axios.put(`https://b2-b-server-drab.vercel.app/products/${id}`, updated);
+      toast("Updated Successfully!", { position: "top-right", autoClose: 2000, transition: Bounce });
+      navigate("/");
+    } catch (err) {
+      toast("Update failed!", { position: "top-right", autoClose: 2000, transition: Bounce });
+    }
+  };
 
-				{/* Product Name */}
-				<div>
-					<label className="block font-medium mb-1">Product Name:</label>
-					<input
-						type="text"
-						name="name"
-						defaultValue={product.name}
-						placeholder="Enter product name"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
-						required
-					/>
-				</div>
+  return (
+    <Card className=" p-6">
+      <CardHeader>
+        <CardTitle className="text-2xl text-center">Update Product</CardTitle>
+        <CardDescription className="text-center">Edit product details below</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6 mt-10">
+          {/* Left column: Image */}
+          <div className="flex flex-col items-center gap-4">
+            {imageUrl ? (
+              <img src={imageUrl} alt={product.name} className="w-48 lg:w-92 h-92 object-cover rounded-lg shadow" />
+            ) : (
+              <div className="w-48 h-48 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500">IMG</div>
+            )}
+            <Input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
+            {uploading && <p className="text-indigo-600 font-semibold">Uploading...</p>}
+          </div>
 
-				{/* Main Quantity */}
-				<div>
-					<label className="block font-medium mb-1">Main Quantity:</label>
-					<input
-						type="number"
-						defaultValue={product.mainQuantity}
-						name="mainQuantity"
-						placeholder="Total quantity available"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
-						required
-					/>
-				</div>
+          {/* Right column: Fields */}
+          <div className="flex flex-col gap-4">
+            <div className="space-y-2">
+              <Label>Name</Label>
+              <Input name="name" defaultValue={product.name} required />
+            </div>
 
-				{/* Minimum Selling Quantity */}
-				<div>
-					<label className="block font-medium mb-1">Minimum Selling Quantity:</label>
-					<input
-						type="number"
-						defaultValue={product.minSellingQuantity}
-						name="minSellingQuantity"
-						placeholder="Minimum quantity for purchase"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
-						required
-					/>
-				</div>
+            <div className="space-y-2">
+              <Label>Main Quantity</Label>
+              <Input name="mainQuantity" type="number" defaultValue={product.mainQuantity} required />
+            </div>
 
-				{/* Brand Name */}
-				<div>
-					<label className="block font-medium mb-1">Brand Name:</label>
-					<input
-						type="text"
-						defaultValue={product.brand}
-						name="brand"
-						placeholder="Enter brand name"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
-						required
-					/>
-				</div>
+            <div className="space-y-2">
+              <Label>Minimum Selling Quantity</Label>
+              <Input name="minSellingQuantity" type="number" defaultValue={product.minSellingQuantity} required />
+            </div>
 
-				{/* Category Dropdown */}
-				<div>
-					<label className="block font-medium mb-1">Category:</label>
-					<select
-						name="category"
-						defaultValue={product.category}
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
-						required
-					>
-						<option value="">Select a category</option>
-						{categories.map((cat, index) => (
-							<option key={index} value={cat}>
-								{cat.toUpperCase()}
-							</option>
-						))}
-					</select>
-				</div>
+            <div className="space-y-2">
+              <Label>Brand</Label>
+              <Input name="brand" defaultValue={product.brand} required />
+            </div>
 
-				{/* Short Description */}
-				<div>
-					<label className="block font-medium mb-1">Short Description:</label>
-					<textarea
-						name="description"
-						defaultValue={product.description}
-						placeholder="Enter a brief description"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
-						required
-					/>
-				</div>
+            <div className="space-y-2">
+              <Label>Category</Label>
+              <select name="category" defaultValue={product.category} className="border rounded-xl p-2 w-full" required>
+                <option value="">Select category</option>
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>{cat.toUpperCase()}</option>
+                ))}
+              </select>
+            </div>
 
-				{/* Price */}
-				<div>
-					<label className="block font-medium mb-1">Price (per unit):</label>
-					<input
-						type="number"
-						defaultValue={product.price}
-						name="price"
-						placeholder="Enter price"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
-						required
-					/>
-				</div>
+            <div className="space-y-2">
+              <Label>Short Description</Label>
+              <Textarea name="description" defaultValue={product.description} required />
+            </div>
 
-				{/* Rating */}
-				<div>
-                          <h1 className="font-bold">Rating (1 to 5):</h1>
-                                    <Rating style={{ maxWidth: 180 }} value={value} onChange={handleChange} />
-                                    {/* Hidden input to submit value like a normal input */}
-                                    <input type="hidden" name="rating" value={value} />
-                                </div>
-				<div>
-					<label className="block font-medium mb-1">Email :</label>
-					<input
-						type="email"
-						name="email"
-						className=" border border-gray-300 rounded-2xl focus:outline-none p-2 w-full"
-						required
-						defaultValue={user.email} readOnly
-					/>
-				</div>
+            <div className="space-y-2">
+              <Label>Price</Label>
+              <Input name="price" type="number" defaultValue={product.price} required />
+            </div>
 
-				{/* Submit Button */}
-				<button
-					type="submit"
-					className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition w-full"
-				>
-					Update
-				</button>
+            <div className="space-y-2">
+              <Label>Rating</Label>
+              <Rating style={{ maxWidth: 180 }} value={value} onChange={v => setValue(v < 1 ? 1 : v)} />
+              <input type="hidden" name="rating" value={value} />
+            </div>
 
-				{/* Product Content - Static Text */}
-				<div className="mt-6 text-gray-600 text-sm">
-					<p>
-						<strong>Note:</strong> Please make sure all product information is
-						accurate. Once submitted, the product will be reviewed before being listed
-						on our wholesale platform.
-					</p>
-				</div>
-			</form>
-		</div>
-	);
+            <div className="space-y-2">
+              <Label>Email</Label>
+              <Input name="email" defaultValue={user.email} readOnly />
+            </div>
+
+            <Button type="submit" className="w-full mt-2">Update</Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
+  );
 };
 
 export default Update;

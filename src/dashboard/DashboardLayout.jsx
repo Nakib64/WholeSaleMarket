@@ -33,10 +33,10 @@ const DashboardLayout = () => {
 
   const Sidebar = ({ onClose }) => (
     <div className="flex flex-col bg-card border-b border-border w-full">
-      <div className="flex items-center justify-between p-6 border-b border-border">
+      <div className="flex items-center justify-between p-4 ">
         <Link to="/">
           <h1 className="text-xl font-bold text-foreground">
-            Wholesale Dashboard
+            Wholesale
           </h1>
         </Link>
         {onClose && (

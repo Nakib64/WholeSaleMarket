@@ -1,23 +1,17 @@
 import React, {  useContext } from "react";
-import { Link, NavLink } from "react-router";
-import { CiUser } from "react-icons/ci";
+import { Link } from "react-router";
 
 import { AuthContext } from "../../AuthContext/AuthContext";
 import HoverDropdown from "./HoverDropdown";
 import CartIcon from "./CartIcon";
 import SearchBar from "../searchbar/Search";
-import CategoryMenu from "../Category";
 import CategoryDrawer from "./CategoryMenu";
+import { FaUser } from "react-icons/fa";
 
 const Nav = () => {
 	const { user } = useContext(AuthContext);
 
-	const navLinks = [
-		{ to: "/", label: "Home" },
-		{ to: "/allProduct", label: "All Products" },
-		{ to: "/about", label: "About Us" },
-		{ to: "/contact", label: "Contact" },
-	];
+
 
 	return (
 		<nav className=" bg-blue-700/70 text-white shadow">
@@ -49,10 +43,11 @@ const Nav = () => {
 						<HoverDropdown />
 					) : (
 						<Link
-							to="/login"
-							className="flex items-center p-2 rounded-full hover:bg-gray-100 transition-all duration-300"
+							to="/auth/login"
+							className="flex items-center p-2 rounded-full  transition-all duration-300"
 						>
-							<CiUser size={35} className="text-gray-700" />
+							<FaUser size={25} />
+
 						</Link>
 					)}
 

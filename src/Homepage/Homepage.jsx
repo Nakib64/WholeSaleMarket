@@ -36,7 +36,7 @@ const Homepage = () => {
 				style={{ maxHeight: `calc(100vh - ${headerHeight}px)` }}
 			>
 				<ToastContainer />
-        <Toaster position="top-center"/>
+				<Toaster position="top-center" />
 				{/* Sidebar */}
 				<aside className="w-1/6 bg-white hidden md:flex border-r border-gray-200 overflow-y-auto">
 					<CategoryMenu />
