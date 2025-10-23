@@ -15,14 +15,7 @@ import "swiper/css";
 import {
 	FaShoePrints,
 	FaShoppingBag,
-	FaGem,
 	FaPumpSoap,
-	FaTshirt,
-	FaFemale,
-	FaBaby,
-	FaGlasses,
-	FaSnowflake,
-	FaMobileAlt,
 } from "react-icons/fa";
 import About from "../About/About";
 
@@ -30,13 +23,7 @@ import About from "../About/About";
 const categories = [
 	{ name: "Shoes", slug: "shoes", icon: <FaShoePrints /> },
 	{ name: "Bags", slug: "bags", icon: <FaShoppingBag /> },
-	{ name: "Jewelry", slug: "jewelry", icon: <FaGem /> },
 	{ name: "Beauty and Personal Care", slug: "beauty", icon: <FaPumpSoap /> },
-	{ name: "Men’s Clothing", slug: "mens-clothing", icon: <FaTshirt /> },
-	{ name: "Women’s Clothing", slug: "womens-clothing", icon: <FaFemale /> },
-	{ name: "Baby Items", slug: "baby-items", icon: <FaBaby /> },
-	{ name: "Eyewear", slug: "eyewear", icon: <FaGlasses /> },
-	{ name: "Seasonal Products", slug: "seasonal", icon: <FaSnowflake /> },
 
 ];
 

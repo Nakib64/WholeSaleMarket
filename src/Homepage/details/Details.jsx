@@ -31,54 +31,36 @@ const CategoryItems = () => {
 		setIsGrid(!isGrid);
 	};
 
-    if (loading) {
-		return  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {Array.from({ length: 8 }).map((_, index) => (
-        <CardSkeleton key={index} />
-      ))}
-    </div>;
+	if (loading) {
+		return (
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+				{Array.from({ length: 8 }).map((_, index) => (
+					<CardSkeleton key={index} />
+				))}
+			</div>
+		);
 	}
-    if(data.length == 0){
-        return (
-            <div className="flex justify-center items-center py-20">
-                <h1 className="text-2xl md:text-3xl font-bold text-center text-gray-400">No Product Available right Now</h1>
-            </div>
-        )
-    }
+	if (data.length == 0) {
+		return (
+			<div className="flex justify-center items-center py-20">
+				<h1 className="text-2xl md:text-3xl font-bold text-center text-gray-400">
+					No Product Available right Now
+				</h1>
+			</div>
+		);
+	}
 	return (
 		<div>
 			<h1 className="text-2xl md:text-4xl px-3 font-bold py-3">
 				{cat.toUpperCase()}
 			</h1>
-			<div className="flex justify-end gap-5 px-1 items-center  md:px-5">
-				<div className="space-x-5">
-					<button onClick={handlGrid} disabled={isGrid}>
-						<BsFillGrid3X3GapFill
-							className={!isGrid ? "text-gray-400" : "text-red-500"}
-							size={25}
-						/>
-					</button>
-					<button onClick={handlGrid} disabled={!isGrid}>
-						<FaTableList
-							className={isGrid ? "text-gray-400" : "text-red-500"}
-							size={25}
-						/>
-					</button>
-				</div>
+			<div className="flex justify-end gap-5 px-1 items-center  md:px-5"></div>
+
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:p-6 lg:p-3 xl:grid-cols-5 justify-center gap-4">
+				{data.map((product) => {
+					return <Card product={product}></Card>;
+				})}
 			</div>
-			{isGrid ? (
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:p-6 lg:p-3 xl:grid-cols-5 justify-center gap-4">
-					{data.map((product) => {
-						return <Card product={product}></Card>;
-					})}
-				</div>
-			) : (
-				<div className="flex flex-col gap-4 p-3">
-					{data.map((product) => {
-						return <Table product={product}></Table>
-					})}
-				</div>
-			)}
 		</div>
 	);
 };

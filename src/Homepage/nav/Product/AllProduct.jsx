@@ -75,35 +75,13 @@ const AllProduct = () => {
 							Available Products
 						</label>
 					</div>
-
-					<div className="space-x-5">
-						<button onClick={handlGrid} disabled={isGrid}>
-							<BsFillGrid3X3GapFill
-								className={!isGrid ? "text-gray-400" : "text-red-500"}
-								size={25}
-							/>
-						</button>
-						<button onClick={handlGrid} disabled={!isGrid}>
-							<FaTableList
-								className={isGrid ? "text-gray-400" : "text-red-500"}
-								size={25}
-							/>
-						</button>
-					</div>
 				</div>
-				{isGrid ? (
-					<div className="grid  grid-cols-2 lg:grid-cols-3 sm:p-6 lg:p-3 xl:grid-cols-5 justify-center gap-4">
-						{data.map((product) => {
-							return <Card product={product}></Card>;
-						})}
-					</div>
-				) : (
-					<div className="flex flex-col gap-4 p-3">
-						{data.map((product) => {
-							return <Table product={product}></Table>;
-						})}
-					</div>
-				)}
+
+				<div className="grid  grid-cols-2 lg:grid-cols-3 sm:p-6 lg:p-3 xl:grid-cols-5 justify-center gap-4">
+					{data.map((product) => {
+						return <Card product={product}></Card>;
+					})}
+				</div>
 			</div>
 		</>
 	);
