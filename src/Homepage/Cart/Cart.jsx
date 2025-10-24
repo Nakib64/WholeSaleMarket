@@ -1,177 +1,179 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../AuthContext/AuthContext";
 import Loading from "../../Loading/Loading";
 import { Bounce, toast } from "react-toastify";
-
 import { ImCross } from "react-icons/im";
-import { ShoppingCart, CreditCard } from "lucide-react";
-
+import { CreditCard, ShoppingCart, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-
-import BuyModal from "./Modal"; // import the modal component
+import BuyModal from "./Modal";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import OrdersTable from "./PlacedOrdrs";
 
-const Cart = () => {
-  const queryClient = useQueryClient();
+export default function Cart() {
+	const queryClient = useQueryClient();
+	const { user, loading } = useContext(AuthContext);
+	const [deletingId, setDeletingId] = useState(false);
+	const [selectedProduct, setSelectedProduct] = useState(null);
+	const [modalOpen, setModalOpen] = useState(false);
 
-  const { user, loading } = useContext(AuthContext);
-  const [deletingId, setDeletingId] = useState(false);
-  // const [checkout, setCheckOUt] = useState(false);
+	const { data: orders = [], isLoading } = useQuery({
+		queryKey: ["cartOrders", user?.email],
+		enabled: !!user?.email,
+		queryFn: async () => {
+			const res = await axios.get("https://b2-b-server-drab.vercel.app/allOrders", {
+				params: { email: user.email },
+			});
+			return res.data;
+		},
+	});
 
-  // Modal-related state
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
+	if (loading || isLoading) return <Loading />;
 
-  const {data: orders, isLoading, refetch} = useQuery({
-    queryKey:['productId'],
-    queryFn:async()=>{
-   const res = await axios
-      .get("https://b2-b-server-drab.vercel.app/allOrders", {
-        params: { email: user.email },
-      })
-    return res.data
-    }
-  })
+	const handleDelete = async (product) => {
+		setDeletingId(product._id);
+		try {
+			await axios.put(`https://b2-b-server-drab.vercel.app/product/${product._id}`, {
+				quan: product.quantity,
+			});
+			await axios.delete(`https://b2-b-server-drab.vercel.app/allOrders/${product._id}`);
+			queryClient.invalidateQueries(["cartOrders"]);
+			toast("🗑️ Item removed from cart!", {
+				position: "top-right",
+				autoClose: 2000,
+				theme: "light",
+				transition: Bounce,
+			});
+		} catch (err) {
+			toast.error("Something went wrong!");
+		} finally {
+			setDeletingId(false);
+		}
+	};
 
+	const handleBuy = (product) => {
+		setSelectedProduct(product);
+		setModalOpen(true);
+	};
 
+	const onBuySuccess = () => {
+		setModalOpen(false);
+		setSelectedProduct(null);
+		queryClient.invalidateQueries(["cartOrders"]);
+		toast.success("🎉 Purchase successful!", {
+			position: "top-right",
+			autoClose: 2000,
+			theme: "light",
+			transition: Bounce,
+		});
+	};
 
+	return (
+		<div className="w-full px-4 py-10 space-y-4">
+			{/* Header */}
+			<div className="flex flex-col md:flex-row justify-between items-center mb-10">
+				<h1 className="text-3xl md:text-4xl font-bold text-gray-800 flex items-center gap-2">
+					<ShoppingCart className="text-[#217b7e] w-8 h-8" />
+					My Cart
+					<span className="ml-2 bg-[#217b7e]/10 text-[#217b7e] px-3 py-1 rounded-full text-sm font-medium">
+						{orders.length} items
+					</span>
+				</h1>
+			</div>
 
-  if (isLoading) return <Loading />;
+			{/* Empty Cart */}
+			{orders.length === 0 && (
+				<div className="flex flex-col items-center justify-center py-20 text-gray-500">
+					<motion.div
+						initial={{ opacity: 0, scale: 0.9 }}
+						animate={{ opacity: 1, scale: 1 }}
+						transition={{ duration: 0.4 }}
+						className="flex flex-col items-center gap-4"
+					>
+						<ShoppingCart className="w-16 h-16 text-gray-400" />
+						<p className="text-lg font-medium">Your cart is empty</p>
+						<p className="text-sm text-gray-400 mb-4">
+							Start shopping to fill your cart with amazing products!
+						</p>
+						<Button
+							onClick={() => (window.location.href = "/")}
+							className="bg-[#217b7e] hover:bg-[#176669] text-white"
+						>
+							Continue Shopping
+						</Button>
+					</motion.div>
+				</div>
+			)}
 
-  const handleDelete = async (product) => {
-    setDeletingId(product._id);
-    try {
-      await axios.put(
-        `https://b2-b-server-drab.vercel.app/product/${product._id}`,
-        {
-          quan: product.quantity,
-        }
-      );
-      await axios.delete(
-        `https://b2-b-server-drab.vercel.app/allOrders/${product._id}`
-      );
-      queryClient.invalidateQueries(["productId"]);  // ✅ auto refresh
+			{/* Cart Items */}
+			<div className="grid gap-4 md:gap-6">
+				{orders.map((product) => (
+					<motion.div
+						key={product._id}
+						initial={{ opacity: 0, y: 10 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.3 }}
+						className="flex flex-col sm:flex-row justify-between items-center bg-white rounded-xl shadow-md hover:shadow-lg transition-all border border-gray-100 p-5"
+					>
+						{/* Product Info */}
+						<div className="flex-1 text-left w-full sm:w-auto">
+							<h2 className="text-lg font-semibold text-gray-800">
+								{product.productsName}
+							</h2>
+							<p className="text-sm text-gray-600 mt-1">
+								Quantity: <span className="font-medium">{product.quantity}</span>
+							</p>
+							<p className="text-lg font-bold text-[#217b7e] mt-1">
+								${(product.price * product.quantity).toFixed(2)}
+							</p>
+						</div>
 
-      toast("Deleted Successfully!", {
-        position: "top-right",
-        autoClose: 2000,
-        theme: "light",
-        transition: Bounce,
-      });
-      refetch()
-    } catch (err) {
-      toast.error("Something went wrong!");
-    } finally {
-      setDeletingId(false);
-    }
-  };
+						{/* Action Buttons */}
+						<div className="flex gap-3 mt-4 sm:mt-0">
+							<Button
+								variant="outline"
+								size="sm"
+								disabled={deletingId === product._id}
+								onClick={() => handleDelete(product)}
+								className="flex items-center gap-2 text-red-600 border-red-300 hover:bg-red-50"
+							>
+								{deletingId === product._id ? (
+									<span className="loading loading-spinner" />
+								) : (
+									<>
+										<Trash2 className="w-4 h-4" />
+										Remove
+									</>
+								)}
+							</Button>
 
-  // Open modal to buy product
-  const handleBuy = (product) => {
-    setSelectedProduct(product);
-    setModalOpen(true);
-  };
+							<Button
+								size="sm"
+                variant={"success"}
+								className="bg-[#217b7e] text-white flex items-center gap-2"
+								onClick={() => handleBuy(product)}
+								disabled={selectedProduct?._id === product._id && modalOpen}
+							>
+								<CreditCard className="w-4 h-4" />
+								Buy Now
+							</Button>
+						</div>
+					</motion.div>
+				))}
+			</div>
 
-  // Called by BuyModal on successful purchase
-  const onBuySuccess = (productId) => {
-    setData((prev) => prev.filter((p) => p._id !== productId));
-    setModalOpen(false);
-    setSelectedProduct(null);
-    toast.success("Purchase completed!", {
-      position: "top-right",
-      autoClose: 2000,
-      theme: "light",
-      transition: Bounce,
-    });
-  };
+			{/* Buy Modal */}
+			<BuyModal
+				open={modalOpen}
+				onClose={() => setModalOpen(false)}
+				product={selectedProduct}
+				userEmail={user?.email}
+				onSuccess={onBuySuccess}
+			/>
 
- 
-
-  return (
-    <div className="max-w-7xl mx-auto p-4 space-y-10  ">
-      <h1 className="text-3xl font-semibold text-center mb-8">
-        Your Cart ({orders.length} items)
-      </h1>
-     
-      <div className="flex flex-col gap-4 max-w-3xl mx-auto">
-        {orders?.length === 0 && (
-          <p className="text-center text-gray-500">Your cart is empty.</p>
-        )}
-
-        {orders?.map((product) => (
-          <div
-            key={product._id}
-            className="flex flex-row justify-between items-center bg-white rounded-md shadow-sm p-4 border border-gray-200"
-          >
-            {/* Product info */}
-            <div className="flex-1 text-left  md:text-left">
-              <p className="mt-1 text-gray-700">
-                <span className="font-semibold">{product.productsName}</span>
-              </p>
-              <p className="mt-1 text-gray-700">
-                Quantity: <span className="font-semibold">{product.quantity}</span>
-              </p>
-              <p className="text-gray-900 font-bold">
-                Total: ${product.price * product.quantity}
-              </p>
-            </div>
-
-            {/* Action buttons */}
-            <div className="flex gap-3 mt-4 md:mt-0">
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={deletingId === product._id}
-                className="flex items-center gap-1 px-3"
-                onClick={() => handleDelete(product)}
-              >
-                {deletingId === product._id && (
-                  <span className="loading loading-spinner" />
-                )}
-                <ImCross />
-                Delete
-              </Button>
-
-              <motion.div whileTap={{ scale: 0.95 }}>
-                <Button
-                  size="sm"
-                  className="flex items-center gap-1 px-3"
-                  onClick={() => handleBuy(product)}
-                  disabled={selectedProduct?._id === product._id && modalOpen}
-                >
-                  {selectedProduct?._id === product._id && modalOpen ? (
-                    <span className="loading loading-spinner" />
-                  ) : (
-                    <>
-                      <CreditCard className="w-4 h-4" />
-                      Buy
-                    </>
-                  )}
-                </Button>
-              </motion.div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Buy Modal */}
-      <BuyModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        product={selectedProduct}
-        userEmail={user?.email}
-        onSuccess={onBuySuccess}
-      />
-
-        {loading == false && <OrdersTable></OrdersTable>}
-        
-      
-      
-    </div>
-  );
-};
-
-export default Cart;
+			{/* Orders Table */}
+			{!loading && <OrdersTable />}
+		</div>
+	);
+}

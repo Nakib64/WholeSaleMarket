@@ -24,6 +24,7 @@ import Overview from "@/dashboard/Overview";
 import OrdersTable from "@/dashboard/Orders";
 import AuthLayout from "@/AuthenticationLayout/AuthLayout";
 import Login from "@/Homepage/login/Login";
+import Users from "@/dashboard/Users";
 
 const Routes = createBrowserRouter([
 	{
@@ -127,6 +128,10 @@ const Routes = createBrowserRouter([
 			{
 				path: "/dashboard/products",
 				Component: Products,
+			},
+			{
+				path: "/dashboard/users",
+				Component: Users,
 			},
 			{
 				path: "/dashboard/products/:id",

@@ -94,7 +94,7 @@ const AddProduct = () => {
 			initial={{ opacity: 0, y: 20 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.5 }}
-			className="max-w-3xl mx-auto bg-[#F3F4F6] opacity-20 p-8 my-8 rounded-3xl shadow-lg mt-12 border border-gray-200"
+			className="  opacity-20 p-2 rounded-3xl shadow-lg "
 		>
 			<h2 className="text-3xl font-extrabold mb-8 text-center text-gray-900">
 				Add New Product

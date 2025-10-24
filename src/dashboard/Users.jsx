@@ -9,6 +9,13 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogDescription,
+} from "@/components/ui/dialog";
+import {
 	DropdownMenu,
 	DropdownMenuTrigger,
 	DropdownMenuContent,
@@ -18,8 +25,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import {
 	Table,
 	TableBody,
@@ -35,77 +41,43 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import axios from "axios";
-import Loading from "@/Loading/Loading";
 
-import {
-	FaShoePrints,
-	FaShoppingBag,
-	FaGem,
-	FaPumpSoap,
-	FaTshirt,
-	FaFemale,
-	FaBaby,
-	FaGlasses,
-	FaSnowflake,
-} from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 
-const categories = [
-	{ name: "Shoes", slug: "shoes", icon: <FaShoePrints /> },
-	{ name: "Bags", slug: "bags", icon: <FaShoppingBag /> },
-	{ name: "Jewelry", slug: "jewelry", icon: <FaGem /> },
-	{ name: "Beauty", slug: "beauty", icon: <FaPumpSoap /> },
-	{ name: "Men’s Clothing", slug: "mens-clothing", icon: <FaTshirt /> },
-	{ name: "Women’s Clothing", slug: "womens-clothing", icon: <FaFemale /> },
-	{ name: "Baby Items", slug: "baby-items", icon: <FaBaby /> },
-	{ name: "Eyewear", slug: "eyewear", icon: <FaGlasses /> },
-	{ name: "Seasonal", slug: "seasonal", icon: <FaSnowflake /> },
-];
-
-const Products = () => {
-	const navigate = useNavigate();
+const Users = () => {
 	const [searchTerm, setSearchTerm] = useState("");
-	const [products, setProducts] = useState([]);
-	const [categoryFilter, setCategoryFilter] = useState("All");
+	const [Users, setUsers] = useState([]);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(10);
 	const [totalPages, setTotalPages] = useState(1);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	// Inside your component, instead of returning <Loading /> for the full page:
 	const rowSkeletons = Array(limit).fill(0);
 
 	const { isLoading } = useQuery({
-		queryKey: [searchTerm, page, limit, totalPages, categoryFilter],
+		queryKey: [searchTerm, page, limit, totalPages],
 		queryFn: async () => {
 			try {
 				const res = await axios.get(
-					"https://b2-b-server-drab.vercel.app/manageProducts",
+					"https://b2-b-server-drab.vercel.app/manageUsers",
 					{
 						params: {
 							page,
 							limit,
 							search: searchTerm,
-							category: categoryFilter,
 						},
 					}
 				);
-				setProducts(res.data.products);
+				setUsers(res.data.users);
 				setTotalPages(res.data.totalPages);
-				return res.data
+                return res.data
 			} catch (err) {
 				console.error(err);
 			}
 		},
 		refetchOnWindowFocus: false,
 	});
-
-	const getStatusBadge = (product) => {
-		return product.mainQuantity >= 100 ? (
-			<Badge variant="secondary">Active</Badge>
-		) : (
-			<Badge variant="destructive">Out of Stock</Badge>
-		);
-	};
 
 	return (
 		<div className="space-y-6 overflow-auto">
@@ -118,42 +90,8 @@ const Products = () => {
 			>
 				<div className="flex items-center gap-2">
 					<Package className="h-6 w-6 text-primary" />
-					<h1 className="text-2xl font-bold text-foreground">Products</h1>
+					<h1 className="text-2xl font-bold text-foreground">Users</h1>
 				</div>
-				<Link to={"/dashboard/addProduct"}>
-					<Button className="flex items-center gap-2" variant={"outline"}>
-						<Plus className="h-4 w-4" />
-						Add Product
-					</Button>
-				</Link>
-			</motion.div>
-
-			{/* Category Filter */}
-			<motion.div className="flex flex-wrap gap-2">
-				{categories.map((cat) => (
-					<TooltipProvider key={cat.slug}>
-						<Tooltip>
-							<TooltipTrigger>
-								<Button
-									variant={categoryFilter === cat.slug ? "default" : "outline"}
-									size="sm"
-									className="flex items-center gap-1"
-									onClick={() => setCategoryFilter(cat.slug)}
-								>
-									{cat.icon} {cat.name}
-								</Button>
-							</TooltipTrigger>
-							<TooltipContent>{cat.name}</TooltipContent>
-						</Tooltip>
-					</TooltipProvider>
-				))}
-				<Button
-					variant={categoryFilter === "All" ? "default" : "outline"}
-					size="sm"
-					onClick={() => setCategoryFilter("All")}
-				>
-					All
-				</Button>
 			</motion.div>
 
 			{/* Search & Limit */}
@@ -161,7 +99,7 @@ const Products = () => {
 				<div className="relative flex-1">
 					<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
 					<Input
-						placeholder="Search products..."
+						placeholder="Search Users..."
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
 						className="pl-10"
@@ -185,21 +123,19 @@ const Products = () => {
 				</DropdownMenu>
 			</motion.div>
 
-			{/* Products Table */}
+			{/* Users Table */}
 			<motion.div>
 				<Card>
 					<CardHeader>
-						<CardTitle className="text-foreground">All Products</CardTitle>
+						<CardTitle className="text-foreground">All Users</CardTitle>
 					</CardHeader>
 					<CardContent>
 						<Table>
 							<TableHeader>
 								<TableRow>
-									<TableHead>Product</TableHead>
-									<TableHead>Category</TableHead>
-									<TableHead>Price</TableHead>
-									<TableHead>Stock</TableHead>
-									<TableHead>Status</TableHead>
+									<TableHead>User</TableHead>
+									<TableHead>Email</TableHead>
+									<TableHead>Orders</TableHead>
 									<TableHead className="text-right">Actions</TableHead>
 								</TableRow>
 							</TableHeader>
@@ -236,44 +172,99 @@ const Products = () => {
 												</TableCell>
 											</TableRow>
 									  ))
-									: products.map((product) => (
-											<TableRow key={product._id} className="hover:bg-muted/50">
+									: Users.map((user) => (
+											<TableRow key={user._id} className="hover:bg-muted/50">
 												<TableCell>
 													<div className="flex items-center gap-3">
-														<div className="w-10 h-10 overflow-hidden rounded-lg bg-gray-200 flex items-center justify-center text-sm text-gray-500">
-															<img src={product.image} alt="IMG" />
+														<div className="w-10 h-8 overflow-hidden rounded-lg bg-gray-200 flex items-center justify-center text-sm text-gray-500">
+															<img src={user.photoUrl} alt="IMG" />
 														</div>
 														<div>
-															<p className="font-medium text-foreground text-sm md:text-lg">
-																{product.name}
-															</p>
-															<p className="text-sm text-muted-foreground truncate max-w-[200px]">
-																{product.description}
+															<p className=" text-foreground text-sm md:text-lg">
+																{user.userName}
 															</p>
 														</div>
 													</div>
 												</TableCell>
-												<TableCell>
-													<Badge variant="outline">{product.category}</Badge>
-												</TableCell>
-												<TableCell className="font-medium">${product.price}</TableCell>
-												<TableCell>{product.mainQuantity}</TableCell>
-												<TableCell>{getStatusBadge(product)}</TableCell>
+
+												<TableCell className="font-medium">{user.userEmail}</TableCell>
+												<TableCell className="font-medium ">{user.orders}</TableCell>
 												<TableCell className="text-right">
 													<div className="flex items-center justify-end gap-2">
-														<Button
-															variant="ghost"
-															size="sm"
-															onClick={() => navigate(`/dashboard/update/${product._id}`)}
-														>
-															<Edit className="h-4 w-4" />
-														</Button>
+														<TooltipProvider>
+															<Tooltip>
+																<TooltipTrigger asChild>
+																	<Button
+																		variant="ghost"
+																		size="sm"
+																		onClick={()=>setIsModalOpen(true)}
+																	>
+																		<Eye className="h-4 w-4" />
+																	</Button>
+																</TooltipTrigger>
+																<TooltipContent>View</TooltipContent>
+															</Tooltip>
+														</TooltipProvider>
 													</div>
 												</TableCell>
+
+												<Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+													<DialogContent className="!max-w-6xl w-[80vw] max-h-[50vh] lg:max-h-[90vh] overflow-y-auto bg-white rounded-3xl shadow-2xl px-10 border border-gray-200">
+														<DialogHeader className="border-b pb-4 mb-8 text-center">
+															<DialogTitle className="text-4xl font-bold text-gray-900">
+																User Details
+															</DialogTitle>
+															<DialogDescription className="text-gray-500 text-lg"></DialogDescription>
+														</DialogHeader>
+
+														<div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+															{/* Left column - Profile image */}
+															<div className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-2xl border border-gray-200">
+																<img
+																	src={user.photoUrl || "/placeholder.jpg"}
+																	alt="User"
+																	className="w-full max-w-md h-[380px] object-cover rounded-2xl border-4 border-primary/30 shadow-lg transition-transform duration-300 hover:scale-[1.02]"
+																/>
+																<div className="mt-6 text-center">
+																	<h2 className="text-3xl font-semibold text-gray-800">
+																		{user.userName || "Unnamed User"}
+																	</h2>
+																</div>
+															</div>
+
+															{/* Right column - Info section */}
+															<div className="flex flex-col justify-between">
+																{/* Info fields */}
+																<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+																	{[
+																		["Full Name", "userName"],
+																		["Email", "userEmail"],
+																		["Phone", "phone"],
+																		["Street", "street"],
+																		["Sub-District", "subDistrict"],
+																		["District", "district"],
+																	].map(([label, field]) => (
+																		<div key={field}>
+																			<p className="font-semibold text-gray-700 mb-1">{label}:</p>
+
+																			<p className="text-gray-800 bg-gray-50 px-3 py-2 rounded-lg border border-gray-100">
+																				{user[field] || (
+																					<span className="text-gray-400 italic">Not provided</span>
+																				)}
+																			</p>
+																		</div>
+																	))}
+																</div>
+															</div>
+														</div>
+													</DialogContent>
+												</Dialog>
 											</TableRow>
 									  ))}
 							</TableBody>
 						</Table>
+
+						{/* Modal */}
 
 						{/* Pagination */}
 						<div className="flex justify-center gap-2 mt-4">
@@ -300,4 +291,4 @@ const Products = () => {
 	);
 };
 
-export default Products;
+export default Users;

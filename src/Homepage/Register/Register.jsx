@@ -76,6 +76,7 @@ setIsRegistering(true);
 						street: "",
 						subDistrict: "",
 						district: "",
+						orders: 0
 					})
 					.then(() => {
 						setIsRegistering(false);
@@ -102,6 +103,7 @@ setIsRegistering(true);
 					street: "",
 					subDistrict: "",
 					district: "",
+					orders: 0
 				});
 				toast("Successfully logged in");
 				navigate("/auth/login");

@@ -76,10 +76,10 @@ const useReviews = () => {
     setIsPosting(true);
     try {
       await postComment(review);
-      toast("Event has been created.")
+      toast("Thanks for your support ☺️")
       await fetchReviews();
     } catch {
-      toast("Failed to post review.");
+      toast("Failed to post review 😪");
     } finally {
       setIsPosting(false);
     }
@@ -179,7 +179,7 @@ export default function MarketplaceReviews() {
                   key={r._id || crypto.randomUUID()}
                   className="hover:shadow-xl transition border border-gray-200"
                 >
-                  <CardContent className="p-6 space-y-3">
+                  <CardContent className="p-2 space-y-3">
                     {/* Top Section */}
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">

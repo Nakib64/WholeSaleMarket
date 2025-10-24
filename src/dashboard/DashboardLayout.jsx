@@ -27,8 +27,8 @@ const DashboardLayout = () => {
   const navItems = [
     { name: "Overview", href: "/dashboard", icon: Home },
     { name: "Products", href: "/dashboard/products", icon: Package },
+    { name: "users", href: "/dashboard/users", icon: Users },
     { name: "Orders", href: "/dashboard/orders", icon: ShoppingCart },
-    { name: "Settings", href: "/dashboard/settings", icon: Settings },
   ];
 
   const Sidebar = ({ onClose }) => (

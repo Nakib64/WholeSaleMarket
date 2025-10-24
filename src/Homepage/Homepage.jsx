@@ -32,7 +32,7 @@ const Homepage = () => {
 			</div>
 
 			<main
-				className="flex flex-1 bg-white relative z-30"
+				className="flex flex-1 bg-white relative z-30 overflow-hidden"
 				style={{ maxHeight: `calc(100vh - ${headerHeight}px)` }}
 			>
 				<ToastContainer />

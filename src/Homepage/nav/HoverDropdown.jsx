@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import Loading from "@/Loading/Loading";
 
 const HoverDropdown = () => {
 	const { user, logout } = useContext(AuthContext);
@@ -17,6 +19,7 @@ const HoverDropdown = () => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [formData, setFormData] = useState({});
 	const [loading, setLoading] = useState(true);
+	const [updating, setupdating] = useState(false);
 
 	// Fetch user details
 	useEffect(() => {
@@ -51,14 +54,19 @@ const HoverDropdown = () => {
 
 	const handleUpdate = async () => {
 		try {
+			setupdating(true)
 			await axios.put(
-				`https://your-backend-api.com/users/${user.email}`,
+				`https://b2-b-server-drab.vercel.app/users?email=${user.email}`,
 				formData
 			);
+			toast("Updated Successfully!")
 			setUserDetails(formData);
 			setIsEditing(false);
 		} catch (err) {
-			console.error(err);
+			toast(err.message)
+		}
+		finally{
+			setupdating(false)
 		}
 	};
 
@@ -89,9 +97,7 @@ const HoverDropdown = () => {
 					</DialogHeader>
 
 					{loading ? (
-						<div className="flex justify-center items-center py-10">
-							<span className="loading loading-spinner text-primary"></span>
-						</div>
+						<Loading></Loading>
 					) : (
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
 							{/* Left column - Profile image */}
@@ -143,7 +149,7 @@ const HoverDropdown = () => {
 												<Input
 													type="text"
 													name={field}
-													value={formData[field] || ""}
+													value={formData?.field || ""}
 													onChange={handleInputChange}
 													className="input input-bordered shadow-xl w-full rounded-lg focus:outline-none focus:ring-0 focus:border-none focus:ring-primary/40"
 												/>
@@ -164,8 +170,9 @@ const HoverDropdown = () => {
 										<button
 											onClick={handleUpdate}
 											className="px-8 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-primary/80 transition"
+											disabled={updating}
 										>
-											Save Changes
+										{updating && <span className="loading loading-spinner loading-lg"></span>}	Save Changes
 										</button>
 									</div>
 								)}

@@ -11,7 +11,6 @@ import {
   Truck,
 } from "lucide-react";
 
-import warehouseHero from "@/assets/warehouse-hero.jpg";
 import businessPartnership from "@/assets/business-partnership.jpg";
 import globalNetwork from "@/assets/global-network.jpg";
 import teamPhoto from "@/assets/team-photo.jpg";
@@ -63,7 +62,7 @@ const About = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-hidden">
       {/* Stats Section */}
       <section className="py-20 bg-muted/30">
         <motion.div

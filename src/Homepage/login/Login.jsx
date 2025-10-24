@@ -46,6 +46,7 @@ const Login = () => {
 						street: "",
 						subDistrict: "",
 						district: "",
+						orders: 0
 					})
 					.then(() => {
 						toast("Login Successful");

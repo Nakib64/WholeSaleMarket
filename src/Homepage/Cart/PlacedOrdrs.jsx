@@ -13,7 +13,7 @@ export default function OrdersTable() {
     queryKey:['status'],
     queryFn:async()=>{
      const result = await axios.get('https://b2-b-server-drab.vercel.app/placedOrders', {params:{email : user?.email}})
-      return result.data
+      return result.data.orders
     }
   })
   if (place || placedOrders.length === 0) {
@@ -42,7 +42,7 @@ export default function OrdersTable() {
           </tr>
         </thead>
         <tbody>
-          {placedOrders.map((order) => (
+          {placedOrders?.map((order) => (
             <tr
               key={order._id} // unique key
               className="border-t border-gray-200 hover:bg-indigo-50 transition"
